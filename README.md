@@ -80,8 +80,8 @@ These libraries are included in HemeshGui
 
 
 ### Images
-![Default](https://imgur.com/tiXfz2u)
+![Default](https://i.imgur.com/tiXfz2u.png)
 
-![Torus](https://imgur.com/xbM00gQ)
+![Torus](https://i.imgur.com/xbM00gQ.png)
 
-![Geodesic](https://imgur.com/IW4LHJ0)
+![Geodesic](https://i.imgur.com/IW4LHJ0.png)
