@@ -77,3 +77,11 @@ These libraries are included in HemeshGui
 
 * download last version from https://bitbucket.org/StudioEtrange/hemeshgui/downloads
 * unzip file into PROCESSING_SKETCHBOOK_FOLDER
+
+
+### Images
+![Default](https://imgur.com/tiXfz2u)
+
+![Torus](https://imgur.com/xbM00gQ)
+
+![Geodesic](https://imgur.com/IW4LHJ0)
