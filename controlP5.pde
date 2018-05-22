@@ -15,6 +15,18 @@ Group gl2;
 Group gl3;
 Group gl4;
 
+color colourBackground = color(162, 153, 125);
+color colourForeground = color(204, 204, 0);
+color colourCaptionLabel = color(0, 0, 0);
+color colourValueLabel = color(0, 0, 0);
+color colourActive = color(224, 224, 0);
+
+color colourBackgroundInactive = color(162, 153, 125, 30);
+color colourForegroundInactive = color(204, 204, 0, 30);
+color colourCaptionLabelInactive = color(0, 0, 0, 30);
+color colourValueLabelInactive = color(0, 0, 0, 30);
+color colourActiveInactive = color(224, 224, 0, 30);
+
 void gui() {
   // Create groups
 
@@ -27,11 +39,11 @@ void gui() {
   g4 = controlP5.addGroup("g4");
 
   // gui colors
-  controlP5.setColorBackground(color(162, 153, 125));
-  controlP5.setColorForeground(color(204, 204, 0));
-  controlP5.setColorCaptionLabel(color(0, 0, 0));
-  controlP5.setColorValueLabel(color(0, 0, 0));
-  controlP5.setColorActive(color(224, 224, 0));
+  controlP5.setColorBackground(colourBackground);
+  controlP5.setColorForeground(colourForeground);
+  controlP5.setColorCaptionLabel(colourCaptionLabel);
+  controlP5.setColorValueLabel(colourValueLabel);
+  controlP5.setColorActive(colourActive);
 
   // camera control
   controlP5.addTextlabel("lblCamera")
@@ -69,7 +81,9 @@ void gui() {
   controlP5.addButton("reset", 0, 153, 285, 63, 40).setLabel("Reset\nEverything");
 
   // lights control
-  gl1 = controlP5.addGroup("gl1").setLabel("BASIC SUNFLOW SCENE LIGHT").setHeight(15);
+  gl1 = controlP5.addGroup("gl1").setLabel("BASIC SUNFLOW SCENE LIGHT").setHeight(20);
+  gl1.getCaptionLabel().alignY(ControlP5.CENTER);
+  
   controlP5.addTextlabel("lblBasic")
     .setText("Basic scene elements")
     .setPosition(0, 0)
@@ -92,7 +106,9 @@ void gui() {
     ;
 
 
-  gl2 = controlP5.addGroup("gl2").setLabel("DIRECTIONAL LIGHT").setHeight(15);
+  gl2 = controlP5.addGroup("gl2").setLabel("DIRECTIONAL LIGHT").setHeight(20);
+  gl2.getCaptionLabel().alignY(ControlP5.CENTER);
+  
   controlP5.addTextlabel("lblDirLight")
     .setText("Pointed to center of mesh object")
     .setPosition(0, 0)
@@ -115,7 +131,9 @@ void gui() {
     .setGroup(gl2)
     ;
 
-  gl3 = controlP5.addGroup("gl3").setLabel("SPHERE LIGHT").setHeight(15);
+  gl3 = controlP5.addGroup("gl3").setLabel("SPHERE LIGHT").setHeight(20);
+  gl3.getCaptionLabel().alignY(ControlP5.CENTER);
+  
   controlP5.addTextlabel("lblSphereLight")
     .setText("Sphere lights around mesh object")
     .setPosition(0, 0)
@@ -137,7 +155,9 @@ void gui() {
     .setGroup(gl3)
     ;
 
-  gl4 = controlP5.addGroup("gl4").setLabel("COLOR LIGHTS").setHeight(15).setBackgroundColor(lightsColor);
+  gl4 = controlP5.addGroup("gl4").setLabel("COLOR LIGHTS").setHeight(20).setBackgroundColor(lightsColor);
+  gl4.getCaptionLabel().alignY(ControlP5.CENTER);
+  
   controlP5.addTextlabel("lblLightsColor")
     .setText("Color lights used by all light (and some shader)")
     .setPosition(0, 0)
@@ -187,8 +207,7 @@ void gui() {
   shapeList.setBarHeight(20);
   shapeList.setItemHeight(15);
   shapeList.getCaptionLabel().set("Select Shape");
-  shapeList.getCaptionLabel().getStyle().marginTop = 6;
-  shapeList.getCaptionLabel().getStyle().marginLeft = 3;
+  shapeList.getCaptionLabel().alignY(ControlP5.CENTER);
   shapeList.setBackgroundColor(color(30, 30, 30));
   shapeList.close();
 
@@ -203,8 +222,7 @@ void gui() {
   modifyList.setBarHeight(20);
   modifyList.setItemHeight(15);
   modifyList.getCaptionLabel().set("Select Modifier");
-  modifyList.getCaptionLabel().getStyle().marginTop = 6;
-  modifyList.getCaptionLabel().getStyle().marginLeft = 3;
+  modifyList.getCaptionLabel().alignY(ControlP5.CENTER);
   modifyList.setBackgroundColor(color(30, 30, 30));
 
   // modifiers
@@ -252,8 +270,7 @@ void gui() {
   shaderList.setBarHeight(20);
   shaderList.setItemHeight(15);
   shaderList.getCaptionLabel().set("Select Shader");
-  shaderList.getCaptionLabel().getStyle().marginTop = 6;
-  shaderList.getCaptionLabel().getStyle().marginLeft = 3;
+  shaderList.getCaptionLabel().alignY(ControlP5.CENTER);
   shaderList.setBackgroundColor(color(30, 30, 30));
   shaderList.close();
 
@@ -382,6 +399,25 @@ void updateGui() {
   gl4.setBackgroundColor(lightsColor);
 }
 
+void toggleLock(String name, int start, int finish, boolean value) {
+  for ( int x = start ; x <= finish ; x++ ) {
+    Controller controller = controlP5.getController(name + x);
+    controller.setLock(value);
+    if (value) {
+      controller.setColorBackground(colourBackgroundInactive);
+      controller.setColorForeground(colourForegroundInactive);
+      controller.setColorCaptionLabel(colourCaptionLabelInactive);
+      controller.setColorValueLabel(colourValueLabelInactive);
+      controller.setColorActive(colourActiveInactive);
+    } else {
+      controller.setColorBackground(colourBackground);
+      controller.setColorForeground(colourForeground);
+      controller.setColorCaptionLabel(colourCaptionLabel);
+      controller.setColorValueLabel(colourValueLabel);
+      controller.setColorActive(colourActive);
+    }
+  }
+}
 
 
 void onMouseOver() {
@@ -433,7 +469,8 @@ void setShapeParameters(int shapeNum) {
   controlP5.getController("create1").setLabel("");
   controlP5.getController("create2").setLabel("");
   controlP5.getController("create3").setLabel("");
-
+  toggleLock("create", 0, 3, false);
+  
   switch(shapeNum) {
   case 0 :
     controlP5.getController("create0").setLabel("Depth");
@@ -448,15 +485,18 @@ void setShapeParameters(int shapeNum) {
     break;
   case 2 :
     controlP5.getController("create0").setLabel("Edge");
+    toggleLock("create", 1, 3, true);
     break;
   case 3 :
     controlP5.getController("create0").setLabel("Radius");
     controlP5.getController("create1").setLabel("Level");
+    toggleLock("create", 2, 3, true);
     break;
   case 4 :
     controlP5.getController("create0").setLabel("Radius");
     controlP5.getController("create1").setLabel("UFacets");
     controlP5.getController("create2").setLabel("VFacets");
+    toggleLock("create", 3, 3, true);
     break;
   case 5 :
     controlP5.getController("create0").setLabel("Radius");
@@ -466,12 +506,15 @@ void setShapeParameters(int shapeNum) {
     break;
   case 6 :
     controlP5.getController("create0").setLabel("Edge");
+    toggleLock("create", 1, 3, true);
     break;
   case 7 :
     controlP5.getController("create0").setLabel("Edge");
+    toggleLock("create", 1, 3, true);
     break;
   case 8 :
     controlP5.getController("create0").setLabel("Edge");
+    toggleLock("create", 1, 3, true);
     break;
   case 9 :
     controlP5.getController("create0").setLabel("Radius1");
@@ -483,14 +526,35 @@ void setShapeParameters(int shapeNum) {
     controlP5.getController("create0").setLabel("Width");
     controlP5.getController("create1").setLabel("Height");
     controlP5.getController("create2").setLabel("Disturb");
+    toggleLock("create", 3, 3, true);
     break;
   case 11 :
-    controlP5.getController("create0").setLabel("NB POINT\nx10000");
+    controlP5.getController("create0").setLabel("Num Points\nx10000");
     controlP5.getController("create1").setLabel("Width");
     controlP5.getController("create2").setLabel("Height");
     controlP5.getController("create3").setLabel("Depth");
     break;
-
+  case 12 : 
+    controlP5.getController("create0").setLabel("Scale");
+    toggleLock("create", 1, 3, true);
+    break;
+  case 13 :
+    controlP5.getController("create0").setLabel("Radius");
+    controlP5.getController("create1").setLabel("UFacets");
+    controlP5.getController("create2").setLabel("VFacets");
+    toggleLock("create", 3, 3, true);
+    break;
+  case 14 :
+    controlP5.getController("create0").setLabel("Scale");
+    controlP5.getController("create1").setLabel("Num Points\nx10");
+    controlP5.getController("create2").setLabel("Triangles");
+    toggleLock("create", 3, 3, true);
+    break;
+  case 15 :
+    controlP5.getController("create0").setLabel("Edge");
+    controlP5.getController("create1").setLabel("Type");
+    toggleLock("create", 2, 3, true);
+    break;
   default:
     break;
   }
@@ -690,10 +754,11 @@ void save() {
 // command & control center ;-)
 void controlEvent(ControlEvent theEvent) {
   if (theEvent.isController()) {
-
+    // when a shape is selected
     if (theEvent.getController().getName() == "myShapeList") {
       creator = int(theEvent.getController().getValue());
       controlP5.getController("lblCurrentShape").setValueLabel("SHAPE : " + numToName(creator));
+      setShapeParameters(creator);
       createHemesh();
     }
 

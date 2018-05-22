@@ -22,8 +22,8 @@ import processing.opengl.*;
 String version = "HemeshGui v0.4-alpha";
 
 // general settings
-int sceneWidth = width;                 // sketch width
-int sceneHeight = height;                 // sketch height
+int sceneWidth;                        // sketch width
+int sceneHeight;                       // sketch height
 
 // view
 float zoom = 20;                       // zoom factor
@@ -117,6 +117,11 @@ void setup() {
   fullScreen(OPENGL);
   //hint(ENABLE_OPENGL_4X_SMOOTH);
   smooth(4);
+  
+  
+  sceneWidth = width;
+  sceneHeight = height;
+  
   gui();
   createHemesh();
 }

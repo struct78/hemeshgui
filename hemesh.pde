@@ -28,8 +28,8 @@ void drawHemesh() {
     render.drawFaces(myShape);
   }
   if (edgesOn) {
-    strokeWeight(1);
-    stroke(0);
+    strokeWeight(0.05);
+    stroke(0, 50);
     render.drawEdges(myShape);
   }
 
@@ -184,8 +184,8 @@ void hemeshCreate(int select, float value1, float value2, float value3, float va
             }
             myShape = new HE_Mesh(new HEC_ConvexHull().setN(int(value1)).setPoints(randomPoints));
             break;
-    case 12: myShape = new HE_Mesh(new HEC_Beethoven()); break;
-    case 13: myShape = new HE_Mesh(new HEC_SuperDuper().setGeneralParameters(0, 11, 0, 0,13, 10, 15, 10, 4, 0, 0, 0, 5, 0.3, 2.2).setU(int(value2 * 10)).setV(int(value3 * 5)).setUWrap(true).setVWrap(false).setRadius(int(value1))); break;
+    case 12: myShape = new HE_Mesh(new HEC_Beethoven().setScale(int(value1))); break;
+    case 13: myShape = new HE_Mesh(new HEC_SuperDuper().setGeneralParameters(0, 11, 0, 0, 13, 10, 15, 10, 4, 0, 0, 0, 5, 0.3, 2.2).setU(int(value2 * 10)).setV(int(value3 * 5)).setUWrap(true).setVWrap(false).setRadius(int(value1))); break;
     case 14:
       WB_RandomOnSphere source = new WB_RandomOnSphere();
       int numPoints = int(value2) * 10;
