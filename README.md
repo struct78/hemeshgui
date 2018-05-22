@@ -16,6 +16,14 @@ Sunflow & Processing :
 
 ### Changelog
 
+
+#### v0.4.1
+
+changes and fixes by David Johnson (struct78)
+* Updated UI visual defects
+* Fixed property labels not appearing when changing shapes
+* Added images to README
+
 #### v0.4
 
 changes and fixes by David Johnson (struct78)
