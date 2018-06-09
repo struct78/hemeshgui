@@ -1,327 +1,90 @@
+int getInlineX(int index, int count) {
+  if (index == 1) {
+    return 0;
+  }
 
-import controlP5.*;
-import java.util.Iterator;
-ControlP5 controlP5;
-ScrollableList shapeList;
-ScrollableList shaderList;
-ScrollableList modifyList;
-Group g1;
-Group g2;
-Group g3;
-Group g4;
+  return ((Config.CP5.Controls.Width/count) * (index-1)) + (Config.CP5.Controls.Margin / 2);
+}
 
-Group gl1;
-Group gl2;
-Group gl3;
-Group gl4;
+int getLineHeight() {
+    return int(Config.CP5.Controls.Height * .2);
+}
 
-color colourBackground = color(162, 153, 125);
-color colourForeground = color(204, 204, 0);
-color colourCaptionLabel = color(0, 0, 0);
-color colourValueLabel = color(0, 0, 0);
-color colourActive = color(224, 224, 0);
+int multiplyGrid(int ref) {
+  return (ref * Config.CP5.Grid);
+}
 
-color colourBackgroundInactive = color(162, 153, 125, 30);
-color colourForegroundInactive = color(204, 204, 0, 30);
-color colourCaptionLabelInactive = color(0, 0, 0, 30);
-color colourValueLabelInactive = color(0, 0, 0, 30);
-color colourActiveInactive = color(224, 224, 0, 30);
+int multiplyControlHeight(int rows) {
+  return (Config.CP5.Controls.Height * rows) + Config.CP5.Controls.Margin;
+}
 
-void gui() {
+int divideControlWidth(int index, int count) {
+  int newWidth = Config.CP5.Controls.Width / count;
+
+  if (index == 1 && count != 1 || index == count) {
+    newWidth -= (Config.CP5.Controls.Margin / 2);
+  } else {
+    newWidth -= Config.CP5.Controls.Margin;
+  }
+
+  if (index == count) {
+    newWidth = Config.CP5.Controls.Width - getInlineX(index, count);
+  }
+
+  return newWidth;
+}
+
+void createModifiersXY() {
+    mx2 = multiplyGrid(15);
+    my2 = multiplyGrid(2);
+}
+
+void createGui() {
   // Create groups
 
-  controlP5 = new ControlP5(this);
-  controlP5.setAutoDraw(false);
+  cp5 = new ControlP5(this);
+  cp5.setAutoDraw(false);
 
-  g1 = controlP5.addGroup("g1");
-  g2 = controlP5.addGroup("g2");
-  g3 = controlP5.addGroup("g3");
-  g4 = controlP5.addGroup("g4");
+  g1 = cp5.addGroup("g1");
+  g2 = cp5.addGroup("g2");
+  g3 = cp5.addGroup("g3");
+  g4 = cp5.addGroup("g4");
 
   // gui colors
-  controlP5.setColorBackground(colourBackground);
-  controlP5.setColorForeground(colourForeground);
-  controlP5.setColorCaptionLabel(colourCaptionLabel);
-  controlP5.setColorValueLabel(colourValueLabel);
-  controlP5.setColorActive(colourActive);
+  cp5.setColorBackground(Config.CurrentTheme().ControlBackground);
+  cp5.setColorForeground(Config.CurrentTheme().ControlForeground);
+  cp5.setColorCaptionLabel(Config.CurrentTheme().ControlCaptionLabel);
+  cp5.setColorValueLabel(Config.CurrentTheme().ControlValueLabel);
+  cp5.setColorActive(Config.CurrentTheme().ControlActive);
 
   // camera control
-  controlP5.addTextlabel("lblCamera")
-    .setText("CAMERA CONTROL")
-    .setPosition(17, 8)
-    .setColorValue(0x0)
-    .moveTo(g1)
-    ;
-  controlP5.addSlider("zoom", 0, 300, 20, 20, 200, 15).setDecimalPrecision(0).moveTo(g1);
-  controlP5.addSlider("changeSpeedX", -5, 5, 20, 40, 200, 15).setLabel("Change X").moveTo(g1);
-  controlP5.addSlider("changeSpeedY", -5, 5, 20, 60, 200, 15).setLabel("Change Y").moveTo(g1);
-  controlP5.addToggle("autoRotate", 20, 80, 63, 15).setLabel("autoRotate (r)").moveTo(g1);
-  controlP5.addToggle("translationOn", 88, 80, 64, 15).setLabel("translation\n(t or L-mouse)").moveTo(g1);
-  controlP5.addToggle("rotationOn", 157, 80, 63, 15).setLabel("rotation\n(y or R-mouse)").moveTo(g1);
 
-  // shape color and frame
-  controlP5.addTextlabel("lblShape")
-    .setText("SHAPE COLOR")
-    .setPosition(17, 118)
-    .setColorValue(0x0)
-    .moveTo(g2)
-    ;
-  controlP5.addSlider("shapeHue", 0, 360, 20, 130, 200, 15).setLabel("Hue").setDecimalPrecision(0).moveTo(g2);
-  controlP5.addSlider("shapeSaturation", 0, 100, 20, 150, 200, 15).setLabel("Saturation").setDecimalPrecision(0).moveTo(g2);
-  controlP5.addSlider("shapeBrightness", 0, 100, 20, 170, 200, 15).setLabel("Brightness").setDecimalPrecision(0).moveTo(g2);
-  controlP5.addSlider("shapeTransparency", 0, 100, 20, 190, 200, 15).setLabel("Transparency").setDecimalPrecision(0).moveTo(g2);
+  x2 = multiplyGrid(1);
+  y2 = multiplyGrid(1);
 
+  createGroup1();
 
-  controlP5.addToggle("facesOn", 20, 220, 63, 15).setLabel("Toggle Faces").moveTo(g2);
-  controlP5.addToggle("edgesOn", 88, 220, 64, 15).setLabel("Toggle Edges").moveTo(g2);
+  y2 += multiplyGrid(4);
 
-  // reset controls
-  controlP5.addButton("resetView", 0, 20, 285, 63, 40).setLabel("Reset Cam &\nShape Color");
-  controlP5.addButton("resetLights", 0, 87, 285, 62, 40).setLabel("Reset Lights");
-  controlP5.addButton("reset", 0, 153, 285, 63, 40).setLabel("Reset\nEverything");
+  createGroup2();
 
-  // lights control
-  gl1 = controlP5.addGroup("gl1").setLabel("BASIC SUNFLOW SCENE LIGHT").setHeight(20);
-  gl1.getCaptionLabel().alignY(ControlP5.CENTER);
-  
-  controlP5.addTextlabel("lblBasic")
-    .setText("Basic scene elements")
-    .setPosition(0, 0)
-    .setColorValue(0x0)
-    .setGroup(gl1)
-    ;
-  controlP5.addToggle("sunSkyLightOn", 20, 15, 40, 15)
-    .setLabel("Basic Sunsky")
-    .setGroup(gl1)
-    ;
+  x2 = width - (Config.CP5.Grid * 3) - Config.CP5.Controls.Width;
+  y2 = Config.CP5.Grid;
 
-  controlP5.addToggle("sunflowWhiteBackgroundOn", 20, 55, 40, 15)
-    .setLabel("White Background")
-    .setGroup(gl1)
-    ;
+  createGroup3();
 
-  controlP5.addToggle("sunflowBlackBackgroundOn", 100, 55, 40, 15)
-    .setLabel("Black Background")
-    .setGroup(gl1)
-    ;
+  x2 = width - (Config.CP5.Grid * 3) - Config.CP5.Controls.Width;
+  y2 = height - multiplyGrid(12);
 
+  createGroup4();
 
-  gl2 = controlP5.addGroup("gl2").setLabel("DIRECTIONAL LIGHT").setHeight(20);
-  gl2.getCaptionLabel().alignY(ControlP5.CENTER);
-  
-  controlP5.addTextlabel("lblDirLight")
-    .setText("Pointed to center of mesh object")
-    .setPosition(0, 0)
-    .setColorValue(0x0)
-    .setGroup(gl2)
-    ;
+  // title
+  cp5.addTextlabel("lblTitle")
+    .setText(version.toUpperCase())
+    .setPosition(width/2, y2)
+    .setColorValue(Config.CurrentTheme().ControlCaptionLabel);
 
-  controlP5.addToggle("dirLightTopOn", 70, 20, 40, 15).setLabel("TOP").setGroup(gl2);
-  controlP5.addToggle("dirLightRightOn", 118, 20, 40, 15).setLabel("RIGHT").setGroup(gl2);
-  controlP5.addToggle("dirLightFrontOn", 166, 20, 40, 15).setLabel("FRONT").setGroup(gl2);
-  controlP5.addToggle("dirLightBottomOn", 70, 50, 40, 15).setLabel("BOTTOM").setGroup(gl2);
-  controlP5.addToggle("dirLightLeftOn", 118, 50, 40, 15).setLabel("LEFT").setGroup(gl2);
-  controlP5.addToggle("dirLightBehindOn", 166, 50, 40, 15).setLabel("BEHIND").setGroup(gl2);
-  controlP5.addKnob("dirLightRadius")
-    .setRange(0, 30)
-    .setPosition(3, 25)
-    .setRadius(20)
-    .setLabel("Radius")
-    .setDragDirection(Knob.HORIZONTAL)
-    .setGroup(gl2)
-    ;
-
-  gl3 = controlP5.addGroup("gl3").setLabel("SPHERE LIGHT").setHeight(20);
-  gl3.getCaptionLabel().alignY(ControlP5.CENTER);
-  
-  controlP5.addTextlabel("lblSphereLight")
-    .setText("Sphere lights around mesh object")
-    .setPosition(0, 0)
-    .setColorValue(0x0)
-    .setGroup(gl3)
-    ;
-  controlP5.addToggle("sphereLightTopOn", 70, 10, 40, 15).setLabel("TOP").setGroup(gl3);
-  controlP5.addToggle("sphereLightRightOn", 118, 10, 40, 15).setLabel("RIGHT").setGroup(gl3);
-  controlP5.addToggle("sphereLightFrontOn", 166, 10, 40, 15).setLabel("FRONT").setGroup(gl3);
-  controlP5.addToggle("sphereLightBottomOn", 70, 40, 40, 15).setLabel("BOTTOM").setGroup(gl3);
-  controlP5.addToggle("sphereLightLeftOn", 118, 40, 40, 15).setLabel("LEFT").setGroup(gl3);
-  controlP5.addToggle("sphereLightBehindOn", 166, 40, 40, 15).setLabel("BEHIND").setGroup(gl3);
-  controlP5.addKnob("sphereLightRadius")
-    .setRange(0, 30)
-    .setPosition(3, 15)
-    .setRadius(20)
-    .setLabel("Radius")
-    .setDragDirection(Knob.HORIZONTAL)
-    .setGroup(gl3)
-    ;
-
-  gl4 = controlP5.addGroup("gl4").setLabel("COLOR LIGHTS").setHeight(20).setBackgroundColor(lightsColor);
-  gl4.getCaptionLabel().alignY(ControlP5.CENTER);
-  
-  controlP5.addTextlabel("lblLightsColor")
-    .setText("Color lights used by all light (and some shader)")
-    .setPosition(0, 0)
-    .setColorValue(0x0)
-    .setGroup(gl4)
-    ;
-  controlP5.addSlider("lightsColorR", 0, 255, 10, 20, 150, 10).setLabel("R").setDecimalPrecision(0).setGroup(gl4);
-  controlP5.addSlider("lightsColorG", 0, 255, 10, 35, 150, 10).setLabel("G").setDecimalPrecision(0).setGroup(gl4);
-  controlP5.addSlider("lightsColorB", 0, 255, 10, 50, 150, 10).setLabel("B").setDecimalPrecision(0).setGroup(gl4);
-  controlP5.addSlider("lightsColorA", 0, 255, 10, 65, 150, 10).setLabel("A").setDecimalPrecision(0).setGroup(gl4);
-
-  controlP5.addButton("lightsColorLikeShapeColor", 0, 40, 85, 80, 15).setLabel("Like Shape Color").setGroup(gl4);
-
-  Accordion lightsControl = controlP5.addAccordion("lights")
-    .setPosition(17, 350)
-    .setWidth(200)
-    .addItem(gl1)
-    .addItem(gl2)
-    .addItem(gl3)
-    .addItem(gl4)
-    .setItemHeight(120)
-    ;
-
-
-  // basic shape variables
-  controlP5.addTextlabel("lblShapeParameters")
-    .setText("SHAPE PARAMETERS")
-    .setPosition(width-253, 8)
-    .setColorValue(0x0)
-    .moveTo(g3)
-    ;
-  controlP5.addTextlabel("lblCurrentShape")
-    .setText("SHAPE :" + numToName(creator))
-    .setPosition(width-123, 8)
-    .setColorValue(color(255, 0, 0))
-    .moveTo(g3)
-    ;
-  controlP5.addSlider("create0", 0, 50, width-250, 20, 200, 15).setDecimalPrecision(0).moveTo(g3);
-  controlP5.addSlider("create1", 0, 50, width-250, 40, 200, 15).setDecimalPrecision(0).moveTo(g3);
-  controlP5.addSlider("create2", 0, 50, width-250, 60, 200, 15).setDecimalPrecision(0).moveTo(g3);
-  controlP5.addSlider("create3", 0, 50, width-250, 80, 200, 15).setDecimalPrecision(0).moveTo(g3);
-  setShapeParameters(creator);
-
-  // ShapeList
-  shapeList = controlP5.addScrollableList("myShapeList", width-250, 125, 96, 400).setGroup(g3);
-
-  shapeList.setBarHeight(20);
-  shapeList.setItemHeight(15);
-  shapeList.getCaptionLabel().set("Select Shape");
-  shapeList.getCaptionLabel().alignY(ControlP5.CENTER);
-  shapeList.setBackgroundColor(color(30, 30, 30));
-  shapeList.close();
-
-  for (int i=0; i<numForLoop; i++) {
-    if (numToName(i) != "None") {
-      shapeList.addItem(numToName(i), i);
-    }
-  }
-
-  // ModifyList
-  modifyList = controlP5.addScrollableList("myModifyList", width-146, 125, 96, 400).setGroup(g3);
-  modifyList.setBarHeight(20);
-  modifyList.setItemHeight(15);
-  modifyList.getCaptionLabel().set("Select Modifier");
-  modifyList.getCaptionLabel().alignY(ControlP5.CENTER);
-  modifyList.setBackgroundColor(color(30, 30, 30));
-
-  // modifiers
-  for (int i=101; i<101 + numForLoop; i++) {
-    if (numToName(i) != "None") {
-      modifyList.addItem(numToName(i), i);
-    }
-  }
-
-  // ===
-  modifyList.addItem(numToName(-1), -1);
-
-  // subdividors
-  for (int i=201; i<201 + numForLoop; i++) {
-    if (numToName(i) != "None") {
-      modifyList.addItem(numToName(i), i);
-    }
-  }
-
-  modifyList.close();
-
-
-
-  // sunflow shaders
-  controlP5.addTextlabel("lblShaderParameters")
-    .setText("SUNFLOW SHADER")
-    .setPosition(width-253, 448)
-    .setColorValue(0x0)
-    .setGroup(g4)
-    ;
-  controlP5.addTextlabel("lblCurrentShader")
-    .setText("SHADER :" + numToName(shader))
-    .setPosition(width-250, 548)
-    .setColorValue(color(255, 0, 0))
-    .moveTo(g4)
-    ;
-  controlP5.addSlider("param0", 0.0f, 1.0f, width-250, 460, 200, 15).setGroup(g4);
-  controlP5.addSlider("param1", 0.0f, 1.0f, width-250, 480, 200, 15).setGroup(g4);
-  controlP5.addSlider("param2", 0.0f, 1.0f, width-250, 500, 200, 15).setGroup(g4);
-  controlP5.addSlider("param3", 0.0f, 1.0f, width-250, 520, 200, 15).setGroup(g4);
-  setShaderParameters(shader);
-
-  // ShaderList
-  shaderList = controlP5.addScrollableList("myShaderList", width-250, 565, 96, 400).setGroup(g4);
-  shaderList.setBarHeight(20);
-  shaderList.setItemHeight(15);
-  shaderList.getCaptionLabel().set("Select Shader");
-  shaderList.getCaptionLabel().alignY(ControlP5.CENTER);
-  shaderList.setBackgroundColor(color(30, 30, 30));
-  shaderList.close();
-
-  for (int i=301; i<numForLoop+301; i++) {
-    if (numToName(i) != "None") {
-      shaderList.addItem(numToName(i), i);
-    }
-  }
-
-  // render type & saving variables
-  controlP5.addTextlabel("lblSave")
-    .setText("WHAT TO SAVE")
-    .setPosition(17, height-172)
-    .setColorValue(0x0)
-    ;
-  controlP5.addToggle("saveOpenGL", 20, height-160, 65, 15).setLabel("OpenGL Current View");
-  controlP5.addToggle("saveSunflow", 120, height-160, 65, 15).setLabel("Sunflow Rendering");
-
-  controlP5.addToggle("saveGui", 20, height-130, 65, 15).setLabel("GUI");
-  controlP5.addToggle("saveMask", 120, height-130, 65, 15).setLabel("Sunflow Mask");
-
-  controlP5.addToggle("preview", 20, height-85, 65, 15).setLabel("Sunflow Preview");
-  controlP5.addToggle("saveContinuous", 20, height-55, 65, 15).setLabel("Continuously").setColorCaptionLabel(color(0, 0, 0));
-
-  controlP5.addButton("save", 0, 120, height-85, 70, 45).setLabel("SAVE / RENDER");
-
-  controlP5.addTextlabel("lblSunflowSize")
-    .setText("SUNFLOW RENDERING SIZE : " + int(sceneWidth*sunflowMultiply)+ " x " + int(sceneHeight*sunflowMultiply))
-    .setPosition(17, height-20)
-    .setColorValue(color(255, 0, 0))
-    ;
-
-
-  controlP5.addButton("quickSave", 0, width-186, height-60, 60, 45).setLabel("  Quick Save\n  Settings");
-  controlP5.addButton("quickLoad", 0, width-106, height-60, 60, 45).setLabel("  Quick Load\n  Settings");
-
-  //title
-  controlP5.addTextlabel("lblTitle")
-    .setText(version)
-    .setPosition(width/2-250, 8)
-    .setColorValue(0x0)
-    ;
-
-  // help text
-  controlP5.addTextlabel("lblShortcuts")
-    .setText("[SHORTCUTS]")
-    .setPosition(width/2-20, 8)
-    .setColorValue(0x0)
-    ;
-
-  controlP5.getTooltip().setDelay(150).setColorLabel(0x0) ;
+  cp5.getTooltip().setDelay(150).setColorLabel(Config.CurrentTheme().ControlValueLabel);
   String helpTxt  = "c : high quality sunflow render\n";
   helpTxt += "x : preview quality sunflow render\n";
   helpTxt += "z : save a single screenshot\n";
@@ -333,7 +96,7 @@ void gui() {
   helpTxt += "s : toggle sunflow mode\n";
   helpTxt += "l : export to STL file\n";
   helpTxt += "./, : increase/decrease sunflow rendering size (x0.5)";
-  controlP5.getTooltip().register("lblShortcuts", helpTxt);
+  cp5.getTooltip().register("lblShortcuts", helpTxt);
 
   // ===========================================>
   // some non-gui stuff that needs to run @ setup
@@ -344,27 +107,692 @@ void gui() {
   // move origin to center of the screen
   translateX = width/2;
   translateY = height/2;
-
-  // listen to mouseWheel (used for zooming)
-  /*addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-   public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-   mouseWheel(evt.getWheelRotation());
-   }});*/
 }
+
+void createGroup1() {
+  cp5.addTextlabel("lblCamera")
+    .setText("CAMERA CONTROL")
+    .setPosition(x2, y2)
+    .setColorValue(Config.CurrentTheme().ControlCaptionLabel)
+    .moveTo(g1);
+
+  y2 += multiplyGrid(1);
+
+  cp5.begin(Config.CP5.Grid, y2);
+
+  cp5.addSlider("zoom", 0, 300)
+    .setDecimalPrecision(0)
+    .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+    .setPosition(x2, y2)
+    .moveTo(g1);
+
+  y2 += multiplyGrid(1);
+
+  cp5.addSlider("changeSpeedX", -5, 5)
+    .setLabel("Change X")
+    .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+    .setPosition(x2, y2)
+    .moveTo(g1);
+
+  y2 += multiplyGrid(1);
+
+  cp5.addSlider("changeSpeedY", -5, 5)
+    .setLabel("Change Y")
+    .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+    .setPosition(x2, y2)
+    .moveTo(g1);
+
+  y2 += multiplyGrid(1);
+
+  cp5.addToggle("autoRotate", x2 + getInlineX(1, 3), y2, divideControlWidth(1, 3), Config.CP5.Controls.Height)
+    .setLabel("autoRotate (r)")
+    .moveTo(g1);
+
+  cp5.addToggle("translationOn", x2 + getInlineX(2, 3), y2, divideControlWidth(2, 3), Config.CP5.Controls.Height)
+    .setLabel("translation\n(t or L-mouse)")
+    .moveTo(g1);
+
+  cp5.addToggle("rotationOn", x2 + getInlineX(3, 3), y2, divideControlWidth(3, 3), Config.CP5.Controls.Height)
+    .setLabel("rotation\n(y or R-mouse)")
+    .moveTo(g1);
+
+  cp5.end();
+
+  y2 += multiplyGrid(3);
+
+  cp5.begin(x2, y2);
+
+  cp5.addButton("resetView", 0, x2, y2, divideControlWidth(1, 2), multiplyControlHeight(2))
+    .setColorBackground(Config.CurrentTheme().ButtonBackground)
+    .setColorLabel(Config.CurrentTheme().ButtonForeground)
+    .setLabel("Reset Cam & Color");
+
+  cp5.addButton("resetLights", 0, x2 + getInlineX(2, 2), y2, divideControlWidth(2, 2), multiplyControlHeight(2))
+    .setColorBackground(Config.CurrentTheme().ButtonBackground)
+    .setColorLabel(Config.CurrentTheme().ButtonForeground)
+    .setLabel("Reset Lights");
+
+  y2 += multiplyGrid(2);
+
+  cp5.addButton("reset", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(2))
+    .setColorBackground(Config.CurrentTheme().ButtonBackground)
+    .setColorLabel(Config.CurrentTheme().ButtonForeground)
+    .setLabel("Reset Everything");
+
+  cp5.end();
+}
+
+void createGroup2() {
+
+    cp5.begin(x2, y2);
+
+    // Sunflow: Scene
+    //
+    cp5.addTextlabel("lblSunflow")
+      .setText("SUNFLOW SETTINGS")
+      .setPosition(x2, y2)
+      .setColorValue(Config.CurrentTheme().ControlCaptionLabel)
+      .moveTo(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addTextlabel("lblSunflowScene")
+      .setText("SCENE")
+      .setPosition(x2, y2)
+      .setColorValue(Config.CurrentTheme().ControlSubLabel)
+      .moveTo(g2);
+
+    y2 += multiplyGrid(1);
+
+    // Option 1: Sunsky
+    sunsky = cp5.addToggle("sunSkyLightOn", x2, y2, divideControlWidth(1, 4), Config.CP5.Controls.Height)
+      .setLabel("")
+      .setGroup(g2);
+
+    sunsky.onClick(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          if (sunsky.getBooleanValue()) {
+            //whiteBackground.setState(false);
+            //blackBackground.setState(false);
+          }
+        }
+      });
+
+    cp5.addTextlabel("lblSkylights")
+      .setText("BASIC SUNSKY")
+      .setPosition(x2 + getInlineX(2, 4), y2 + getLineHeight())
+      .setColorValue(Config.CurrentTheme().ControlSubLabel)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    // Option 2: White
+    whiteBackground = cp5.addToggle("sunflowWhiteBackgroundOn", x2, y2, divideControlWidth(1, 4), Config.CP5.Controls.Height)
+      .setLabel("")
+      .setPosition(x2, y2)
+      .setGroup(g2);
+
+    whiteBackground.onClick(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          if (whiteBackground.getBooleanValue()) {
+            //blackBackground.setState(false);
+            //sunsky.setState(false);
+          }
+        }
+      });
+
+    cp5.addTextlabel("lblWhite")
+      .setText("WHITE BACKGROUND")
+      .setPosition(x2 + getInlineX(2, 4), y2 + getLineHeight())
+      .setColorValue(Config.CurrentTheme().ControlSubLabel)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    // Option 3: Black
+    blackBackground = cp5.addToggle("sunflowBlackBackgroundOn", x2, y2, divideControlWidth(1, 4), Config.CP5.Controls.Height)
+      .setLabel("")
+      .setPosition(x2, y2)
+      .setGroup(g2);
+
+    blackBackground.onClick(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          if (blackBackground.getBooleanValue()) {
+            //whiteBackground.setState(false);
+            //sunsky.setState(false);
+          }
+        }
+      });
+
+    cp5.addTextlabel("lblBlack")
+      .setText("BLACK BACKGROUND")
+      .setPosition(x2 + getInlineX(2, 4), y2 + getLineHeight())
+      .setColorValue(Config.CurrentTheme().ControlSubLabel)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(2);
+
+    // Sunflow: Directional light
+    cp5.addTextlabel("lblDirectionalLight")
+      .setText("DIRECTIONAL LIGHT")
+      .setPosition(x2, y2)
+      .setColorValue(Config.CurrentTheme().ControlSubLabel)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addKnob("dirLightRadius")
+      .setRange(0, 30)
+      .setPosition(x2, y2)
+      .setRadius((divideControlWidth(1, 4) - Config.CP5.Controls.Margin) / 2)
+      .setLabel("Radius")
+      .setDragDirection(Knob.VERTICAL)
+      .setGroup(g2);
+
+    cp5.addToggle("dirLightTopOn", x2 + getInlineX(2, 4), y2, divideControlWidth(2, 4), Config.CP5.Controls.Height)
+      .setLabel("TOP")
+      .setGroup(g2);
+
+    cp5.addToggle("dirLightRightOn", x2 + getInlineX(3, 4), y2, divideControlWidth(3, 4), Config.CP5.Controls.Height)
+      .setLabel("RIGHT")
+      .setGroup(g2);
+
+    cp5.addToggle("dirLightFrontOn", x2 + getInlineX(4, 4), y2, divideControlWidth(4, 4), Config.CP5.Controls.Height)
+      .setLabel("FRONT")
+      .setGroup(g2);
+
+    y2 += multiplyGrid(2);
+
+    cp5.addToggle("dirLightBottomOn", x2 + getInlineX(2, 4), y2, divideControlWidth(2, 4), Config.CP5.Controls.Height)
+      .setLabel("BOTTOM")
+      .setGroup(g2);
+
+    cp5.addToggle("dirLightLeftOn", x2 + getInlineX(3, 4), y2, divideControlWidth(3, 4), Config.CP5.Controls.Height)
+      .setLabel("LEFT")
+      .setGroup(g2);
+
+    cp5.addToggle("dirLightBehindOn", x2 + getInlineX(4, 4), y2, divideControlWidth(4, 4), Config.CP5.Controls.Height)
+      .setLabel("BEHIND")
+      .setGroup(g2);
+
+
+    // Sunflow: Sphere light
+
+    y2 += multiplyGrid(2);
+
+    cp5.addTextlabel("lblSphereLight")
+      .setText("SPHERE LIGHT")
+      .setPosition(x2, y2)
+      .setColorValue(Config.CurrentTheme().ControlSubLabel)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addKnob("sphereLightRadius")
+      .setRange(0, 30)
+      .setPosition(x2, y2)
+      .setRadius((divideControlWidth(1, 4) - Config.CP5.Controls.Margin) / 2)
+      .setLabel("Radius")
+      .setDragDirection(Knob.VERTICAL)
+      .setGroup(g2);
+
+    cp5.addToggle("sphereLightTopOn", x2 + getInlineX(2, 4), y2, divideControlWidth(2, 4), Config.CP5.Controls.Height)
+      .setLabel("TOP")
+      .setGroup(g2);
+
+    cp5.addToggle("sphereLightRightOn", x2 + getInlineX(3, 4), y2, divideControlWidth(3, 4), Config.CP5.Controls.Height)
+      .setLabel("RIGHT")
+      .setGroup(g2);
+
+    cp5.addToggle("sphereLightFrontOn", x2 + getInlineX(4, 4), y2, divideControlWidth(4, 4), Config.CP5.Controls.Height)
+      .setLabel("FRONT")
+      .setGroup(g2);
+
+    y2 += multiplyGrid(2);
+
+    cp5.addToggle("sphereLightBottomOn", x2 + getInlineX(2, 4), y2, divideControlWidth(2, 4), Config.CP5.Controls.Height)
+      .setLabel("BOTTOM")
+      .setGroup(g2);
+
+    cp5.addToggle("sphereLightLeftOn",  x2 + getInlineX(3, 4), y2, divideControlWidth(3, 4), Config.CP5.Controls.Height)
+      .setLabel("LEFT")
+      .setGroup(g2);
+
+    cp5.addToggle("sphereLightBehindOn", x2 + getInlineX(4, 4), y2, divideControlWidth(4, 4), Config.CP5.Controls.Height)
+      .setLabel("BEHIND")
+      .setGroup(g2);
+
+
+    y2 += multiplyGrid(2);
+
+
+    cp5.addTextlabel("lblLightsColor")
+      .setText("LIGHT COLOUR")
+      .setPosition(x2, y2)
+      .setColorValue(Config.CurrentTheme().ControlSubLabel)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addSlider("lightsColorR", 0, 255, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+      .setLabel("R")
+      .setDecimalPrecision(0)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addSlider("lightsColorG", 0, 255, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+      .setLabel("G")
+      .setDecimalPrecision(0)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addSlider("lightsColorB", 0, 255, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+      .setLabel("B")
+      .setDecimalPrecision(0)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addSlider("lightsColorA", 0, 255, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+      .setLabel("A")
+      .setDecimalPrecision(0)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addButton("lightsColorLikeShapeColor", 0, x2, y2, divideControlWidth(1, 2), Config.CP5.Controls.Height * 2)
+      .setColorBackground(Config.CurrentTheme().ButtonBackground)
+      .setColorLabel(Config.CurrentTheme().ButtonForeground)
+      .setLabel("Like Shape Color")
+      .setGroup(g2);
+
+    y2 += multiplyGrid(4);
+
+    // sunflow shaders
+    cp5.addTextlabel("lblShader")
+      .setPosition(x2, y2)
+      .setText("SHADER")
+      .setColorValue(Config.CurrentTheme().ControlSubLabel)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    // ShaderList
+    shaderList = cp5.addScrollableList("shaderList", x2, y2, Config.CP5.Controls.Width, 400)
+      .setGroup(g2)
+      .setBarHeight(Config.CP5.Controls.Height)
+      .setItemHeight(Config.CP5.Controls.Height)
+      .setBackgroundColor(Config.CurrentTheme().ControlBackground)
+      .setColorLabel(Config.CurrentTheme().ControlValueLabel)
+      .setColorValue(Config.CurrentTheme().ControlValueLabel);
+
+    shaderList.close();
+    shaderList.getCaptionLabel()
+      .set("Select Shader")
+      .alignY(cp5.CENTER);
+
+    shaderList.onClick(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        shaderList.bringToFront();
+      }
+    }).onChange(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        int selected = int(theEvent.getController().getValue());
+        shader = (int)shaderList.getItem(selected).get("value");
+      }
+    });
+
+
+    for (int i=301; i<numForLoop+301; i++) {
+      if (numToName(i) != "None") {
+        shaderList.addItem(numToName(i), i);
+      }
+    }
+
+    y2 += multiplyGrid(2);
+
+    cp5.addTextlabel("lblShaderParameters")
+      .setPosition(x2, y2)
+      .setText("SHADER PARAMETERS")
+      .setColorValue(Config.CurrentTheme().ControlSubLabel)
+      .setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addSlider("param0", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height).setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addSlider("param1", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height).setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addSlider("param2", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height).setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addSlider("param3", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height).setGroup(g2);
+
+    y2 += multiplyGrid(1);
+
+    setShaderParameters(shader);
+
+    y2 = height - multiplyGrid(7);
+
+    cp5.addButton("quickSave", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
+      .setColorBackground(Config.CurrentTheme().ButtonBackground)
+      .setColorLabel(Config.CurrentTheme().ButtonForeground)
+      .setLabel("Quick Save Settings");
+
+    y2 += multiplyGrid(3);
+
+    cp5.addButton("quickLoad", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
+      .setColorBackground(Config.CurrentTheme().ButtonBackground)
+      .setColorLabel(Config.CurrentTheme().ButtonForeground)
+      .setLabel("Quick Load Settings");
+
+    cp5.end();
+}
+
+void createGroup3() {
+
+
+  cp5.addTextlabel("lblShapesModifiers")
+    .setText("SHAPE & MODIFIERS")
+    .setPosition(x2, y2)
+    .setColorValue(Config.CurrentTheme().ControlCaptionLabel)
+    .moveTo(g3);
+
+  y2 += multiplyGrid(1);
+
+  // ShapeList
+  shapeList = cp5.addScrollableList("shapeList", x2, y2, Config.CP5.Controls.Width, 400)
+    .setGroup(g3)
+    .setBarHeight(Config.CP5.Controls.Height)
+    .setItemHeight(Config.CP5.Controls.Height)
+    .setBackgroundColor(Config.CurrentTheme().ControlBackground)
+    .setColorLabel(Config.CurrentTheme().ControlValueLabel)
+    .setColorValue(Config.CurrentTheme().ControlValueLabel)
+    .close();
+
+  shapeList.getCaptionLabel()
+    .set("Select Shape")
+    .alignY(cp5.CENTER);
+
+  for (int i = 0; i < shapes.size(); i++) {
+    Shape shape = shapes.get(i);
+    shapeList.addItem(shape.name, i);
+  }
+
+  shapeList.setValue(selectedShapeIndex);
+  shapeList.onChange(new CallbackListener() {
+    public void controlEvent(CallbackEvent theEvent) {
+      selectedShapeIndex = int(shapeList.getValue());
+      setShapeParameters(selectedShapeIndex);
+      createHemesh();
+    }
+  }).onClick(new CallbackListener() {
+    public void controlEvent(CallbackEvent theEvent) {
+      if (shapeList.isOpen()) {
+        modifyList.close();
+        shapeList.bringToFront();
+      }
+    }
+  });
+
+  y2 += multiplyGrid(1);
+
+  // ModifyList
+  modifyList = cp5.addScrollableList("modifyList", x2, y2, Config.CP5.Controls.Width, 500)
+    .setGroup(g3)
+    .setBarHeight(Config.CP5.Grid)
+    .setItemHeight(Config.CP5.Controls.Height)
+    .setBackgroundColor(Config.CurrentTheme().ControlBackground)
+    .setColorLabel(Config.CurrentTheme().ControlValueLabel)
+    .setColorValue(Config.CurrentTheme().ControlValueLabel)
+    .onChange(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        int selected = int(theEvent.getController().getValue());
+        Modifier modifier = modifiers.get(selected);
+
+        if (modifier.hasCreator()) {
+          modifier.index = selectedModifiers.size();
+          modifier.menu();
+          selectedModifiers.add(modifier);
+
+          createHemesh();
+        }
+
+        modifyList.setCaptionLabel("Select Modifier");
+      }
+    }).onClick(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        if (modifyList.isOpen()) {
+          shapeList.close();
+          modifyList.bringToFront();
+        }
+      }
+    });
+
+  modifyList.getCaptionLabel()
+    .set("Select Modifier")
+    .alignY(cp5.CENTER);
+
+  // modifiers
+
+  for (int x = 0 ; x < modifiers.size(); x++) {
+    Modifier modifier = modifiers.get(x);
+    modifyList.addItem(modifier.name, x);
+  }
+
+  modifyList.close();
+
+  y2 += multiplyGrid(2);
+
+  // Shape parameters
+  cp5.addTextlabel("lblShapeParameters")
+    .setText("SHAPE PARAMETERS")
+    .setPosition(x2, y2)
+    .setColorValue(Config.CurrentTheme().ControlCaptionLabel)
+    .moveTo(g3);
+
+  y2 += multiplyGrid(1);
+
+  cp5.addSlider("create0", 0, 500, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+    .setDecimalPrecision(0)
+    .moveTo(g3)
+    .onRelease(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        create0 = int(theEvent.getController().getValue());
+        createHemesh();
+      }
+    })
+    .onDrag(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        create0 = int(theEvent.getController().getValue());
+        createHemesh();
+      }
+    });
+
+  y2 += multiplyGrid(1);
+
+  cp5.addSlider("create1", 0, 500, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+    .setDecimalPrecision(0)
+    .moveTo(g3)
+    .onRelease(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        create1 = int(theEvent.getController().getValue());
+        createHemesh();
+      }
+    })
+    .onDrag(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        create1 = int(theEvent.getController().getValue());
+        createHemesh();
+      }
+    });
+
+  y2 += multiplyGrid(1);
+
+  cp5.addSlider("create2", 0, 500, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+    .setDecimalPrecision(0)
+    .moveTo(g3)
+    .onRelease(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        create2 = int(theEvent.getController().getValue());
+        createHemesh();
+      }
+    })
+    .onDrag(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        create2 = int(theEvent.getController().getValue());
+        createHemesh();
+      }
+    });
+
+  y2 += multiplyGrid(1);
+
+  cp5.addSlider("create3", 0, 500, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+    .setDecimalPrecision(0)
+    .moveTo(g3)
+    .onRelease(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        create3 = int(theEvent.getController().getValue());
+        createHemesh();
+      }
+    })
+    .onDrag(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        create3 = int(theEvent.getController().getValue());
+        createHemesh();
+      }
+    });
+
+  setShapeParameters(selectedShapeIndex);
+
+  y2 += multiplyGrid(2);
+
+  // shape color and frame
+  cp5.addTextlabel("lblShape")
+    .setText("SHAPE COLOR")
+    .setPosition(x2, y2)
+    .setColorValue(Config.CurrentTheme().ControlCaptionLabel)
+    .moveTo(g3);
+
+  y2 += multiplyGrid(1);
+
+  cp5.begin(x2, y2);
+  cp5.addSlider("shapeHue", 0, 360)
+    .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+    .setPosition(x2, y2)
+    .setLabel("Hue")
+    .setDecimalPrecision(0)
+    .moveTo(g3);
+
+  y2 += multiplyGrid(1);
+
+  cp5.addSlider("shapeSaturation", 0, 100)
+    .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+    .setPosition(x2, y2)
+    .setLabel("Saturation")
+    .setDecimalPrecision(0)
+    .moveTo(g3);
+
+  y2 += multiplyGrid(1);
+
+  cp5.addSlider("shapeBrightness", 0, 100)
+    .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+    .setPosition(x2, y2)
+    .setLabel("Brightness")
+    .setDecimalPrecision(0)
+    .moveTo(g3);
+
+  y2 += multiplyGrid(1);
+
+  cp5.addSlider("shapeTransparency", 0, 100)
+    .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+    .setPosition(x2, y2)
+    .setLabel("Alpha")
+    .setDecimalPrecision(0)
+    .moveTo(g3);
+
+  y2 += multiplyGrid(1);
+
+  cp5.addToggle("facesOn", x2 + getInlineX(1, 2), y2, divideControlWidth(1, 2), Config.CP5.Controls.Height)
+    .setLabel("Toggle Faces")
+    .moveTo(g3);
+
+  cp5.addToggle("edgesOn", x2 + getInlineX(2, 2), y2, divideControlWidth(2, 2), Config.CP5.Controls.Height)
+    .setLabel("Toggle Edges")
+    .moveTo(g3);
+
+
+  cp5.end();
+}
+
+void createGroup4() {
+    // render type & saving variables
+    cp5.addTextlabel("lblSave")
+      .setText("WHAT TO SAVE")
+      .setPosition(x2, y2)
+      .setColorValue(Config.CurrentTheme().ControlCaptionLabel);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addToggle("saveOpenGL", x2, y2, divideControlWidth(1, 2), Config.CP5.Controls.Height)
+      .setLabel("OpenGL Current View");
+
+    cp5.addToggle("saveSunflow", x2 + getInlineX(2, 2), y2, divideControlWidth(2, 2), Config.CP5.Controls.Height)
+      .setLabel("Sunflow Rendering");
+
+    y2 += multiplyGrid(2);
+
+    cp5.addToggle("saveGui", x2, y2, divideControlWidth(1, 2), Config.CP5.Controls.Height)
+      .setLabel("GUI");
+
+    cp5.addToggle("saveMask", x2 + getInlineX(2, 2), y2, divideControlWidth(2, 2), Config.CP5.Controls.Height)
+      .setLabel("Sunflow Mask");
+
+    y2 += multiplyGrid(2);
+
+    cp5.addToggle("preview", x2, y2, divideControlWidth(1, 2), Config.CP5.Controls.Height)
+      .setLabel("Sunflow Preview");
+
+    cp5.addToggle("saveContinuous", x2 + getInlineX(2, 2), y2, divideControlWidth(2, 2), Config.CP5.Controls.Height)
+      .setLabel("Continuously")
+      .setColorCaptionLabel(Config.CurrentTheme().ControlCaptionLabel);
+
+    y2 += multiplyGrid(3);
+
+    cp5.addButton("save", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
+      .setColorBackground(Config.CurrentTheme().ButtonBackground)
+      .setColorLabel(Config.CurrentTheme().ButtonForeground)
+      .setLabel("SAVE / RENDER");
+
+    y2 += multiplyGrid(3);
+
+    cp5.addTextlabel("lblSunflowSize")
+      .setText("SUNFLOW RENDERING SIZE : " + int(sceneWidth*sunflowMultiply)+ " x " + int(sceneHeight*sunflowMultiply))
+      .setPosition(x2, y2)
+      .setColorValue(Config.CurrentTheme().ControlCaptionLabel);
+}
+
 
 // zooming with the mouseWheel
 void mouseWheel(int delta) {
-  if      (delta > 0) {
+  if (delta > 0) {
     if (zoom > 20) {
-      controlP5.getController("zoom").setValue(zoom - 10);
+      cp5.getController("zoom").setValue(zoom - 10);
     } else {
-      controlP5.getController("zoom").setValue(zoom - 1);
+      cp5.getController("zoom").setValue(zoom - 1);
     }
   } else if (delta < 0) {
     if (zoom >= 20) {
-      controlP5.getController("zoom").setValue(zoom + 10);
+      cp5.getController("zoom").setValue(zoom + 10);
     } else {
-      controlP5.getController("zoom").setValue(zoom + 1);
+      cp5.getController("zoom").setValue(zoom + 1);
     }
   }
 }
@@ -382,207 +810,78 @@ void mouseReleased() {
 
 
 void mousePressed() {
-  if (!controlP5.isMouseOver()) {
+  if (!cp5.isMouseOver()) {
     if (mouseButton == LEFT) {
       flagMouseControlTranslationMouvement = true;
-      controlP5.getController("translationOn").setValue(0);
+      cp5.getController("translationOn").setValue(0);
     } else if (mouseButton == RIGHT) {
       flagMouseControlRotationMouvement = true;
-      controlP5.getController("rotationOn").setValue(0);
-      controlP5.getController("autoRotate").setValue(0);
+      cp5.getController("rotationOn").setValue(0);
+      cp5.getController("autoRotate").setValue(0);
     }
   }
 }
 
 void updateGui() {
-  onMouseOver();
-  gl4.setBackgroundColor(lightsColor);
+  //gl4.setBackgroundColor(lightsColor);
 }
 
-void toggleLock(String name, int start, int finish, boolean value) {
-  for ( int x = start ; x <= finish ; x++ ) {
-    Controller controller = controlP5.getController(name + x);
-    controller.setLock(value);
-    if (value) {
-      controller.setColorBackground(colourBackgroundInactive);
-      controller.setColorForeground(colourForegroundInactive);
-      controller.setColorCaptionLabel(colourCaptionLabelInactive);
-      controller.setColorValueLabel(colourValueLabelInactive);
-      controller.setColorActive(colourActiveInactive);
-    } else {
-      controller.setColorBackground(colourBackground);
-      controller.setColorForeground(colourForeground);
-      controller.setColorCaptionLabel(colourCaptionLabel);
-      controller.setColorValueLabel(colourValueLabel);
-      controller.setColorActive(colourActive);
+void setShapeParameters(int shape) {
+  Controller controller;
+  selectedShape = shapes.get(shape);
+  defaultShapeValues = selectedShape.getDefaultValues();
+  maxShapeValues = selectedShape.getMaxValues();
+  minShapeValues = selectedShape.getMinValues();
+  shapeLabels = selectedShape.getLabels();
+
+  for ( int x = 0 ; x < selectedShape.parameters; x++ ) {
+    controller = cp5.getController("create" + x);
+    if (controller != null) {
+      controller.setLabel(shapeLabels[x]);
+      controller.setValue(defaultShapeValues[x]);
+      controller.setLock(false);
+      controller.setMax(maxShapeValues[x]);
+      controller.setMin(minShapeValues[x]);
+      controller.setColorBackground(Config.CurrentTheme().ControlBackground);
+      controller.setColorForeground(Config.CurrentTheme().ControlForeground);
+      controller.setColorCaptionLabel(Config.CurrentTheme().ControlCaptionLabel);
+      controller.setColorValueLabel(Config.CurrentTheme().ControlValueLabel);
+      controller.setColorActive(Config.CurrentTheme().ControlActive);
+      controller.setVisible(true);
+    }
+  }
+
+  for ( int y = selectedShape.parameters ; y < 4 ; y++ ) {
+    controller = cp5.getController("create" + y);
+    if (controller != null) {
+      controller.setVisible(false);
     }
   }
 }
 
-
-void onMouseOver() {
-  //println(controlP5.getMouseOverList());
-  //http://www.sojamo.de/libraries/controlP5/reference/controlP5/ControlWindow.html
-
-  String mouseOverList =  controlP5.getMouseOverList().toString();
-
-  if (mouseOverList.contains("myShapeList")) {
-    g3.bringToFront();
-    shaderList.close();
-    modifyList.close();
-  }
-  if (mouseOverList.contains("myModifyList")) {
-    g3.bringToFront();
-    shaderList.close();
-    shapeList.close();
-  }
-  if (mouseOverList.contains("myShaderList") && !mouseOverList.contains("myShapeList")) {
-    g4.bringToFront();
-    shapeList.close();
-    modifyList.close();
-  }
-  if (mouseOverList.contains("myShapeListButton0")) setShapeParameters(0);
-  if (mouseOverList.contains("myShapeListButton1")) setShapeParameters(1);
-  if (mouseOverList.contains("myShapeListButton2")) setShapeParameters(2);
-  if (mouseOverList.contains("myShapeListButton3")) setShapeParameters(3);
-  if (mouseOverList.contains("myShapeListButton4")) setShapeParameters(4);
-  if (mouseOverList.contains("myShapeListButton5")) setShapeParameters(5);
-  if (mouseOverList.contains("myShapeListButton6")) setShapeParameters(6);
-  if (mouseOverList.contains("myShapeListButton7")) setShapeParameters(7);
-  if (mouseOverList.contains("myShapeListButton8")) setShapeParameters(8);
-  if (mouseOverList.contains("myShapeListButton9")) setShapeParameters(9);
-  if (mouseOverList.contains("myShapeListButton10")) setShapeParameters(10);
-  if (mouseOverList.contains("myShapeListButton11")) setShapeParameters(11);
-
-  if (mouseOverList.contains("myShaderListButton0")) setShaderParameters(301);
-  if (mouseOverList.contains("myShaderListButton1")) setShaderParameters(302);
-  if (mouseOverList.contains("myShaderListButton2")) setShaderParameters(303);
-  if (mouseOverList.contains("myShaderListButton3")) setShaderParameters(304);
-  if (mouseOverList.contains("myShaderListButton4")) setShaderParameters(305);
-  if (mouseOverList.contains("myShaderListButton5")) setShaderParameters(306);
-  if (mouseOverList.contains("myShaderListButton6")) setShaderParameters(307);
-  if (mouseOverList.contains("myShaderListButton7")) setShaderParameters(308);
-}
-
-void setShapeParameters(int shapeNum) {
-  controlP5.getController("create0").setLabel("");
-  controlP5.getController("create1").setLabel("");
-  controlP5.getController("create2").setLabel("");
-  controlP5.getController("create3").setLabel("");
-  toggleLock("create", 0, 3, false);
-  
-  switch(shapeNum) {
-  case 0 :
-    controlP5.getController("create0").setLabel("Depth");
-    controlP5.getController("create1").setLabel("Height");
-    controlP5.getController("create2").setLabel("Width");
-    break;
-  case 1 :
-    controlP5.getController("create0").setLabel("Radius");
-    controlP5.getController("create1").setLabel("Height");
-    controlP5.getController("create2").setLabel("Facets");
-    controlP5.getController("create3").setLabel("Steps");
-    break;
-  case 2 :
-    controlP5.getController("create0").setLabel("Edge");
-    toggleLock("create", 1, 3, true);
-    break;
-  case 3 :
-    controlP5.getController("create0").setLabel("Radius");
-    controlP5.getController("create1").setLabel("Level");
-    toggleLock("create", 2, 3, true);
-    break;
-  case 4 :
-    controlP5.getController("create0").setLabel("Radius");
-    controlP5.getController("create1").setLabel("UFacets");
-    controlP5.getController("create2").setLabel("VFacets");
-    toggleLock("create", 3, 3, true);
-    break;
-  case 5 :
-    controlP5.getController("create0").setLabel("Radius");
-    controlP5.getController("create1").setLabel("Height");
-    controlP5.getController("create2").setLabel("Facets");
-    controlP5.getController("create3").setLabel("Steps");
-    break;
-  case 6 :
-    controlP5.getController("create0").setLabel("Edge");
-    toggleLock("create", 1, 3, true);
-    break;
-  case 7 :
-    controlP5.getController("create0").setLabel("Edge");
-    toggleLock("create", 1, 3, true);
-    break;
-  case 8 :
-    controlP5.getController("create0").setLabel("Edge");
-    toggleLock("create", 1, 3, true);
-    break;
-  case 9 :
-    controlP5.getController("create0").setLabel("Radius1");
-    controlP5.getController("create1").setLabel("Radius2");
-    controlP5.getController("create2").setLabel("TubeFacets");
-    controlP5.getController("create3").setLabel("TorusFacets");
-    break;
-  case 10 :
-    controlP5.getController("create0").setLabel("Width");
-    controlP5.getController("create1").setLabel("Height");
-    controlP5.getController("create2").setLabel("Disturb");
-    toggleLock("create", 3, 3, true);
-    break;
-  case 11 :
-    controlP5.getController("create0").setLabel("Num Points\nx10000");
-    controlP5.getController("create1").setLabel("Width");
-    controlP5.getController("create2").setLabel("Height");
-    controlP5.getController("create3").setLabel("Depth");
-    break;
-  case 12 : 
-    controlP5.getController("create0").setLabel("Scale");
-    toggleLock("create", 1, 3, true);
-    break;
-  case 13 :
-    controlP5.getController("create0").setLabel("Radius");
-    controlP5.getController("create1").setLabel("UFacets");
-    controlP5.getController("create2").setLabel("VFacets");
-    toggleLock("create", 3, 3, true);
-    break;
-  case 14 :
-    controlP5.getController("create0").setLabel("Scale");
-    controlP5.getController("create1").setLabel("Num Points\nx10");
-    controlP5.getController("create2").setLabel("Triangles");
-    toggleLock("create", 3, 3, true);
-    break;
-  case 15 :
-    controlP5.getController("create0").setLabel("Edge");
-    controlP5.getController("create1").setLabel("Type");
-    toggleLock("create", 2, 3, true);
-    break;
-  default:
-    break;
-  }
-}
-
 void setShaderParameters(int shaderNum) {
-  ((Slider)controlP5.getController("param0")).setLabel("").setRange(0.0f, 1.0f).setValue(0.0f).setDecimalPrecision(2);
-  ((Slider)controlP5.getController("param1")).setLabel("").setRange(0.0f, 1.0f).setValue(0.0f).setDecimalPrecision(2);
-  ((Slider)controlP5.getController("param2")).setLabel("").setRange(0.0f, 1.0f).setValue(0.0f).setDecimalPrecision(2);
-  ((Slider)controlP5.getController("param3")).setLabel("").setRange(0.0f, 1.0f).setValue(0.0f).setDecimalPrecision(2);
+  ((Slider)cp5.getController("param0")).setLabel("").setRange(0.0f, 1.0f).setValue(0.0f).setDecimalPrecision(2);
+  ((Slider)cp5.getController("param1")).setLabel("").setRange(0.0f, 1.0f).setValue(0.0f).setDecimalPrecision(2);
+  ((Slider)cp5.getController("param2")).setLabel("").setRange(0.0f, 1.0f).setValue(0.0f).setDecimalPrecision(2);
+  ((Slider)cp5.getController("param3")).setLabel("").setRange(0.0f, 1.0f).setValue(0.0f).setDecimalPrecision(2);
 
   switch(shaderNum) {
   case 301 :
-    ((Slider)controlP5.getController("param0")).setLabel("shinyness").setRange(0.0f, 1.0f).setValue(0.25f);
+    ((Slider)cp5.getController("param0")).setLabel("shinyness").setRange(0.0f, 1.0f).setValue(0.25f);
     break;
   case 302 :
-    ((Slider)controlP5.getController("param0")).setLabel("Index Refraction").setRange(0.0f, 5.0f).setValue(1.5f);
-    ((Slider)controlP5.getController("param1")).setLabel("absorptionDistance").setRange(0.0f, 10.0f).setValue(5.0f);
+    ((Slider)cp5.getController("param0")).setLabel("Index Refraction").setRange(0.0f, 5.0f).setValue(1.5f);
+    ((Slider)cp5.getController("param1")).setLabel("absorptionDistance").setRange(0.0f, 10.0f).setValue(5.0f);
     break;
   case 305 :
-    ((Slider)controlP5.getController("param0")).setLabel("power").setRange(0, 500).setValue(50).setDecimalPrecision(0);
+    ((Slider)cp5.getController("param0")).setLabel("power").setRange(0, 500).setValue(50).setDecimalPrecision(0);
     break;
   case 307 :
-    ((Slider)controlP5.getController("param0")).setLabel("roughnessX").setRange(0.0f, 1.0f).setValue(1.0f);
-    ((Slider)controlP5.getController("param1")).setLabel("roughnessY").setRange(0.0f, 1.0f).setValue(1.0f);
+    ((Slider)cp5.getController("param0")).setLabel("roughnessX").setRange(0.0f, 1.0f).setValue(1.0f);
+    ((Slider)cp5.getController("param1")).setLabel("roughnessY").setRange(0.0f, 1.0f).setValue(1.0f);
     break;
   case 308 :
-    ((Slider)controlP5.getController("param0")).setLabel("width").setRange(0.0f, 1.0f).setValue(1.0f);
+    ((Slider)cp5.getController("param0")).setLabel("width").setRange(0.0f, 1.0f).setValue(1.0f);
     break;
   default:
     break;
@@ -590,45 +889,63 @@ void setShaderParameters(int shaderNum) {
 }
 
 void lightsColorLikeShapeColor() {
-  controlP5.getController("lightsColorR").setValue(red(shapecolor));
-  controlP5.getController("lightsColorG").setValue(green(shapecolor));
-  controlP5.getController("lightsColorB").setValue(blue(shapecolor));
-  controlP5.getController("lightsColorA").setValue(alpha(shapecolor));
+  cp5.getController("lightsColorR").setValue(red(shapecolor));
+  cp5.getController("lightsColorG").setValue(green(shapecolor));
+  cp5.getController("lightsColorB").setValue(blue(shapecolor));
+  cp5.getController("lightsColorA").setValue(alpha(shapecolor));
 
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
 }
 
 // resel all
 void reset() {
+  // basic shape variables
+  selectedShapeIndex = 0;
+
+  defaultShapeValues = selectedShape.getDefaultValues();
+  maxShapeValues = selectedShape.getMaxValues();
+
   resetView();
   resetLights();
-  // basic shape variables
-  creator = 2;
-  controlP5.getController("create0").setValue(4);
-  controlP5.getController("create1").setValue(4);
-  controlP5.getController("create2").setValue(4);
-  controlP5.getController("create3").setValue(4);
-  setShapeParameters(creator);
-  controlP5.getController("lblCurrentShape").setValueLabel("SHAPE : " + numToName(creator));
+
+  println(defaultShapeValues[0]);
+
+  cp5.getController("create0").setValue(defaultShapeValues[0]);
+  cp5.getController("create1").setValue(defaultShapeValues[1]);
+  cp5.getController("create2").setValue(defaultShapeValues[2]);
+  cp5.getController("create3").setValue(defaultShapeValues[3]);
+  cp5.getController("create0").setMax(maxShapeValues[0]);
+  cp5.getController("create1").setMax(maxShapeValues[1]);
+  cp5.getController("create2").setMax(maxShapeValues[2]);
+  cp5.getController("create3").setMax(maxShapeValues[3]);
+
+  // TODO: Set min values
+
+  setShapeParameters(selectedShapeIndex);
 
   // sunflow shaders variables
   shader = 301;
-  ((Slider)controlP5.getController("param0")).setValue(0.0f).setDecimalPrecision(2);
-  ((Slider)controlP5.getController("param1")).setValue(0.0f).setDecimalPrecision(2);
-  ((Slider)controlP5.getController("param2")).setValue(0.0f).setDecimalPrecision(2);
-  ((Slider)controlP5.getController("param3")).setValue(0.0f).setDecimalPrecision(2);
+  ((Slider)cp5.getController("param0")).setValue(0.0f).setDecimalPrecision(2);
+  ((Slider)cp5.getController("param1")).setValue(0.0f).setDecimalPrecision(2);
+  ((Slider)cp5.getController("param2")).setValue(0.0f).setDecimalPrecision(2);
+  ((Slider)cp5.getController("param3")).setValue(0.0f).setDecimalPrecision(2);
+
   setShaderParameters(shader);
-  controlP5.getController("lblCurrentShader").setValueLabel("SHADER : " + numToName(shader));
+
+  cp5.getController("lblCurrentShader").setValueLabel("SHADER : " + numToName(shader));
 
   // saving variables
-  controlP5.getController("saveOpenGL").setValue(0);
-  controlP5.getController("saveGui").setValue(1);
-  controlP5.getController("saveSunflow").setValue(1);
-  controlP5.getController("saveMask").setValue(0);
-  controlP5.getController("preview").setValue(1);
-  ((Toggle)controlP5.getController("saveContinuous")).setValue(0).setLabel("Continuously").setColorCaptionLabel(color(0, 0, 0));
+  cp5.getController("saveOpenGL").setValue(0);
+  cp5.getController("saveGui").setValue(1);
+  cp5.getController("saveSunflow").setValue(1);
+  cp5.getController("saveMask").setValue(0);
+  cp5.getController("preview").setValue(1);
+  ((Toggle)cp5.getController("saveContinuous"))
+    .setValue(0)
+    .setLabel("Continuously")
+    .setColorCaptionLabel(Config.CurrentTheme().ControlCaptionLabel);
   sunflowMultiply = 1;
-  controlP5.getController("lblSunflowSize").setValueLabel("SUNFLOW RENDERING SIZE : " + int(sceneWidth*sunflowMultiply)+ " x " + int(sceneHeight*sunflowMultiply));
+  cp5.getController("lblSunflowSize").setValueLabel("SUNFLOW RENDERING SIZE : " + int(sceneWidth*sunflowMultiply)+ " x " + int(sceneHeight*sunflowMultiply));
 
   // ShapeList + ModifyList
   shapeList.getCaptionLabel().set("Select Shape");
@@ -636,46 +953,45 @@ void reset() {
 
   // remove the gui elements for all modifiers
   for (int i=0; i<modifiers.size(); i++) {
-    controlP5.remove("remove" + i);
+    cp5.remove("remove" + i);
     for (int j=0; j<5; j++) {
-      controlP5.remove(i+"v"+j);
+      cp5.remove(i+"v"+j);
     }
   }
 
   // remove all modifiers
-  modifiers.clear();
+  selectedModifiers.clear();
 
   // start up again
   createHemesh();
 }
 
 void resetLights() {
-
-  controlP5.getController("sunflowWhiteBackgroundOn").setValue(0);
-  controlP5.getController("sunflowBlackBackgroundOn").setValue(0);
+  cp5.getController("sunflowWhiteBackgroundOn").setValue(0);
+  cp5.getController("sunflowBlackBackgroundOn").setValue(0);
 
   // sunflow lights
-  controlP5.getController("sunSkyLightOn").setValue(1);
-  controlP5.getController("dirLightTopOn").setValue(0);
-  controlP5.getController("dirLightRightOn").setValue(0);
-  controlP5.getController("dirLightFrontOn").setValue(0);
-  controlP5.getController("dirLightBottomOn").setValue(0);
-  controlP5.getController("dirLightLeftOn").setValue(0);
-  controlP5.getController("dirLightBehindOn").setValue(0);
-  controlP5.getController("dirLightRadius").setValue(10);
-  controlP5.getController("sphereLightTopOn").setValue(0);
-  controlP5.getController("sphereLightRightOn").setValue(0);
-  controlP5.getController("sphereLightFrontOn").setValue(0);
-  controlP5.getController("sphereLightBottomOn").setValue(0);
-  controlP5.getController("sphereLightLeftOn").setValue(0);
-  controlP5.getController("sphereLightBehindOn").setValue(0);
-  controlP5.getController("sphereLightRadius").setValue(10);
+  cp5.getController("sunSkyLightOn").setValue(1);
+  cp5.getController("dirLightTopOn").setValue(0);
+  cp5.getController("dirLightRightOn").setValue(0);
+  cp5.getController("dirLightFrontOn").setValue(0);
+  cp5.getController("dirLightBottomOn").setValue(0);
+  cp5.getController("dirLightLeftOn").setValue(0);
+  cp5.getController("dirLightBehindOn").setValue(0);
+  cp5.getController("dirLightRadius").setValue(10);
+  cp5.getController("sphereLightTopOn").setValue(0);
+  cp5.getController("sphereLightRightOn").setValue(0);
+  cp5.getController("sphereLightFrontOn").setValue(0);
+  cp5.getController("sphereLightBottomOn").setValue(0);
+  cp5.getController("sphereLightLeftOn").setValue(0);
+  cp5.getController("sphereLightBehindOn").setValue(0);
+  cp5.getController("sphereLightRadius").setValue(10);
 
   // sunflow color lights
-  controlP5.getController("lightsColorR").setValue(230);
-  controlP5.getController("lightsColorG").setValue(230);
-  controlP5.getController("lightsColorB").setValue(230);
-  controlP5.getController("lightsColorA").setValue(255);
+  cp5.getController("lightsColorR").setValue(230);
+  cp5.getController("lightsColorG").setValue(230);
+  cp5.getController("lightsColorB").setValue(230);
+  cp5.getController("lightsColorA").setValue(255);
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
 }
 
@@ -683,43 +999,43 @@ void resetLights() {
 void resetView() {
 
   // view
-  controlP5.getController("zoom").setValue(20);
-  controlP5.getController("changeSpeedX").setValue(1.5);
-  controlP5.getController("changeSpeedY").setValue(1.5);
-  controlP5.getController("autoRotate").setValue(1);
-  controlP5.getController("translationOn").setValue(0);
-  controlP5.getController("rotationOn").setValue(0);
+  cp5.getController("zoom").setValue(1);
+  cp5.getController("changeSpeedX").setValue(1.5);
+  cp5.getController("changeSpeedY").setValue(1.5);
+  cp5.getController("autoRotate").setValue(1);
+  cp5.getController("translationOn").setValue(0);
+  cp5.getController("rotationOn").setValue(0);
   translateX = width/2;
   translateY = height/2;
   rotationX = 0;
   rotationY = 0;
-  actualZoom = 20;
+  actualZoom = 1;
   flagMouseControlRotationMouvement = false;
   flagMouseControlTranslationMouvement = false;
   resetRotationMouvement();
   resetTranslationMouvement();
+  resetShapeColors();
 
   // presentation
-  controlP5.getController("shapeHue").setValue(57);
-  controlP5.getController("shapeSaturation").setValue(100);
-  controlP5.getController("shapeBrightness").setValue(96);
-  controlP5.getController("shapeTransparency").setValue(100);
-  controlP5.getController("facesOn").setValue(1);
-  controlP5.getController("edgesOn").setValue(1);
+  cp5.getController("shapeHue").setValue(shapeHue);
+  cp5.getController("shapeSaturation").setValue(shapeSaturation);
+  cp5.getController("shapeBrightness").setValue(shapeBrightness);
+  cp5.getController("shapeTransparency").setValue(shapeTransparency);
+  cp5.getController("facesOn").setValue(1);
+  cp5.getController("edgesOn").setValue(0);
 }
-
 
 void quickSave() {
   shaderList.setValue(shader);
-  shapeList.setValue(creator);
-  controlP5.saveProperties(sketchPath() + "/output/quicksave");
+  shapeList.setValue(selectedShapeIndex);
+  cp5.saveProperties(sketchPath() + "/output/quicksave");
 }
 
 void quickLoad() {
-  controlP5.loadProperties(sketchPath() + "/output/quicksave");
+  cp5.loadProperties(sketchPath() + "/output/quicksave");
   shader = (int) shaderList.getValue();
-  creator = (int) shapeList.getValue();
-  setShapeParameters(creator);
+  selectedShapeIndex = (int) shapeList.getValue();
+  setShapeParameters(selectedShapeIndex);
   setShaderParameters(shader);
 }
 
@@ -727,11 +1043,16 @@ void quickLoad() {
 void save() {
   if (saveOn) {
     saveOn = false;
-    ((Toggle)controlP5.getController("saveContinuous")).setLabel("Continuously").setColorCaptionLabel(color(0, 0, 0));
+    ((Toggle)cp5.getController("saveContinuous")).setLabel("Continuously").setColorCaptionLabel(Config.CurrentTheme().ControlCaptionLabel);
     println("Saving stopped");
   } else {
-    drawControlP5 = true;
-    if (saveContinuous) ((Toggle)controlP5.getController("saveContinuous")).setLabel("Continuously [Saving]").setColorCaptionLabel(color(255, 0, 0));
+    drawcp5 = true;
+    if (saveContinuous) {
+      ((Toggle)cp5.getController("saveContinuous"))
+          .setLabel("Continuously [Saving]")
+          .setColorCaptionLabel(Config.CurrentTheme().ControlCaptionLabel);
+    }
+
     timestamp = year() + nf(month(), 2) + nf(day(), 2) + "-"  + nf(hour(), 2) + nf(minute(), 2) + nf(second(), 2);
     saveOn = true;
     print("\nSaving started (" + timestamp +")");
@@ -751,62 +1072,6 @@ void save() {
   }
 }
 
-// command & control center ;-)
-void controlEvent(ControlEvent theEvent) {
-  if (theEvent.isController()) {
-    // when a shape is selected
-    if (theEvent.getController().getName() == "myShapeList") {
-      creator = int(theEvent.getController().getValue());
-      controlP5.getController("lblCurrentShape").setValueLabel("SHAPE : " + numToName(creator));
-      setShapeParameters(creator);
-      createHemesh();
-    }
-
-    // when a shader is selected
-    if (theEvent.getController().getName() == "myShaderList") {
-      int selected = int(theEvent.getController().getValue());
-      shader = (int)controlP5.get(ScrollableList.class, "myShaderList").getItem(selected).get("value");
-      controlP5.getController("lblCurrentShader").setValueLabel("SHADER : " + numToName(shader));
-    }
-
-    // when a modifier is selected
-    if (theEvent.getController().getName() == "myModifyList" && int(theEvent.getController().getValue()) > 0) {
-      int selected = int(theEvent.getController().getValue());
-      int value = (int)controlP5.get(ScrollableList.class, "myModifyList").getItem(selected).get("value");
-      modifiers.add( new Modifier(modifiers.size(), value, numToFloats(value)) );
-      createHemesh();
-      modifyList.getCaptionLabel().set("Select Modifier");
-    }
-
-    // when a remove button is pressed
-    if (theEvent.getController().getName().startsWith("remove")) {
-      modifiers.remove(theEvent.getController().getId());
-      controlP5.remove("remove" + theEvent.getController().getId());
-      for (int i=0; i<5; i++) {
-        controlP5.remove(theEvent.getController().getId()+"v"+i);
-      }
-      createHemesh();
-    }
-
-    for (int i=0; i<5; i++) {
-      // forward modify values from controlP5 into seperate classes
-      if (theEvent.getController().getName().endsWith("v" + i)) {
-        Modifier m = (Modifier) modifiers.get(theEvent.getController().getId());
-        for (int j=0; j<5; j++) {
-          if (i==j) {
-            m.values[j] = theEvent.getValue();
-          }
-        }
-        createHemesh();
-      }
-
-      // force createHemesh after changes in create variables
-      if (theEvent.getName().matches("create" + i)) {
-        createHemesh();
-      }
-    }
-  }
-}
 
 // some useful keyboard actions
 void keyPressed() {
@@ -814,43 +1079,43 @@ void keyPressed() {
   // toggle autoRotate, translation & rotation
   if (key == 'r') {
     if (autoRotate == false) {
-      controlP5.getController("autoRotate").setValue(1);
+      cp5.getController("autoRotate").setValue(1);
     } else {
-      controlP5.getController("autoRotate").setValue(0);
+      cp5.getController("autoRotate").setValue(0);
     }
   }
   if (key == 't') {
     if (translationOn == false) {
-      controlP5.getController("translationOn").setValue(1);
+      cp5.getController("translationOn").setValue(1);
     } else {
-      controlP5.getController("translationOn").setValue(0);
+      cp5.getController("translationOn").setValue(0);
     }
   }
   if (key == 'y') {
     if (rotationOn == false) {
-      controlP5.getController("rotationOn").setValue(1);
+      cp5.getController("rotationOn").setValue(1);
     } else {
-      controlP5.getController("rotationOn").setValue(0);
+      cp5.getController("rotationOn").setValue(0);
     }
   }
 
-  // toggle the controlP5 gui
+  // toggle the cp5 gui
   if (key == '5') {
-    drawControlP5 = !drawControlP5;
+    drawcp5 = !drawcp5;
   }
 
   // set X & Y speed of translation & rotation to zero
   if (key == '0') {
-    controlP5.getController("changeSpeedX").setValue(0);
-    controlP5.getController("changeSpeedY").setValue(0);
+    cp5.getController("changeSpeedX").setValue(0);
+    cp5.getController("changeSpeedY").setValue(0);
   }
 
   // toggle sunflow manually
   if (key == 's') {
     if (saveSunflow) {
-      controlP5.getController("saveSunflow").setValue(0);
+      cp5.getController("saveSunflow").setValue(0);
     } else {
-      controlP5.getController("saveSunflow").setValue(1);
+      cp5.getController("saveSunflow").setValue(1);
     }
   }
 
@@ -863,30 +1128,30 @@ void keyPressed() {
 
   // preview quality sunflow render (+ gui screenshot)
   if (key == 'x') {
-    controlP5.getController("autoRotate").setValue(0);
-    ((Toggle)controlP5.getController("saveContinuous")).setValue(0).setLabel("Continuously").setColorCaptionLabel(color(0, 0, 0));
-    controlP5.getController("saveGui").setValue(1);
-    controlP5.getController("preview").setValue(1);
-    controlP5.getController("saveSunflow").setValue(1);
+    cp5.getController("autoRotate").setValue(0);
+    ((Toggle)cp5.getController("saveContinuous")).setValue(0).setLabel("Continuously").setColorCaptionLabel(Config.CurrentTheme().ControlCaptionLabel);
+    cp5.getController("saveGui").setValue(1);
+    cp5.getController("preview").setValue(1);
+    cp5.getController("saveSunflow").setValue(1);
     save();
   }
 
   // high quality sunflow render (+ gui screenshot)
   if (key == 'c') {
-    controlP5.getController("autoRotate").setValue(0);
-    ((Toggle)controlP5.getController("saveContinuous")).setValue(0).setLabel("Continuously").setColorCaptionLabel(color(0, 0, 0));
-    controlP5.getController("saveGui").setValue(1);
-    controlP5.getController("preview").setValue(0);
-    controlP5.getController("saveSunflow").setValue(1);
+    cp5.getController("autoRotate").setValue(0);
+    ((Toggle)cp5.getController("saveContinuous")).setValue(0).setLabel("Continuously").setColorCaptionLabel(Config.CurrentTheme().ControlCaptionLabel);
+    cp5.getController("saveGui").setValue(1);
+    cp5.getController("preview").setValue(0);
+    cp5.getController("saveSunflow").setValue(1);
     save();
   }
 
   // export shape to a STL file
   if (key == 'l') {
     timestamp = year() + nf(month(), 2) + nf(day(), 2) + "-"  + nf(hour(), 2) + nf(minute(), 2) + nf(second(), 2);
-    String path = sketchPath() + "/output/export_stl/" + timestamp + ".stl";
+    String path = sketchPath() + "/output/export_stl/";
     HET_Export exporter = new HET_Export();
-    //exporter.saveToSTL(myShape, path, 1);
+    exporter.saveToSTL(mesh, path, timestamp);
     println("STL exported");
   }
 
@@ -896,7 +1161,7 @@ void keyPressed() {
       sunflowMultiply -= 0.5;
     }
     println("Sunflow render output: " + int(sceneWidth*sunflowMultiply) + " x " + int(sceneHeight*sunflowMultiply));
-    controlP5.getController("lblSunflowSize")
+    cp5.getController("lblSunflowSize")
       .setValueLabel("SUNFLOW RENDERING SIZE : " + int(sceneWidth*sunflowMultiply)+ " x " + int(sceneHeight*sunflowMultiply));
   }
 
@@ -904,7 +1169,7 @@ void keyPressed() {
   if (key == '.') {
     sunflowMultiply += 0.5;
     println("Sunflow render output: " + int(sceneWidth*sunflowMultiply) + " x " + int(sceneHeight*sunflowMultiply));
-    controlP5.getController("lblSunflowSize")
+    cp5.getController("lblSunflowSize")
       .setValueLabel("SUNFLOW RENDERING SIZE : " + int(sceneWidth*sunflowMultiply)+ " x " + int(sceneHeight*sunflowMultiply));
   }
 }
