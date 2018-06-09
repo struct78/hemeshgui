@@ -16,10 +16,23 @@ Sunflow & Processing :
 
 ### Changelog
 
+### v0.5
+
+changes and fixes by David Johnson (struct78)
+
+* Moved UI to grid-based layout
+* Code refactoring to make adding shapes/modifiers easier
+* Disabled unused parameter sliders for Shapes
+* Removed unused parameter sliders for Modifiers
+* Added "Voronoi Cells" and "UV Parametric" shapes
+* Added "Noise" and "Spherical Inversion" modifiers
+* Added "DooSabin" subdivider
+* Multithreaded rendering
 
 #### v0.4.1
 
 changes and fixes by David Johnson (struct78)
+
 * Updated UI visual defects
 * Fixed property labels not appearing when changing shapes
 * Added images to README
