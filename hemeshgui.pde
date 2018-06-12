@@ -35,10 +35,10 @@ boolean edgesOn = false; // toggle display of edges
 boolean facesOn = true; // toggle display of faces
 boolean flagMouseControlRotationMouvement = false;
 boolean flagMouseControlTranslationMouvement = false;
-boolean preview = true; // toggle sunflow render quality
+boolean preview = false; // toggle sunflow render quality
 boolean rotationOn = false; // toggle rotation
 boolean saveContinuous; // toggle saving: continuous (versus just once)
-boolean saveGui = true; // toggle saving: regular opengl (with gui)
+boolean saveGui = false; // toggle saving: regular opengl (with gui)
 boolean saveMask; // toggle saving: sunflow (mask)
 boolean saveOn; // toggle saving: globally
 boolean saveOpenGL; // toggle saving: regular opengl (without gui)
