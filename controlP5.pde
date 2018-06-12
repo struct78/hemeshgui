@@ -558,8 +558,9 @@ void createGroup3() {
         Modifier modifier = modifiers.get(selected);
 
         if (modifier.hasCreator()) {
-          modifier.index = selectedModifiers.size();
+          modifier.setIndex(selectedModifiers.size());
           modifier.menu();
+
           selectedModifiers.add(modifier);
 
           createHemesh();

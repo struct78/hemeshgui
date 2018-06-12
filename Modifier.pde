@@ -7,11 +7,32 @@ class Modifier extends Machine {
         super(name, parameters);
     }
 
+    int getY(int parameter) {
+      int z = my2;
+
+      if (this.index > 0) {
+        z += multiplyGrid(this.index);
+      }
+
+      for ( int x = 0 ; x < selectedModifiers.size() ; x++ ) {
+        if (x < this.index) {
+          Modifier m = selectedModifiers.get(x);
+          z += multiplyGrid(m.parameters + 1);
+        }
+      }
+
+      if (parameter >= 0) {
+        z += multiplyGrid(parameter + 1);
+      }
+
+      return z;
+    }
+
     // display gui elements for the modifier
     void menu() {
-        Button button = cp5.addButton("remove" + index, 0, mx2, my2, Config.CP5.Controls.Width, Config.CP5.Controls.Height);
+        Button button = cp5.addButton("remove" + this.index, 0, mx2, getY(-1), Config.CP5.Controls.Width, Config.CP5.Controls.Height);
         button.setLabel(this.name + " [remove]");
-        button.setId(index);
+        button.setId(this.index);
         button.onClick(new CallbackListener() {
             public void controlEvent(CallbackEvent theEvent) {
                 selectedModifiers.remove(index);
@@ -23,12 +44,10 @@ class Modifier extends Machine {
             }
         });
 
-        my2 += multiplyGrid(1);
-
         for (int i = 0; i < this.parameters; i++) {
             cp5.addSlider(index + "v" + i, this.minValues[i], this.maxValues[i])
                 .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
-                .setPosition(mx2, my2)
+                .setPosition(mx2, getY(i))
                 .setLabel(this.labels[i])
                 .setId(i)
                 .setValue(this.defaultValues[i])
@@ -40,23 +59,20 @@ class Modifier extends Machine {
                         createHemesh();
                     }
                 });
-
-            my2 += multiplyGrid(1);
         }
-
-        my2 += multiplyGrid(1);
     }
 
     // reposition modifier gui if an earlier modifier is removed (aka everything moves up one place)
     void update() {
-        if (index != currentIndex) {
-            cp5.remove("remove" + currentIndex);
+        if (this.index != this.currentIndex) {
+            cp5.remove("remove" + this.currentIndex);
 
             for (int i = 0; i < this.values.length; i++) {
-                cp5.remove(currentIndex + "v" + i);
+                cp5.remove(this.currentIndex + "v" + i);
             }
 
-            currentIndex = index;
+            this.currentIndex = this.index;
+            this.menu();
         }
     }
 
@@ -84,6 +100,16 @@ class Modifier extends Machine {
     Modifier setCreator(ModifierCreator creator) {
         this.modifierCreator = creator;
         return this;
+    }
+
+    Modifier setIndex(int index) {
+        this.index = index;
+        this.currentIndex = index;
+        return this;
+    }
+
+    int getIndex() {
+      return this.index;
     }
 
     boolean hasCreator() {

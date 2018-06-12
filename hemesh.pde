@@ -372,7 +372,7 @@ void createModifiers() {
 
     modifiers.add(
         new Modifier("Hard Edge Extrude", 3)
-            .setDefaultValues(new float[] { 10, .1, 100 })
+            .setDefaultValues(new float[] { 10, 1, 100 })
             .setMaxValues(new float[] { 100, 1, 500 })
             .setMinValues(new float[] { 0, 0, 0 })
             .setLabels(new String[] { "Distance", "Chamfer", "Hard Edge Chamfer" })
@@ -789,7 +789,7 @@ void createHemesh() {
     for (int i = 0; i < selectedModifiers.size(); i++) {
         Modifier m = selectedModifiers.get(i);
         m.index = i;
-        m.create();
+        m.update();
     }
 }
 
