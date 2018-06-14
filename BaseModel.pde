@@ -1,4 +1,4 @@
-class Machine {
+class BaseModel {
   String name;
   int parameters;
   float[] minValues;
@@ -7,7 +7,7 @@ class Machine {
   float[] values;
   String[] labels;
 
-  Machine (String name, int parameters) {
+  BaseModel (String name, int parameters) {
     this.name = name;
     this.minValues = new float[] { Config.Hemesh.Values.Min, Config.Hemesh.Values.Min, Config.Hemesh.Values.Min, Config.Hemesh.Values.Min };
     this.maxValues = new float[] { Config.Hemesh.Values.Max, Config.Hemesh.Values.Max, Config.Hemesh.Values.Max, Config.Hemesh.Values.Max };

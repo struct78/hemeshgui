@@ -1,4 +1,4 @@
-class Modifier extends Machine {
+class Modifier extends BaseModel {
     public int index;
     public int currentIndex;
     private ModifierCreator modifierCreator;

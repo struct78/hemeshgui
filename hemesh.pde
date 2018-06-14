@@ -6,12 +6,12 @@ HEM_Extrude extrude1 = new HEM_Extrude();
 HEM_Extrude extrude2 = new HEM_Extrude();
 WB_Render render;
 
-void resetShapeColors() {
+void updateShapeColors() {
   colorMode(HSB, 360, 100, 100, 100);
-  shapeHue = hue(Config.CurrentTheme().Faces);
-  shapeSaturation = saturation(Config.CurrentTheme().Faces);
-  shapeBrightness = brightness(Config.CurrentTheme().Faces);
-  shapeTransparency = alpha(Config.CurrentTheme().Faces);
+  shapeHue = hue(currentTheme.Faces);
+  shapeSaturation = saturation(currentTheme.Faces);
+  shapeBrightness = brightness(currentTheme.Faces);
+  shapeTransparency = alpha(currentTheme.Faces);
   colorMode(RGB, 255, 255, 255, 255);
 }
 
@@ -23,12 +23,12 @@ void createShapes() {
       .setDefaultValues(new float[] { 200, 200, 200 })
       .setLabels(new String[] { "Depth", "Width", "Height" })
       .setCreator(new ShapeCreator() {
-          public void create(float value1, float value2, float value3, float value4) {
+          public void create(float[] values) {
                mesh = new HE_Mesh(
                    new HEC_Box()
-                      .setDepth(value1)
-                       .setHeight(value2)
-                      .setWidth(value3)
+                      .setDepth(values[0])
+                      .setHeight(values[1])
+                      .setWidth(values[2])
                  );
              }
          })
@@ -40,13 +40,13 @@ void createShapes() {
        .setDefaultValues(new float[] { 75, 150, 25, 1 })
        .setLabels(new String[] { "Radius", "Height", "Facets", "Steps" })
        .setCreator(new ShapeCreator() {
-           public void create(float value1, float value2, float value3, float value4) {
+           public void create(float[] values) {
                mesh = new HE_Mesh(
                  new HEC_Cone()
-                    .setRadius(value1)
-                    .setHeight(value2)
-                    .setFacets(int(value3))
-                    .setSteps(int(value4))
+                    .setRadius(values[0])
+                    .setHeight(values[1])
+                    .setFacets(int(values[2]))
+                    .setSteps(int(values[3]))
                );
            }
        })
@@ -56,10 +56,10 @@ void createShapes() {
      new Shape("Dodecahedron", 1)
         .setLabels(new String[] { "Edge" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                mesh = new HE_Mesh(
                  new HEC_Dodecahedron()
-                    .setEdge(value1)
+                    .setEdge(values[0])
                );
            }
        })
@@ -71,12 +71,12 @@ void createShapes() {
        .setDefaultValues(new float[] { Config.Hemesh.Values.Default, 1, 1 })
        .setLabels(new String[] { "Radius", "B", "C" })
        .setCreator(new ShapeCreator() {
-           public void create(float value1, float value2, float value3, float value4) {
+           public void create(float[] values) {
               mesh = new HE_Mesh(
                   new HEC_Geodesic()
-                      .setRadius(value1)
-                      .setB(int(value2))
-                      .setC(int(value3))
+                      .setRadius(values[0])
+                      .setB(int(values[1]))
+                      .setC(int(values[2]))
               );
           }
       })
@@ -88,12 +88,12 @@ void createShapes() {
        .setDefaultValues(new float[] { 100, 300, 20 })
        .setLabels(new String[] { "Radius", "UFacets", "VFacets" })
        .setCreator(new ShapeCreator() {
-           public void create(float value1, float value2, float value3, float value4) {
+           public void create(float[] values) {
               mesh = new HE_Mesh(
                   new HEC_Sphere()
-                      .setRadius(value1)
-                      .setUFacets(int(value2))
-                      .setVFacets(int(value3))
+                      .setRadius(values[0])
+                      .setUFacets(int(values[1]))
+                      .setVFacets(int(values[2]))
               );
           }
        })
@@ -104,13 +104,13 @@ void createShapes() {
         .setDefaultValues(new float[] { 100, 300, 20, 2 })
         .setLabels(new String[] { "Radius", "Height", "Facets", "Steps" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                mesh = new HE_Mesh(
                    new HEC_Cylinder()
-                      .setRadius(value1)
-                      .setHeight(value2)
-                      .setFacets(int(value3))
-                      .setSteps(int(value4))
+                      .setRadius(values[0])
+                      .setHeight(values[1])
+                      .setFacets(int(values[2]))
+                      .setSteps(int(values[3]))
                );
            }
         })
@@ -120,10 +120,10 @@ void createShapes() {
       new Shape("Icosahedron", 1)
         .setLabels(new String[] { "Edge" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                mesh = new HE_Mesh(
                    new HEC_Icosahedron()
-                      .setEdge(value1)
+                      .setEdge(values[0])
                );
            }
         })
@@ -133,10 +133,10 @@ void createShapes() {
       new Shape("Octahedron", 1)
         .setLabels(new String[] { "Edge" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                mesh = new HE_Mesh(
                    new HEC_Octahedron()
-                      .setEdge(value1)
+                      .setEdge(values[0])
                );
            }
         })
@@ -146,10 +146,10 @@ void createShapes() {
       new Shape("Tetrahedron", 1)
         .setLabels(new String[] { "Edge" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                mesh = new HE_Mesh(
                    new HEC_Tetrahedron()
-                      .setEdge(value1)
+                      .setEdge(values[0])
                );
            }
         })
@@ -160,12 +160,12 @@ void createShapes() {
         .setDefaultValues(new float[] { 100, 100, 20, 20 })
         .setLabels(new String[] { "Ex. Radius", "Int. Radius", "Tube Facets", "Torus Facets" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                mesh = new HE_Mesh(
                    new HEC_Torus()
-                      .setRadius(value1, value2)
-                      .setTubeFacets(int(value3))
-                      .setTorusFacets(int(value4))
+                      .setRadius(values[0], values[1])
+                      .setTubeFacets(int(values[2]))
+                      .setTorusFacets(int(values[3]))
                );
            }
         })
@@ -177,21 +177,21 @@ void createShapes() {
         .setDefaultValues(new float[] { 400, 400, 128, 10 })
         .setLabels(new String[] { "Width", "Height", "Disturb", "Facets" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
-                float[][] values = new float[int(value4)][int(value4)];
-                for (int j = 0; j < int(value4); j++) {
-                   for (int i = 0; i < int(value4); i++) {
-                     values[i][j] = value3 * noise(0.35*i, 0.35*j);
+            public void create(float[] values) {
+                float[][] wvalues = new float[int(values[3])][int(values[3])];
+                for (int j = 0; j < int(values[3]); j++) {
+                   for (int i = 0; i < int(values[3]); i++) {
+                     wvalues[i][j] = values[2] * noise(0.35*i, 0.35*j);
                    }
                 }
 
                 mesh = new HE_Mesh(
                     new HEC_Grid()
-                        .setU(int(value4)-1)
-                        .setUSize(value1)
-                        .setV(int(value4)-1)
-                        .setVSize(value2)
-                        .setWValues(values));
+                        .setU(int(values[3])-1)
+                        .setUSize(values[0])
+                        .setV(int(values[3])-1)
+                        .setVSize(values[1])
+                        .setWValues(wvalues));
             }
         })
    );
@@ -200,17 +200,17 @@ void createShapes() {
       new Shape("Convex Hull", 4)
         .setLabels(new String[] { "Points x 1000", "Width", "Height", "Depth" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
-                float[][] randomPoints = new float[int(value1)*1000][3];
-                for (int i = 0; i < int(value1)*1000; i++) {
-                  randomPoints[i][0] = random(-value2/2, value2/2);
-                  randomPoints[i][1] = random(-value3/2, value3/2);
-                  randomPoints[i][2] = random(-value4/2, value4/2);
+            public void create(float[] values) {
+                float[][] randomPoints = new float[int(values[0])*1000][3];
+                for (int i = 0; i < int(values[0])*1000; i++) {
+                  randomPoints[i][0] = random(-values[1]/2, values[1]/2);
+                  randomPoints[i][1] = random(-values[2]/2, values[2]/2);
+                  randomPoints[i][2] = random(-values[3]/2, values[3]/2);
                 }
 
                 mesh = new HE_Mesh(
                     new HEC_ConvexHull()
-                        .setN(int(value1))
+                        .setN(int(values[0]))
                         .setPoints(randomPoints)
                 );
             }
@@ -223,10 +223,10 @@ void createShapes() {
         .setDefaultValues(new float[] { 5 })
         .setMaxValues(new float[] { 10 })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                 mesh = new HE_Mesh(
                     new HEC_Beethoven()
-                        .setScale(int(value1))
+                        .setScale(int(values[0]))
                         .setZAxis(0, -90, 0)
                 );
             }
@@ -237,15 +237,15 @@ void createShapes() {
       new Shape("Super Duper", 3)
         .setLabels(new String[] { "Radius", "UFacets", "VFacets" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                 mesh = new HE_Mesh(
                     new HEC_SuperDuper()
                         .setGeneralParameters(0, 11, 0, 0, 13, 10, 15, 10, 4, 0, 0, 0, 5, 0.3, 2.2)
-                        .setU(int(value2))
-                        .setV(int(value3))
+                        .setU(int(values[1]))
+                        .setV(int(values[2]))
                         .setUWrap(true)
                         .setVWrap(false)
-                        .setRadius(int(value1))
+                        .setRadius(int(values[0]))
                 );
             }
         })
@@ -255,24 +255,24 @@ void createShapes() {
       new Shape("Alpha", 3)
         .setLabels(new String[] { "Scale", "Points", "Triangles" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                 WB_RandomOnSphere source = new WB_RandomOnSphere();
-                int numPoints = int(value2);
+                int numPoints = int(values[1]);
                 points = new WB_Point[numPoints];
 
                 for (int i=0; i < numPoints; i++) {
-                  points[i] = source.nextPoint().mulSelf(value1);
+                  points[i] = source.nextPoint().mulSelf(values[0]);
                 }
 
                 WB_AlphaTriangulation3D triangulation = WB_Triangulate.alphaTriangulate3D(points);
-                int[] tetrahedra = triangulation.getAlphaTetrahedra(value3);// 1D array of indices of tetrahedra, 4 indices per tetrahedron
+                int[] tetrahedra = triangulation.getAlphaTetrahedra(values[2]);// 1D array of indices of tetrahedra, 4 indices per tetrahedron
 
-                triangles = triangulation.getAlphaTriangles(value3);
+                triangles = triangulation.getAlphaTriangles(values[2]);
 
                 mesh = new HE_Mesh(
                     new HEC_AlphaShape()
                         .setTriangulation(triangulation)
-                        .setAlpha(value3)
+                        .setAlpha(values[2])
                 );
             }
         })
@@ -282,11 +282,11 @@ void createShapes() {
       new Shape("Archimedes", 2)
         .setLabels(new String[] { "Edge", "Type" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                 mesh = new HE_Mesh(
                     new HEC_Archimedes()
-                        .setEdge(value1)
-                        .setType(int(value2))
+                        .setEdge(values[0])
+                        .setType(int(values[1]))
                 );
             }
         })
@@ -299,23 +299,23 @@ void createShapes() {
         .setDefaultValues(new float[] { 200, 100, 5 })
         .setLabels(new String[] { "Radius", "Points", "Offset" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                 mesh = new HE_Mesh(
                     new HEC_Geodesic()
-                        .setRadius(value1)
+                        .setRadius(values[0])
                 );
 
-                float[][] points = new float[int(value2)][3];
-                for (int i = 0; i < int(value2); i++) {
-                    points[i][0] = random(-int(value1), int(value1));
-                    points[i][1] = random(-int(value1), int(value1));
-                    points[i][2] = random(-int(value1), int(value1));
+                float[][] points = new float[int(values[1])][3];
+                for (int i = 0; i < int(values[1]); i++) {
+                    points[i][0] = random(-int(values[0]), int(values[0]));
+                    points[i][1] = random(-int(values[0]), int(values[0]));
+                    points[i][2] = random(-int(values[0]), int(values[0]));
                 }
 
                 HEMC_VoronoiCells multiCreator = new HEMC_VoronoiCells();
                 multiCreator.setPoints(points);
                 multiCreator.setContainer(mesh);
-                multiCreator.setOffset(int(value3));
+                multiCreator.setOffset(int(values[2]));
                 multiCreator.setSurface(false);
                 meshes = multiCreator.create();
             }
@@ -329,11 +329,11 @@ void createShapes() {
         .setDefaultValues(new float[] { 100, 50 })
         .setLabels(new String[] { "Scale", "Radius" })
         .setCreator(new ShapeCreator() {
-            public void create(float value1, float value2, float value3, float value4) {
+            public void create(float[] values) {
                 mesh = new HE_Mesh(
                     new HEC_UVParametric()
-                        .setUVSteps(int(value2), int(value2))
-                        .setScale(value1)
+                        .setUVSteps(int(values[1]), int(values[1]))
+                        .setScale(values[0])
                         .setEvaluator(new UVFunction())
                 );
             }
@@ -348,7 +348,7 @@ void createModifiers() {
           .setMaxValues(new float[] { 100 })
           .setLabels(new String[] { "Distance" })
           .setCreator(new ModifierCreator() {
-            public void create(float values[]) {
+            public void create(float[] values) {
                 mesh.modify(
                     new HEM_ChamferCorners()
                         .setDistance(values[0])
@@ -363,7 +363,7 @@ void createModifiers() {
          .setDefaultValues(new float[] { 50 })
          .setLabels(new String[] { "Distance" })
          .setCreator(new ModifierCreator() {
-           public void create(float values[]) {
+           public void create(float[] values) {
                extrude1.setDistance(values[0]);
                mesh.modify(extrude1);
            }
@@ -377,7 +377,7 @@ void createModifiers() {
             .setMinValues(new float[] { 0, 0, 0 })
             .setLabels(new String[] { "Distance", "Chamfer", "Hard Edge Chamfer" })
             .setCreator(new ModifierCreator() {
-              public void create(float values[]) {
+              public void create(float[] values) {
                   extrude1
                      .setDistance(values[0])
                      .setChamfer(values[1])
@@ -393,7 +393,7 @@ void createModifiers() {
            .setMaxValues(new float[] { 100, 100, 360 })
            .setLabels(new String[] { "Depth", "Width", "Threshold Angle" })
            .setCreator(new ModifierCreator() {
-             public void create(float values[]) {
+             public void create(float[] values) {
                  mesh.modify(
                     new HEM_Lattice()
                         .setDepth(values[0])
@@ -412,7 +412,7 @@ void createModifiers() {
            .setMaxValues(new float[] { 10 })
            .setLabels(new String[] { "Factor" })
            .setCreator(new ModifierCreator() {
-             public void create(float values[]) {
+             public void create(float[] values) {
                  mesh.modify(
                      new HEM_Skew()
                         .setSkewFactor(values[0])
@@ -428,7 +428,7 @@ void createModifiers() {
            .setDefaultValues(new float[] { 1, 1 })
            .setLabels(new String[] { "Factor", "Compression" })
            .setCreator(new ModifierCreator() {
-             public void create(float values[]) {
+             public void create(float[] values) {
                  mesh.modify(
                      new HEM_Stretch()
                         .setStretchFactor(values[0])
@@ -444,7 +444,7 @@ void createModifiers() {
            .setDefaultValues(new float[] { 1, 1 })
            .setLabels(new String[] { "Factor", "Compression" })
            .setCreator(new ModifierCreator() {
-             public void create(float values[]) {
+             public void create(float[] values) {
                  mesh.modify(
                      new HEM_Stretch()
                         .setStretchFactor(values[0])
@@ -462,7 +462,7 @@ void createModifiers() {
            .setMaxValues(new float[] { 10 })
            .setLabels(new String[] { "Angle" })
            .setCreator(new ModifierCreator() {
-             public void create(float values[]) {
+             public void create(float[] values) {
                  mesh.modify(
                      new HEM_Twist()
                         .setAngleFactor(values[0])
@@ -479,7 +479,7 @@ void createModifiers() {
            .setMaxValues(new float[] { 10 })
            .setLabels(new String[] { "Angle" })
            .setCreator(new ModifierCreator() {
-             public void create(float values[]) {
+             public void create(float[] values) {
                  mesh.modify(
                      new HEM_Twist()
                         .setAngleFactor(values[0])
@@ -496,7 +496,7 @@ void createModifiers() {
            .setMaxValues(new float[] { 10 })
            .setLabels(new String[] { "Angle" })
            .setCreator(new ModifierCreator() {
-             public void create(float values[]) {
+             public void create(float[] values) {
                  mesh.modify(
                      new HEM_Twist()
                         .setAngleFactor(values[0])
@@ -511,7 +511,7 @@ void createModifiers() {
            .setDefaultValues(new float[] { 1, 1, 1 })
            .setLabels(new String[] { "Angle", "Angle", "Angle" })
            .setCreator(new ModifierCreator() {
-             public void create(float values[]) {
+             public void create(float[] values) {
                  mesh.modify(
                      new HEM_Bend()
                         .setAngleFactor(values[0] * values[1] * values[2])
@@ -528,7 +528,7 @@ void createModifiers() {
            .setDefaultValues(new float[] { 1, 1, 1 })
            .setLabels(new String[] { "Distance", "Distance", "Distance" })
            .setCreator(new ModifierCreator() {
-             public void create(float values[]) {
+             public void create(float[] values) {
                  mesh.modify(
                      new HEM_VertexExpand()
                         .setDistance(values[0] * values[1] * values[2])
@@ -544,7 +544,7 @@ void createModifiers() {
             .setMinValues(new float[] { 1, 1, -10 })
             .setLabels(new String[] { "-ve Z", "+ve Z", "Vec X" })
             .setCreator(new ModifierCreator() {
-              public void create(float values[]) {
+              public void create(float[] values) {
                   mesh.modify(
                       new HEM_Slice()
                           .setCap(true)
@@ -577,7 +577,7 @@ void createModifiers() {
             .setMinValues(new float[] { 1, 1, -10 })
             .setLabels(new String[] { "-ve Z", "+ve Z", "Vec X" })
             .setCreator(new ModifierCreator() {
-              public void create(float values[]) {
+              public void create(float[] values) {
                   mesh.modify(
                       new HEM_Slice()
                           .setCap(false)
@@ -610,7 +610,7 @@ void createModifiers() {
             .setMinValues(new float[] { 0 })
             .setLabels(new String[] { "Offset" })
             .setCreator(new ModifierCreator() {
-              public void create(float values[]) {
+              public void create(float[] values) {
                   mesh.modify(
                       new HEM_Mirror()
                           .setPlane(new WB_Plane(0, 0, 0, 0, 1, 1))
@@ -628,7 +628,7 @@ void createModifiers() {
             .setMinValues(new float[] { 1, 0, 0 })
             .setLabels(new String[] { "Symmetry", "Angle", "Angle" })
             .setCreator(new ModifierCreator() {
-              public void create(float values[]) {
+              public void create(float[] values) {
                   mesh.modify(
                       new HEM_Kaleidoscope()
                           .setSymmetry(int(values[0]))
@@ -648,7 +648,7 @@ void createModifiers() {
            .setMaxValues(new float[] { 5 })
            .setLabels(new String[] { "Distance" })
            .setCreator(new ModifierCreator() {
-             public void create(float values[]) {
+             public void create(float[] values) {
                  mesh.modify(
                      new HEM_Noise()
                         .setDistance(values[0])
@@ -662,7 +662,7 @@ void createModifiers() {
            .setDefaultValues(new float[] { 1, 1, 0 })
            .setLabels(new String[] { "Radius", "Cutoff" })
            .setCreator(new ModifierCreator() {
-             public void create(float values[]) {
+             public void create(float[] values) {
                  mesh.modify(
                      new HEM_SphericalInversion()
                         .setRadius(values[0])
@@ -686,7 +686,7 @@ void createModifiers() {
             .setMinValues(new float[] { 1 })
             .setLabels(new String[] { "Iterations" })
             .setCreator(new ModifierCreator() {
-              public void create(float values[]) {
+              public void create(float[] values) {
                   mesh.subdivide(
                       new HES_Planar()
                           .setRandom(false),
@@ -703,7 +703,7 @@ void createModifiers() {
             .setMinValues(new float[] { 1, 0})
             .setLabels(new String[] { "Iterations", "Range" })
             .setCreator(new ModifierCreator() {
-              public void create(float values[]) {
+              public void create(float[] values) {
                   mesh.subdivide(
                       new HES_Planar()
                           .setRandom(true)
@@ -721,7 +721,7 @@ void createModifiers() {
             .setMinValues(new float[] { 1 })
             .setLabels(new String[] { "Iterations" })
             .setCreator(new ModifierCreator() {
-              public void create(float values[]) {
+              public void create(float[] values) {
                   mesh.subdivide(
                       new HES_PlanarMidEdge(),
                       int(values[0])
@@ -737,7 +737,7 @@ void createModifiers() {
             .setMinValues(new float[] { 1 })
             .setLabels(new String[] { "Iterations" })
             .setCreator(new ModifierCreator() {
-              public void create(float values[]) {
+              public void create(float[] values) {
                   mesh.subdivide(
                       new HES_CatmullClark(),
                       int(values[0])
@@ -753,7 +753,7 @@ void createModifiers() {
             .setMinValues(new float[] { 1 })
             .setLabels(new String[] { "Iterations" })
             .setCreator(new ModifierCreator() {
-              public void create(float values[]) {
+              public void create(float[] values) {
                   mesh.subdivide(
                       new HES_Smooth(),
                       int(values[0])
@@ -769,7 +769,7 @@ void createModifiers() {
             .setMinValues(new float[] { 1, 1 })
             .setLabels(new String[] { "Iterations", "Distance" })
             .setCreator(new ModifierCreator() {
-              public void create(float values[]) {
+              public void create(float[] values) {
                   mesh.subdivide(
                       new HES_DooSabin()
                           .setFactors(2, 2)
@@ -784,11 +784,12 @@ void createModifiers() {
 
 // create shape and run modifiers
 void createHemesh() {
-    selectedShape.create(create0, create1, create2, create3);
+    selectedShape.create();
 
     for (int i = 0; i < selectedModifiers.size(); i++) {
         Modifier m = selectedModifiers.get(i);
         m.index = i;
+        m.create();
         m.update();
     }
 }
@@ -812,7 +813,7 @@ void drawHemesh() {
 
   if (edgesOn) {
     strokeWeight(1);
-    stroke(Config.CurrentTheme().Edges);
+    stroke(currentTheme.Edges);
 
     if (selectedShape.getMeshCollection()) {
       render.drawEdges(meshes);
@@ -831,7 +832,7 @@ void drawHemesh() {
     }
   }
 }
-
+/*
 // names of shapes & modifiers & shaders
 String numToName(int num) {
   String name = null;
@@ -858,4 +859,4 @@ String numToName(int num) {
   }
 
   return name;
-}
+}*/

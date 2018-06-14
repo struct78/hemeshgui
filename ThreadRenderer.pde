@@ -38,7 +38,8 @@ class ThreadRenderer implements Runnable {
       sunflow.setCameraPosition(0, 0, 30);
       sunflow.setCameraTarget(0, 0, 0);
 
-      sunflowShaders(sunflow, shader);
+      selectedShader.create(sunflow);
+
       sunflow.drawMesh("myHemesh", verticesHemeshOneDim, facesHemeshOneDim, actualZoom/20, 0,0,0);
 
       String path = "/output/screenshots/";

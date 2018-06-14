@@ -88,8 +88,11 @@ float translateY, translateYchange; // (change in) translation in the Y-directio
 float zoom = 1; // zoom factor
 
 float[] defaultShapeValues;
+float[] defaultShaderValues;
 float[] maxShapeValues;
 float[] minShapeValues;
+float[] maxShaderValues;
+float[] minShaderValues;
 
 int eventValue;
 int mx2;
@@ -97,14 +100,16 @@ int my2;
 int numForLoop = 20; // max number of shapes, modifiers and/or subdividors in the gui (for convenience, just increase when there are more)
 int sceneHeight; // sketch height
 int sceneWidth; // sketch width
-int selectedShapeIndex = 0; // selected shape index: Dodecahedron
-int shader = 301;
+int selectedShapeIndex = 0; // selected shape index: box
+int selectedShaderIndex = 0;
 int x2;
 int y2;
 int[] triangles;
 
 String timestamp; // timestamp to distinguish saves
+String currentThemeName = Config.getCurrentThemeName();
 String[] shapeLabels;
+String[] shaderLabels;
 WB_Point[] points;
 
 // ControlP5 variables
@@ -113,19 +118,25 @@ Group g1;
 Group g2;
 Group g3;
 Group g4;
+HashMap<String, Theme> themes = Config.getThemes();
 ScrollableList modifyList;
 ScrollableList shaderList;
 ScrollableList shapeList;
+ScrollableList themeList;
 Toggle sunsky;
 Toggle whiteBackground;
 Toggle blackBackground;
 
 // Hemesh GUI variables
-Shape selectedShape; // the selected shape object
+Shape selectedShape;
+Shader selectedShader;
 ArrayList<Modifier> modifiers = new ArrayList<Modifier>();
 ArrayList<Modifier> selectedModifiers = new ArrayList<Modifier>();
 ArrayList<Shape> shapes = new ArrayList<Shape>();
 ArrayList<ThreadRenderer> renderers = new ArrayList<ThreadRenderer>();
+ArrayList<Shader> shaders = new ArrayList<Shader>();
+
+Theme currentTheme = Config.getCurrentTheme();
 
 void setup() {
   fullScreen(OPENGL);
@@ -135,18 +146,19 @@ void setup() {
   sceneHeight = height / 2;
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
 
-  resetShapeColors();
+  updateShapeColors();
   createModifiersXY();
   createShapes();
   createModifiers();
+  createShaders();
   createGui();
   createHemesh();
 }
 
 void draw() {
 
-  lightsColor = color(lightsColorR,lightsColorG,lightsColorB,lightsColorA);
-  background(Config.CurrentTheme().Background);
+  lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
+  background(currentTheme.Background);
   perspective(0.518,(float)width/height,1,100000);
   lights();
 
@@ -165,7 +177,6 @@ void draw() {
     noLights();
     perspective();
     hint(DISABLE_DEPTH_TEST);
-    updateGui();
     cp5.draw();
     hint(ENABLE_DEPTH_TEST);
     lights();

@@ -1,4 +1,4 @@
-class Shape extends Machine {
+class Shape extends BaseModel {
   private boolean isMeshCollection;
   private ShapeCreator shapeCreator;
 
@@ -42,9 +42,9 @@ class Shape extends Machine {
     return this;
   }
 
-  void create(float value1, float value2, float value3, float value4) {
+  void create() {
     if (this.shapeCreator != null) {
-      this.shapeCreator.create(value1, value2, value3, value4);
+      this.shapeCreator.create(values);
     } else {
       println("No creator found");
     }
@@ -52,7 +52,7 @@ class Shape extends Machine {
 }
 
 interface ShapeCreator {
-  public void create(float value1, float value2, float value3, float value4);
+  public void create(float[] values);
 }
 
 class UVFunction implements WB_VectorParameter {
