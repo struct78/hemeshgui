@@ -55,7 +55,9 @@ boolean sunSkyLightOn = true;
 boolean translationOn = false; // toggle translation
 
 color lightsColor;
-color shapecolor; // shape color
+color shapeColor; // shape color
+
+final String SHADER_NAME = "hemeshShader";
 
 float actualZoom = 1; // zoom smoothing
 float changeSpeedX = 1.5; // speed of changes for X in translation and rotation
@@ -142,8 +144,8 @@ void setup() {
   fullScreen(OPENGL);
   smooth(4);
 
-  sceneWidth = width / 2;
-  sceneHeight = height / 2;
+  sceneWidth = width;
+  sceneHeight = height;
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
 
   updateShapeColors();

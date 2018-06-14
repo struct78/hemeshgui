@@ -75,22 +75,3 @@ void sunflowLights(SunflowAPIAPI sunflow) {
   if (sphereLightLeftOn) sunflow.setSphereLight("mySphereLight5",  new Point3(-15,0,0),new Color(lightsColor), samples,sphereLightRadius); //OK
   if (sphereLightBehindOn) sunflow.setSphereLight("mySphereLight6",  new Point3(0,0,-15),new Color(lightsColor), samples,sphereLightRadius); //OK
 }
-
-
-// http://sfwiki.geneome.net/index.php5?title=Shaders
-// http://sourceforge.net/p/sunflow/code/HEAD/tree/trunk/src/org/sunflow/core/shader/
-void sunflowShaders(SunflowAPIAPI sunflow, int shaderNum) {
-  println(shaderNum);
-  switch(shaderNum) {
-    case 301: sunflow.setShinyDiffuseShader("myShader", new Color(shapecolor)/*Color diffuse*/, param0 /*float shiny = refl 0f_1f (0.25f)*/);break; //OK
-    case 302: sunflow.setGlassShader("myShader",new Color(shapecolor),param0 /*float eta = index of refraction 0f_5f (1.5f)*/,param1/*float absorptionDistance 0f_10f (5.0f)*/,new Color(255,255,255)/*Color absorptionColor*/); break;
-    case 303: sunflow.setDiffuseShader("myShader", new Color(shapecolor));break; //OK
-    case 304: sunflow.setMirrorShader("myShader", new Color(shapecolor));break; // TODO : default color Shape color, White or lightsColor ?
-    case 305: sunflow.setPhongShader("myShader", new Color(shapecolor)/*Color diffuse*/, new Color(lightsColor)/* Color specular*/,param0 /*float power 0f 500f (50f)*/,samples);break; //TODO : specular default White or lightsColor
-    case 306: sunflow.setConstantShader("myShader", new Color(shapecolor)/*Color color*/);break; //OK
-    case 307: sunflow.setWardShader("myShader", new Color(shapecolor)/*Color diffuse*/, new Color(lightsColor)/* Color specular*/,param0 /*float roughnessX 0f_1f (1.0f)*/, param1 /*float roughnessY 0f_1f (1.0f)*/, samples);break;  //TODO : specular default White or lightsColor
-    case 308: sunflow.setWireframeShader("myShader",new Color(shapecolor)/*Color lineColor*/, new Color(lightsColor) /*Color fillColor*/, param0/*float width 0f_1f (1.0f) */); break; //TODO fillColor which one to pick ?
-   default: break;
-  }
-
-}

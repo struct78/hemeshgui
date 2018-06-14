@@ -797,12 +797,12 @@ void createHemesh() {
 // display shape
 void drawHemesh() {
   colorMode(HSB, 360, 100, 100, 100);
-  shapecolor = color(shapeHue, shapeSaturation, shapeBrightness, shapeTransparency);
+  shapeColor = color(shapeHue, shapeSaturation, shapeBrightness, shapeTransparency);
   colorMode(RGB, 255, 255, 255, 255);
 
   if (facesOn) {
     noStroke();
-    fill(shapecolor);
+    fill(shapeColor);
 
     if (selectedShape.getMeshCollection()) {
       render.drawFaces(meshes);

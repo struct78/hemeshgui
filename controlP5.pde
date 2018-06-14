@@ -39,7 +39,22 @@ void createModifiersXY() {
     my2 = multiplyGrid(2);
 }
 
+// Shader list: http://sourceforge.net/p/sunflow/code/HEAD/tree/trunk/src/org/sunflow/core/shader/
 void createShaders() {
+  shaders.add(
+    new Shader("Ambient Occlusion", 1)
+      .setMinValues(new float[] { 0.0 })
+      .setMaxValues(new float[] { 100.0 })
+      .setDefaultValues(new float[] { 10.0 })
+      .setLabels(new String[] { "Distance" })
+      .setCreator(new ShaderCreator() {
+        public void create(SunflowAPIAPI sunflow, float[] values) {
+          sunflow.setAmbientOcclusionShader(SHADER_NAME, new Color(shapeColor), new Color(lightsColor), samples, values[0]);
+        }
+      }
+    )
+  );
+
   shaders.add(
     new Shader("Shiny Diffuse", 1)
       .setMinValues(new float[] { 0.0 })
@@ -48,7 +63,7 @@ void createShaders() {
       .setLabels(new String[] { "Shininess" })
       .setCreator(new ShaderCreator() {
         public void create(SunflowAPIAPI sunflow, float[] values) {
-          sunflow.setShinyDiffuseShader("myShader", new Color(shapecolor), values[0]);
+          sunflow.setShinyDiffuseShader(SHADER_NAME, new Color(shapeColor), values[0]);
         }
       }
     )
@@ -62,7 +77,7 @@ void createShaders() {
       .setLabels(new String[] { "Index Refraction", "Absorption Distance" })
       .setCreator(new ShaderCreator() {
         public void create(SunflowAPIAPI sunflow, float[] values) {
-          sunflow.setGlassShader("myShader", new Color(shapecolor), values[0], values[1], new Color(lightsColor));
+          sunflow.setGlassShader(SHADER_NAME, new Color(shapeColor), values[0], values[1], new Color(lightsColor));
         }
       }
     )
@@ -76,7 +91,7 @@ void createShaders() {
       .setLabels(new String[] {})
       .setCreator(new ShaderCreator() {
         public void create(SunflowAPIAPI sunflow, float[] values) {
-          sunflow.setDiffuseShader("myShader", new Color(shapecolor));
+          sunflow.setDiffuseShader(SHADER_NAME, new Color(shapeColor));
         }
       }
     )
@@ -90,7 +105,7 @@ void createShaders() {
       .setLabels(new String[] {})
       .setCreator(new ShaderCreator() {
         public void create(SunflowAPIAPI sunflow, float[] values) {
-          sunflow.setMirrorShader("myShader", new Color(shapecolor));
+          sunflow.setMirrorShader(SHADER_NAME, new Color(shapeColor));
         }
       }
     )
@@ -104,7 +119,7 @@ void createShaders() {
       .setLabels(new String[] { "Power" })
       .setCreator(new ShaderCreator() {
         public void create(SunflowAPIAPI sunflow, float[] values) {
-          sunflow.setPhongShader("myShader", new Color(shapecolor), new Color(lightsColor), values[0], samples);
+          sunflow.setPhongShader(SHADER_NAME, new Color(shapeColor), new Color(lightsColor), values[0], samples);
         }
       }
     )
@@ -118,7 +133,7 @@ void createShaders() {
       .setLabels(new String[] {})
       .setCreator(new ShaderCreator() {
         public void create(SunflowAPIAPI sunflow, float[] values) {
-          sunflow.setConstantShader("myShader", new Color(shapecolor));
+          sunflow.setConstantShader(SHADER_NAME, new Color(shapeColor));
         }
       }
     )
@@ -132,7 +147,7 @@ void createShaders() {
       .setLabels(new String[] { "Roughness X", "Roughness Y"})
       .setCreator(new ShaderCreator() {
         public void create(SunflowAPIAPI sunflow, float[] values) {
-          sunflow.setWardShader("myShader", new Color(shapecolor), new Color(lightsColor), values[0], values[1], samples);
+          sunflow.setWardShader(SHADER_NAME, new Color(shapeColor), new Color(lightsColor), values[0], values[1], samples);
         }
       }
     )
@@ -146,7 +161,7 @@ void createShaders() {
       .setLabels(new String[] { "Width"})
       .setCreator(new ShaderCreator() {
         public void create(SunflowAPIAPI sunflow, float[] values) {
-          sunflow.setWireframeShader("myShader", new Color(shapecolor), new Color(lightsColor), values[0]);
+          sunflow.setWireframeShader(SHADER_NAME, new Color(shapeColor), new Color(lightsColor), values[0]);
         }
       }
     )
