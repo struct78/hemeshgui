@@ -109,8 +109,20 @@ public static class Config {
       _currentTheme = "Neon";
   }
 
-  public static Theme CurrentTheme() {
+  public static HashMap<String, Theme> getThemes() {
+      return _themes;
+  }
+
+  public static Theme getCurrentTheme() {
       return _themes.get(_currentTheme);
+  }
+
+  public static String getCurrentThemeName() {
+      return _currentTheme;
+  }
+
+  public static void setTheme(String theme) {
+      _currentTheme = theme;
   }
 
   public static class Hemesh {
