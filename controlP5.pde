@@ -77,7 +77,7 @@ void createShaders() {
       .setLabels(new String[] { "Index Refraction", "Absorption Distance" })
       .setCreator(new ShaderCreator() {
         public void create(SunflowAPIAPI sunflow, float[] values) {
-          sunflow.setGlassShader(SHADER_NAME, new Color(shapeColor), values[0], values[1], new Color(lightsColor));
+          sunflow.setGlassShader(SHADER_NAME, new Color(shapeColor), values[0], values[1], new Color(255,255,255));
         }
       }
     )
@@ -244,7 +244,7 @@ void createGroup1() {
 
   cp5.begin(Config.CP5.Grid, y2);
 
-  cp5.addSlider("zoom", 0, 300)
+  cp5.addSlider("zoom", 1, 100)
     .setDecimalPrecision(0)
     .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
     .setPosition(x2, y2)
@@ -636,19 +636,63 @@ void createGroup2() {
 
     y2 += multiplyGrid(1);
 
-    cp5.addSlider("param0", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height).setGroup(g2);
+    cp5.addSlider("param0", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+      .setGroup(g2)
+      .onRelease(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          selectedShader.values[0] = int(theEvent.getController().getValue());
+        }
+      })
+      .onDrag(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          selectedShader.values[0] = int(theEvent.getController().getValue());
+        }
+      });
 
     y2 += multiplyGrid(1);
 
-    cp5.addSlider("param1", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height).setGroup(g2);
+    cp5.addSlider("param1", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+      .setGroup(g2)
+      .onRelease(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          selectedShader.values[1] = int(theEvent.getController().getValue());
+        }
+      })
+      .onDrag(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          selectedShader.values[1] = int(theEvent.getController().getValue());
+        }
+      });
 
     y2 += multiplyGrid(1);
 
-    cp5.addSlider("param2", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height).setGroup(g2);
+    cp5.addSlider("param2", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+      .setGroup(g2)
+      .onRelease(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          selectedShader.values[2] = int(theEvent.getController().getValue());
+        }
+      })
+      .onDrag(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          selectedShader.values[2] = int(theEvent.getController().getValue());
+        }
+      });
 
     y2 += multiplyGrid(1);
 
-    cp5.addSlider("param3", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height).setGroup(g2);
+    cp5.addSlider("param3", 0.0f, 1.0f, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+      .setGroup(g2)
+      .onRelease(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          selectedShader.values[3] = int(theEvent.getController().getValue());
+        }
+      })
+      .onDrag(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          selectedShader.values[3] = int(theEvent.getController().getValue());
+        }
+      });
 
     y2 = height - multiplyGrid(7);
 

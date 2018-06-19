@@ -4,22 +4,22 @@ import wblut.core.*;
 import wblut.hemesh.*;
 import wblut.geom.*;
 
+import controlP5.*;
 import java.applet.*;
 import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.Frame;
 import java.awt.Image;
 import java.io.*;
 import java.net.*;
 import java.text.*;
 import java.util.*;
-import java.util.zip.*;
-import java.util.regex.*;
-import processing.opengl.*;
-import controlP5.*;
 import java.util.Iterator;
+import java.util.regex.*;
+import java.util.zip.*;
+import processing.opengl.*;
 
 String version = "HemeshGui v0.4-alpha";
 
@@ -35,6 +35,8 @@ boolean edgesOn = false; // toggle display of edges
 boolean facesOn = true; // toggle display of faces
 boolean flagMouseControlRotationMouvement = false;
 boolean flagMouseControlTranslationMouvement = false;
+boolean isMeshCollection = false;
+boolean isUpdatingMesh = false;
 boolean preview = false; // toggle sunflow render quality
 boolean rotationOn = false; // toggle rotation
 boolean saveContinuous; // toggle saving: continuous (versus just once)
@@ -77,6 +79,7 @@ float param0 = 0.0f;
 float param1 = 0.0f;
 float param2 = 0.0f;
 float param3 = 0.0f;
+float perspective = 0.518f;
 float rotationX, rotationXchange; // (change in) rotation around the X-axis
 float rotationY, rotationYchange; // (change in) rotation around the Y-axis
 float shapeBrightness; // default brightness
@@ -84,7 +87,7 @@ float shapeHue; // default hue
 float shapeSaturation; // default saturation
 float shapeTransparency; // default transparency
 float sphereLightRadius = 10.0f;
-float sunflowMultiply = 1; // multiplication factor for the width & height of the sunflow render (1280x720 by default)
+float sunflowMultiply = 1; // multiplication factor for the width & height of the sunflow render (screen width/screen height by default)
 float translateX, translateXchange; // (change in) translation in the X-direction
 float translateY, translateYchange; // (change in) translation in the Y-direction
 float zoom = 1; // zoom factor
@@ -106,8 +109,10 @@ int selectedShapeIndex = 0; // selected shape index: box
 int selectedShaderIndex = 0;
 int x2;
 int y2;
+int waitTime = 250;
 int[] triangles;
 
+long renderingTime = millis();
 String timestamp; // timestamp to distinguish saves
 String currentThemeName = Config.getCurrentThemeName();
 String[] shapeLabels;
@@ -137,8 +142,16 @@ ArrayList<Modifier> selectedModifiers = new ArrayList<Modifier>();
 ArrayList<Shape> shapes = new ArrayList<Shape>();
 ArrayList<ThreadRenderer> renderers = new ArrayList<ThreadRenderer>();
 ArrayList<Shader> shaders = new ArrayList<Shader>();
-
 Theme currentTheme = Config.getCurrentTheme();
+
+// Hemesh variables
+HE_MeshCollection meshes;
+HE_MeshCollection meshesBuffer;
+HE_Mesh mesh;
+HE_Mesh meshBuffer;
+HEM_Extrude extrude1 = new HEM_Extrude();
+HEM_Extrude extrude2 = new HEM_Extrude();
+WB_Render render;
 
 void setup() {
   fullScreen(OPENGL);
@@ -161,12 +174,16 @@ void draw() {
 
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
   background(currentTheme.Background);
-  perspective(0.518,(float)width/height,1,100000);
+  perspective(perspective, (float)width/height, 1, 100000);
   lights();
 
   pushMatrix();
   viewport();
   drawHemesh();
+  popMatrix();
+
+  pushMatrix();
+  drawWaitState();
   popMatrix();
 
   // save frame(s) without gui
