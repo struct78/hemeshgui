@@ -28,6 +28,7 @@ changes and fixes by David Johnson (struct78)
 * Added Noise and Spherical Inversion modifiers
 * Added DooSabin subdivider
 * Added Ambient Occlusion shader
+* Added UI themes
 * Made non-blocking UI
 * Added multithreaded rendering
 
@@ -103,8 +104,10 @@ These libraries are included in HemeshGui
 
 
 ### Images
-![Default](https://i.imgur.com/tiXfz2u.png)
+![Default](https://i.imgur.com/UTwvW5p.png)
 
-![Torus](https://i.imgur.com/xbM00gQ.png)
+![Voronoi Cells](https://i.imgur.com/uaX2Ylj.png)
 
-![Geodesic](https://i.imgur.com/IW4LHJ0.png)
+![UV Parametric](https://i.imgur.com/zRFgWqp.png)
+
+![UV Parametric](https://i.imgur.com/aaqUhRj.png)
