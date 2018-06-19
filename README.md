@@ -24,10 +24,12 @@ changes and fixes by David Johnson (struct78)
 * Code refactoring to make adding shapes/modifiers easier
 * Disabled unused parameter sliders for Shapes
 * Removed unused parameter sliders for Modifiers
-* Added "Voronoi Cells" and "UV Parametric" shapes
-* Added "Noise" and "Spherical Inversion" modifiers
-* Added "DooSabin" subdivider
-* Multithreaded rendering
+* Added Voronoi Cells and "UV Parametric shapes
+* Added Noise and Spherical Inversion modifiers
+* Added DooSabin subdivider
+* Added Ambient Occlusion shader
+* Made non-blocking UI
+* Added multithreaded rendering
 
 #### v0.4.1
 
