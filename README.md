@@ -16,15 +16,21 @@ Sunflow & Processing :
 
 ### Changelog
 
+### v0.6
+
+changes and fixes by David Johnson ([http://github.com/struct78](http://github.com/struct78))
+
+* Added Ani library for smoother animations
+
 ### v0.5
 
-changes and fixes by David Johnson (struct78)
+changes and fixes by David Johnson ([http://github.com/struct78](http://github.com/struct78))
 
 * Moved UI to grid-based layout
 * Code refactoring to make adding shapes/modifiers easier
 * Disabled unused parameter sliders for Shapes
 * Removed unused parameter sliders for Modifiers
-* Added Voronoi Cells and "UV Parametric shapes
+* Added Voronoi Cells and UV Parametric shapes
 * Added Noise and Spherical Inversion modifiers
 * Added DooSabin subdivider
 * Added Ambient Occlusion shader
@@ -34,7 +40,7 @@ changes and fixes by David Johnson (struct78)
 
 #### v0.4.1
 
-changes and fixes by David Johnson (struct78)
+changes and fixes by David Johnson ([http://github.com/struct78](http://github.com/struct78))
 
 * Updated UI visual defects
 * Fixed property labels not appearing when changing shapes
@@ -77,6 +83,7 @@ changes and fixes by StudioEtrange/nomorgan ([http://www.studio-etrange.net](htt
 * Processing 3.3.7 [http://www.processing.org/](http://www.processing.org/)
 * Hemesh 5.0.3 [https://github.com/wblut/HE_Mesh](https://github.com/wblut/HE_Mesh)
 * controlP5 2.2.6 [http://www.sojamo.de/libraries/controlP5](http://www.sojamo.de/libraries/controlP5)
+* Ani 2.7 [http://www.looksgood.de/libraries/Ani/](http://www.looksgood.de/libraries/Ani/)
 
 ### libraries Included
 

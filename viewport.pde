@@ -1,3 +1,13 @@
+void createZoomAnimation() {
+  Ani.init(this);
+	zoomAnimation = new Ani(this, 0.35, "actualZoom", zoom, Ani.QUART_OUT);
+}
+
+void updateZoomAnimation(float value) {
+  zoomAnimation.setBegin(actualZoom);
+  zoomAnimation.setEnd(value);
+  zoomAnimation.start();
+}
 
 void resetRotationMouvement() {
   rotationYchange = 0;
@@ -10,14 +20,13 @@ void resetTranslationMouvement() {
 }
 
 void progressiveRotation() {
-
-  if(mouseX<width/2) {
+  if (mouseX < width/2) {
     rotationYchange = ((width/2) - mouseX) * maxSpeedY / (width/2);
   } else {
     rotationYchange = - ( (mouseX - (width/2)) * maxSpeedY / (width/2));
   }
 
-  if(mouseY<height/2) {
+  if (mouseY < height/2) {
     rotationXchange = -( ((height/2) - mouseY) * maxSpeedX / (height/2));
   } else {
     rotationXchange = (mouseY - (height/2)) * maxSpeedX / (height/2);
@@ -25,20 +34,18 @@ void progressiveRotation() {
 }
 
 void progressiveTranslation() {
-
-  if(mouseX<width/2) {
+  if (mouseX < width/2) {
     translateXchange = ((width/2) - mouseX) * maxSpeedX / (width/2);
   } else {
     translateXchange = - ( (mouseX - (width/2)) * maxSpeedX / (width/2));
   }
 
-  if(mouseY<height/2) {
+  if (mouseY < height/2) {
     translateYchange = ((height/2) - mouseY) * maxSpeedY / (height/2);
   } else {
     translateYchange = -( (mouseY - (height/2)) * maxSpeedY / (height/2));
   }
 }
-
 
 void rotation() {
     if (mouseX > 2*width/3)  { rotationYchange = changeSpeedY;  } else if (mouseX < width/3)  { rotationYchange = -changeSpeedY; } else { rotationYchange = 0; }
@@ -51,8 +58,7 @@ void translation() {
 }
 
 void viewport() {
-
-  if(flagMouseControlRotationMouvement) {
+  if (flagMouseControlRotationMouvement) {
     progressiveRotation();
   } else {
      resetRotationMouvement();
@@ -63,7 +69,7 @@ void viewport() {
      }
   }
 
-  if(flagMouseControlTranslationMouvement) {
+  if (flagMouseControlTranslationMouvement) {
     //progressiveTranslation();
   } else {
      resetTranslationMouvement();
@@ -71,13 +77,10 @@ void viewport() {
   }
 
   updateViewport();
-
-
 }
 
 
 void updateViewport() {
-
   //translation
   translateX += translateXchange;
   translateY += translateYchange;
@@ -89,6 +92,6 @@ void updateViewport() {
   rotateX(radians(rotationX));
   rotateY(radians(rotationY));
 
-  if (abs(actualZoom - zoom) > 1)   { actualZoom = 0.99 * actualZoom + 0.01 * zoom; }
+  // zoom
   scale(actualZoom);
 }

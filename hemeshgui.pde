@@ -5,6 +5,8 @@ import wblut.hemesh.*;
 import wblut.geom.*;
 
 import controlP5.*;
+import de.looksgood.ani.*;
+import de.looksgood.ani.easing.*;
 import java.applet.*;
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
@@ -22,6 +24,8 @@ import java.util.zip.*;
 import processing.opengl.*;
 
 String version = "HemeshGui v0.5-alpha";
+
+Ani zoomAnimation;
 
 boolean autoRotate = true; // toggle autorotation
 boolean dirLightBehindOn = false;
@@ -162,6 +166,7 @@ void setup() {
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
 
   updateShapeColors();
+  createZoomAnimation();
   createModifiersXY();
   createShapes();
   createModifiers();

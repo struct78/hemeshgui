@@ -244,11 +244,20 @@ void createGroup1() {
 
   cp5.begin(Config.CP5.Grid, y2);
 
-  cp5.addSlider("zoom", 1, 100)
-    .setDecimalPrecision(0)
+  cp5.addSlider("zoom", 0.25, 10)
     .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
     .setPosition(x2, y2)
-    .moveTo(g1);
+    .moveTo(g1)
+    .onRelease(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        updateZoomAnimation(theEvent.getController().getValue());
+      }
+    })
+    .onDrag(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        updateZoomAnimation(theEvent.getController().getValue());
+      }
+    });;
 
   y2 += multiplyGrid(1);
 
