@@ -15,4 +15,5 @@ public static class Theme {
   int ControlSubLabel;
   int ButtonBackground;
   int ButtonForeground;
+  int Spinner;
 }

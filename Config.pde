@@ -16,6 +16,7 @@ public static class Config {
       classic.ControlSubLabel = 0x90000000;
       classic.ButtonBackground = 0xffcccc00;
       classic.ButtonForeground = 0xff000000;
+      classic.Spinner = 0xff000000;
 
       // Flat
       Theme flat = new Theme();
@@ -24,12 +25,13 @@ public static class Config {
       flat.Edges = 0xff2c3e50;
       flat.ControlBackground = 0xffff7263;
       flat.ControlForeground = 0xffe74c3c;
-      flat.ControlActive = 0xffff7263;
+      flat.ControlActive = 0xffFFD156;
       flat.ControlCaptionLabel = 0xffecf0f1;
       flat.ControlValueLabel = 0xff0f0504;
       flat.ControlSubLabel = 0x90ecf0f1;
       flat.ButtonBackground = 0xff03a187;
       flat.ButtonForeground = 0xffecf0f1;
+      flat.Spinner = 0xffFFD156;
 
       Theme monochrome = new Theme();
       monochrome.Background = 0xff141e26;
@@ -43,7 +45,7 @@ public static class Config {
       monochrome.ControlSubLabel = 0xAAf2f2f2;
       monochrome.ButtonBackground = 0xff35d4c3;
       monochrome.ButtonForeground = 0xff141e26;
-
+      monochrome.Spinner = 0xfff2f2f2;
 
       Theme pastel = new Theme();
       pastel.Background = 0xfff4cda5;
@@ -57,6 +59,7 @@ public static class Config {
       pastel.ControlSubLabel = 0x90444854;
       pastel.ButtonBackground = 0xff50d4a5;
       pastel.ButtonForeground = 0xff1b1d21;
+      pastel.Spinner = 0xfff4cda5;
 
       Theme neon = new Theme();
       neon.Background = 0xff270dff;
@@ -70,6 +73,7 @@ public static class Config {
       neon.ControlSubLabel = 0x90ffffff;
       neon.ButtonBackground = 0xff000000;
       neon.ButtonForeground = 0xff02a9fe;
+      neon.Spinner = 0xffACFD04;
 
       Theme summerFruit = new Theme();
       summerFruit.Background = 0xfff78d0a;
@@ -83,6 +87,7 @@ public static class Config {
       summerFruit.ControlSubLabel = 0xaafaf0ca;
       summerFruit.ButtonBackground = 0xff4f9e3f;
       summerFruit.ButtonForeground = 0xff190600;
+      summerFruit.Spinner = 0xfff7dc0a;
 
       Theme coteDAzur = new Theme();
       coteDAzur.Background = 0xfff0edbb;
@@ -96,6 +101,7 @@ public static class Config {
       coteDAzur.ControlSubLabel = 0x90190600;
       coteDAzur.ButtonBackground = 0xffff5729;
       coteDAzur.ButtonForeground = 0xff190600;
+      coteDAzur.Spinner = 0xfffffcc4;
 
       _themes = new HashMap<String, Theme>();
       _themes.put("Classic", classic);
@@ -106,7 +112,7 @@ public static class Config {
       _themes.put("Summer Fruit", summerFruit);
       _themes.put("Cote d'Azur", coteDAzur);
 
-      _currentTheme = "Neon";
+      _currentTheme = "Classic";
   }
 
   public static HashMap<String, Theme> getThemes() {
