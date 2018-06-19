@@ -21,7 +21,7 @@ import java.util.regex.*;
 import java.util.zip.*;
 import processing.opengl.*;
 
-String version = "HemeshGui v0.4-alpha";
+String version = "HemeshGui v0.5-alpha";
 
 boolean autoRotate = true; // toggle autorotation
 boolean dirLightBehindOn = false;
