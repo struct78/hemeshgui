@@ -4,138 +4,186 @@ import wblut.core.*;
 import wblut.hemesh.*;
 import wblut.geom.*;
 
+import controlP5.*;
 import java.applet.*;
 import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.Frame;
 import java.awt.Image;
 import java.io.*;
 import java.net.*;
 import java.text.*;
 import java.util.*;
-import java.util.zip.*;
+import java.util.Iterator;
 import java.util.regex.*;
+import java.util.zip.*;
 import processing.opengl.*;
 
-String version = "HemeshGui v0.4-alpha";
+String version = "HemeshGui v0.5-alpha";
 
-// general settings
-int sceneWidth;                        // sketch width
-int sceneHeight;                       // sketch height
-
-// view
-float zoom = 20;                       // zoom factor
-float actualZoom = 20;                 // zoom smoothing
-boolean autoRotate = true;             // toggle autorotation
-boolean translationOn = false;                   // toggle translation
-boolean rotationOn = false;                      // toggle rotation
-float translateX, translateXchange;    // (change in) translation in the X-direction
-float translateY, translateYchange;    // (change in) translation in the Y-direction
-float rotationX, rotationXchange;      // (change in) rotation around the X-axis
-float rotationY, rotationYchange;      // (change in) rotation around the Y-axis
-float changeSpeedX = 1.5;              // speed of changes for X in translation and rotation
-float changeSpeedY = 1.5;              // speed of changes for Y in translation and rotation
-float maxSpeedY = changeSpeedY*8;
-float maxSpeedX = changeSpeedX*8;
+boolean autoRotate = true; // toggle autorotation
+boolean dirLightBehindOn = false;
+boolean dirLightBottomOn = false;
+boolean dirLightFrontOn = false;
+boolean dirLightLeftOn = false;
+boolean dirLightRightOn = false;
+boolean dirLightTopOn = false;
+boolean drawcp5 = true; // toggle drawing of cp5 gui
+boolean edgesOn = false; // toggle display of edges
+boolean facesOn = true; // toggle display of faces
 boolean flagMouseControlRotationMouvement = false;
 boolean flagMouseControlTranslationMouvement = false;
-
-// presentation
-color bgcolor = color(230,230,230);    // background color
-color shapecolor;                      // shape color
-boolean facesOn = true;                // toggle display of faces
-boolean edgesOn = false;                // toggle display of edges
-float shapeHue = 57;                   // default hue
-float shapeSaturation = 100;           // default saturation
-float shapeBrightness = 96;            // default brightness
-float shapeTransparency = 100;         // default transparency
-
-// basic shape variables
-int creator = 2;                       // default shape: Dodecahedron
-float create0 = 4;                     // default shape value
-float create1 = 4;                     // default shape value
-float create2 = 4;                     // default shape value
-float create3 = 4;                     // default shape value
-
-
-// sunflow shader
-int shader = 301;
-float param0=0.0f;
-float param1=0.0f;
-float param2=0.0f;
-float param3=0.0f;
-
-// sunflow lights
-boolean sunSkyLightOn = true;
-boolean sunflowWhiteBackgroundOn = false;
-boolean sunflowBlackBackgroundOn = false;
-boolean dirLightTopOn = false;
-boolean dirLightRightOn = false;
-boolean dirLightFrontOn = false;
-boolean dirLightBottomOn = false;
-boolean dirLightLeftOn = false;
-boolean dirLightBehindOn = false;
-boolean sphereLightTopOn = false;
-boolean sphereLightRightOn = false;
-boolean sphereLightFrontOn = false;
-boolean sphereLightBottomOn = false;
-boolean sphereLightLeftOn = false;
+boolean isMeshCollection = false;
+boolean isUpdatingMesh = false;
+boolean preview = false; // toggle sunflow render quality
+boolean rotationOn = false; // toggle rotation
+boolean saveContinuous; // toggle saving: continuous (versus just once)
+boolean saveGui = false; // toggle saving: regular opengl (with gui)
+boolean saveMask; // toggle saving: sunflow (mask)
+boolean saveOn; // toggle saving: globally
+boolean saveOpenGL; // toggle saving: regular opengl (without gui)
+boolean saveSunflow = true; // toggle saving: sunflow (regular render)
 boolean sphereLightBehindOn = false;
+boolean sphereLightBottomOn = false;
+boolean sphereLightFrontOn = false;
+boolean sphereLightLeftOn = false;
+boolean sphereLightRightOn = false;
+boolean sphereLightTopOn = false;
+boolean sunflowBlackBackgroundOn = false;
+boolean sunflowWhiteBackgroundOn = false;
+boolean sunSkyLightOn = true;
+boolean translationOn = false; // toggle translation
+
+color lightsColor;
+color shapeColor; // shape color
+
+final String SHADER_NAME = "hemeshShader";
+
+float actualZoom = 1; // zoom smoothing
+float changeSpeedX = 1.5; // speed of changes for X in translation and rotation
+float changeSpeedY = 1.5; // speed of changes for Y in translation and rotation
+float create0;
+float create1;
+float create2;
+float create3;
 float dirLightRadius = 10.0f;
-float sphereLightRadius = 10.0f;
-
-// sunflow color lights
-float lightsColorR = 230;
-float lightsColorG = 230;
+float lightsColorA = 255;
 float lightsColorB = 230;
-float lightsColorA = 255;   
-color lightsColor = color(lightsColorR,lightsColorG,lightsColorB,lightsColorA);
+float lightsColorG = 230;
+float lightsColorR = 230;
+float maxSpeedX = changeSpeedX*8;
+float maxSpeedY = changeSpeedY*8;
+float param0 = 0.0f;
+float param1 = 0.0f;
+float param2 = 0.0f;
+float param3 = 0.0f;
+float perspective = 0.518f;
+float rotationX, rotationXchange; // (change in) rotation around the X-axis
+float rotationY, rotationYchange; // (change in) rotation around the Y-axis
+float shapeBrightness; // default brightness
+float shapeHue; // default hue
+float shapeSaturation; // default saturation
+float shapeTransparency; // default transparency
+float sphereLightRadius = 10.0f;
+float sunflowMultiply = 1; // multiplication factor for the width & height of the sunflow render (screen width/screen height by default)
+float translateX, translateXchange; // (change in) translation in the X-direction
+float translateY, translateYchange; // (change in) translation in the Y-direction
+float zoom = 1; // zoom factor
 
-// saving variables
-boolean saveOn;                        // toggle saving: globally
-boolean saveContinuous;                // toggle saving: continuous (versus just once)
-boolean saveOpenGL;                    // toggle saving: regular opengl (without gui)
-boolean saveGui = true;                // toggle saving: regular opengl (with gui)
-boolean saveSunflow = true;            // toggle saving: sunflow (regular render)
-boolean saveMask;                      // toggle saving: sunflow (mask)
-boolean preview = true;                // toggle sunflow render quality
-String timestamp;                      // timestamp to distinguish saves
+float[] defaultShapeValues;
+float[] defaultShaderValues;
+float[] maxShapeValues;
+float[] minShapeValues;
+float[] maxShaderValues;
+float[] minShaderValues;
 
-// assorted
-ArrayList modifiers = new ArrayList(); // arraylist to hold all the modifiers
-int numForLoop = 20;                   // max number of shapes, modifiers and/or subdividors in the gui (for convenience, just increase when there are more)
-boolean drawControlP5 = true;          // toggle drawing of controlP5 gui
-float sunflowMultiply = 1;             // multiplication factor for the width & height of the sunflow render (1280x720 by default)
-
-WB_Point[] points;
+int eventValue;
+int mx2;
+int my2;
+int numForLoop = 20; // max number of shapes, modifiers and/or subdividors in the gui (for convenience, just increase when there are more)
+int sceneHeight; // sketch height
+int sceneWidth; // sketch width
+int selectedShapeIndex = 0; // selected shape index: box
+int selectedShaderIndex = 0;
+int x2;
+int y2;
+int waitTime = 250;
 int[] triangles;
 
+long renderingTime = millis();
+String timestamp; // timestamp to distinguish saves
+String currentThemeName = Config.getCurrentThemeName();
+String[] shapeLabels;
+String[] shaderLabels;
+WB_Point[] points;
+
+// ControlP5 variables
+ControlP5 cp5;
+Group g1;
+Group g2;
+Group g3;
+Group g4;
+HashMap<String, Theme> themes = Config.getThemes();
+ScrollableList modifyList;
+ScrollableList shaderList;
+ScrollableList shapeList;
+ScrollableList themeList;
+Toggle sunsky;
+Toggle whiteBackground;
+Toggle blackBackground;
+
+// Hemesh GUI variables
+Shape selectedShape;
+Shader selectedShader;
+ArrayList<Modifier> modifiers = new ArrayList<Modifier>();
+ArrayList<Modifier> selectedModifiers = new ArrayList<Modifier>();
+ArrayList<Shape> shapes = new ArrayList<Shape>();
+ArrayList<ThreadRenderer> renderers = new ArrayList<ThreadRenderer>();
+ArrayList<Shader> shaders = new ArrayList<Shader>();
+Theme currentTheme = Config.getCurrentTheme();
+
+// Hemesh variables
+HE_MeshCollection meshes;
+HE_MeshCollection meshesBuffer;
+HE_Mesh mesh;
+HE_Mesh meshBuffer;
+HEM_Extrude extrude1 = new HEM_Extrude();
+HEM_Extrude extrude2 = new HEM_Extrude();
+WB_Render render;
+
 void setup() {
-  //size(1280,720,OPENGL);
   fullScreen(OPENGL);
-  //hint(ENABLE_OPENGL_4X_SMOOTH);
   smooth(4);
-  
-  
+
   sceneWidth = width;
   sceneHeight = height;
-  
-  gui();
+  lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
+
+  updateShapeColors();
+  createModifiersXY();
+  createShapes();
+  createModifiers();
+  createShaders();
+  createGui();
   createHemesh();
 }
 
 void draw() {
 
-  lightsColor = color(lightsColorR,lightsColorG,lightsColorB,lightsColorA);
-  background(bgcolor);
-  perspective(0.518,(float)width/height,1,100000);
+  lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
+  background(currentTheme.Background);
+  perspective(perspective, (float)width/height, 1, 100000);
   lights();
 
   pushMatrix();
   viewport();
   drawHemesh();
+  popMatrix();
+
+  pushMatrix();
+  drawWaitState();
   popMatrix();
 
   // save frame(s) without gui
@@ -144,12 +192,11 @@ void draw() {
     else { save("output/screenshots/" + timestamp + " (openglview).png"); }
   }
 
-  if (drawControlP5) {
+  if (drawcp5) {
     noLights();
     perspective();
     hint(DISABLE_DEPTH_TEST);
-    updateGui();
-    controlP5.draw();
+    cp5.draw();
     hint(ENABLE_DEPTH_TEST);
     lights();
   }

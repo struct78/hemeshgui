@@ -17,7 +17,7 @@ public class SunflowAPIAPI {
         private String currFilter;
         private String cameraType;
         private String modifierType;
-        
+
         private SunflowAPI sunflow;
 
         private Display windowDisplay;
@@ -54,21 +54,21 @@ public class SunflowAPIAPI {
         public final String GI_INSTANT_GI = "igi";
         public final String GI_IRRADIANCE_CACHE = "irr-cache";
         public final String GI_PATH = "path";
-        
+
         public final String LIGHT_DIRECTIONAL = "directional";
         public final String LIGHT_IMAGEBASED = "ibl";
         public final String LIGHT_POINT = "point";
         public final String LIGHT_SPHERE = "sphere";
         public final String LIGHT_SUNSKY = "sunsky";
         public final String LIGHT_MESH = "triangle_mesh";
-        
+
         public final String BUCKET_ORDER_COLUMN = "column";
         public final String BUCKET_ORDER_DIAGONAL = "diagonal";
         public final String BUCKET_ORDER_HILBERT = "hilbert";
         public final String BUCKET_ORDER_RANDOM = "random";
         public final String BUCKET_ORDER_ROW = "row";
         public final String BUCKET_ORDER_SPIRAL = "spiral";
-        
+
         public final String FILTER_BLACKMAN_HARRIS = "blackman-harris";
         public final String FILTER_BOX = "box";
         public final String FILTER_CATMULL_ROM = "catmull-rom";
@@ -78,13 +78,13 @@ public class SunflowAPIAPI {
         public final String FILTER_SINC = "sinc";
         public final String FILTER_TRIANGLE = "triangle";
         public final String FILTER_BSPLINE = "bspline";
-        
+
         public final String MODIFIER_BUMP_MAP = "bump_map";
         public final String MODIFIER_NORMAL_MAP = "normal_map";
         public final String MODIFIER_PERLIN_MAP = "perlin";
 
-        private Point3 eye; 
-        private Point3 target; 
+        private Point3 eye;
+        private Point3 target;
         private Vector3 up;
         private int sides;
         private float fov;
@@ -105,39 +105,39 @@ public class SunflowAPIAPI {
         private int aaMax = 2;
         private int previewAaMin = 0;
         private int previewAaMax = 1;
-        
+
         private int width = 640;
         private int height = 480;
         public SunflowAPIAPI() {
-                sunflow = new SunflowAPI();
-                
-                // set default values
-                
-                // camera position
-                eye = new Point3(0, 10, 15); 
-                target = new Point3(0, 0, 0); 
-                up = new Vector3(0, 1, 0); 
-                // camera default values
-                fov = 50;
-                aspect = width/height;
-                currCamera = "internal_defaultcamera";
-                focusDistance = 1;
-        lensRadius = 0;
-        fov = 90;
-        aspect = 1;
-        sides = 0;
-        lensRotation = 0;
-                // set camera
-                this.setThinlensCamera("internal_defaultcamera", fov, aspect);
-                // shader
-                this.setAmbientOcclusionShader("internal_defaultshader", new Color(1f,1f,1f), new Color(0f,0f,0f), 16, 5);
-                // bucket order
-                currBucketOrder = BUCKET_ORDER_SPIRAL;
-                // filter
-                currFilter = FILTER_MITCHELL;
-                
+          sunflow = new SunflowAPI();
+
+          // set default values
+
+          // camera position
+          eye = new Point3(0, 10, 15);
+          target = new Point3(0, 0, 0);
+          up = new Vector3(0, 1, 0);
+          // camera default values
+          fov = 50;
+          aspect = width/height;
+          currCamera = "internal_defaultcamera";
+          focusDistance = 1;
+          lensRadius = 0;
+          fov = 90;
+          aspect = 1;
+          sides = 0;
+          lensRotation = 0;
+
+          // set camera
+          this.setThinlensCamera("internal_defaultcamera", fov, aspect);
+          // shader
+          this.setAmbientOcclusionShader("internal_defaultshader", new Color(1f,1f,1f), new Color(0f,0f,0f), 16, 5);
+          // bucket order
+          currBucketOrder = BUCKET_ORDER_SPIRAL;
+          // filter
+          currFilter = FILTER_MITCHELL;
         }
-        
+
         /*
          * --------------------------------------------------------------------------------------
          * LIGHTS
@@ -206,10 +206,10 @@ public class SunflowAPIAPI {
          * @param name Individual name
          */
         public void setSunSkyLight(String name) {
-                sunflow.parameter( "up", new Vector3( 0, 0, 1 ) ); 
-                sunflow.parameter( "east", new Vector3( 0, 1, 0 ) ); 
-                sunflow.parameter( "sundir", new Vector3( 1, -1, 0.31f ) ); 
-                sunflow.parameter( "turbidity", 2f ); 
+                sunflow.parameter( "up", new Vector3( 0, 0, 1 ) );
+                sunflow.parameter( "east", new Vector3( 0, 1, 0 ) );
+                sunflow.parameter( "sundir", new Vector3( 1, -1, 0.31f ) );
+                sunflow.parameter( "turbidity", 2f );
                 sunflow.parameter( "samples", 16 );
         sunflow.light( name, this.LIGHT_SUNSKY );
         }
@@ -234,7 +234,7 @@ public class SunflowAPIAPI {
                 sunflow.parameter("ground.extendsky", groundExtendSky);
         sunflow.light( name, this.LIGHT_SUNSKY );
         }
-        
+
         /**
          * sets mesh light
          * @param name Individual name
@@ -244,20 +244,20 @@ public class SunflowAPIAPI {
          * @param triangles int array connecting the vertices (like [0,1,2])
          */
         public void drawMeshLight(String name, Color color, int samples, float[] vertices, int[] triangles) {
-                sunflow.parameter("points", "point", "vertex", vertices); 
+                sunflow.parameter("points", "point", "vertex", vertices);
                 sunflow.parameter("triangles", triangles);
-                
+
                 sunflow.parameter("radiance", colorSpace, color.getRed()/(float)255, color.getGreen()/(float)255, color.getBlue()/(float)255);
                 sunflow.parameter("samples", samples);
-                
+
                 sunflow.light( name, this.LIGHT_MESH);
         }
-        
+
         /*
          * END OF LIGHTS
          * --------------------------------------------------------------------------------------
          */
-        
+
         /*
          * --------------------------------------------------------------------------------------
          * SHADER
@@ -588,25 +588,25 @@ public class SunflowAPIAPI {
          * --------------------------------------------------------------------------------------
          * MODIFIERS
          */
-                
+
         public void setPerlinModifier(String name, int function, float size, float scale) {
-                currModifier = name + modifiercount;            
+                currModifier = name + modifiercount;
                 modifierType = MODIFIER_PERLIN_MAP;
-                
+
                 sunflow.parameter("function", function);
                 sunflow.parameter("size", size);
                 sunflow.parameter("scale", scale);
                 sunflow.modifier(currModifier, modifierType);
-                
+
                 modifiercount++;
                 isModifiers = true;
         }
-        
+
         /*
          * END OF MODIFIERS
          * --------------------------------------------------------------------------------------
          */
-        
+
         /*
          * --------------------------------------------------------------------------------------
          * PRIMITIVES
@@ -619,7 +619,7 @@ public class SunflowAPIAPI {
          * @param triangles int array connecting the vertices (like [0,1,2])
          */
         public void drawMesh(String name, float[] vertices, int[] triangles) {
-                sunflow.parameter("points", "point", "vertex", vertices); 
+                sunflow.parameter("points", "point", "vertex", vertices);
                 sunflow.parameter("triangles", triangles);
 
                 sunflow.geometry( name, "triangle_mesh" );
@@ -640,25 +640,25 @@ public class SunflowAPIAPI {
          */
         public void drawMesh(String name, float[] vertices, int[] triangles, float size, float xRotation, float yRotation, float zRotation) {
                 Matrix4 scale = Matrix4.IDENTITY.multiply( Matrix4.scale(size, size, size) );
-                Matrix4 rotate = Matrix4.IDENTITY 
-                .multiply( Matrix4.rotateZ(zRotation) ) 
-                .multiply( Matrix4.rotateX(xRotation) ) 
+                Matrix4 rotate = Matrix4.IDENTITY
+                .multiply( Matrix4.rotateZ(zRotation) )
+                .multiply( Matrix4.rotateX(xRotation) )
                 .multiply( Matrix4.rotateY(yRotation) );
 
                 Matrix4 m = Matrix4.IDENTITY;
                 m = scale.multiply(m);
-                m = rotate.multiply(m); 
+                m = rotate.multiply(m);
 
-                sunflow.parameter("points", "point", "vertex", vertices); 
+                sunflow.parameter("points", "point", "vertex", vertices);
                 sunflow.parameter("triangles", triangles);
 
                 sunflow.geometry( name, "triangle_mesh" );
                 sunflow.parameter( "shaders", currShader);
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
-                sunflow.parameter( "transform", m ); 
+                sunflow.parameter( "transform", m );
                 sunflow.instance( name + ".instance", name );
         }
-        
+
         /**
          * draws a bezier patch
          * @param name individual name of primitive
@@ -686,7 +686,7 @@ public class SunflowAPIAPI {
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
                 sunflow.instance( name + ".instance", name );
         }
-        
+
         /**
          * draws a sphere
          * @param name Individual name
@@ -702,7 +702,7 @@ public class SunflowAPIAPI {
          * @param name Individual name
          * @param x x position
          * @param y y position
-         * @param z z position 
+         * @param z z position
          * @param size size
          */
         public void drawSphere(String name, float x, float y, float z, float size) {
@@ -716,7 +716,7 @@ public class SunflowAPIAPI {
                 sunflow.geometry( name, "sphere" );
                 sunflow.parameter( "shaders", currShader);
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
-                sunflow.parameter( "transform", m ); 
+                sunflow.parameter( "transform", m );
                 sunflow.instance( name + ".instance", name );
         }
         /**
@@ -735,7 +735,7 @@ public class SunflowAPIAPI {
          * @param name Individual name
          * @param x x position
          * @param y y position
-         * @param z z position 
+         * @param z z position
          * @param size size
          */
         public void drawBox(String name, float x, float y, float z, float size) {
@@ -749,7 +749,7 @@ public class SunflowAPIAPI {
                 sunflow.geometry( name, "box" );
                 sunflow.parameter( "shaders", currShader);
                 sunflow.parameter( "transform", m );
-                if(isModifiers) sunflow.parameter("modifiers", currModifier); 
+                if(isModifiers) sunflow.parameter("modifiers", currModifier);
                 sunflow.instance( name + ".instance", name );
         }
 
@@ -759,7 +759,7 @@ public class SunflowAPIAPI {
          * @param name Individual name
          * @param x x position
          * @param y y position
-         * @param z z position 
+         * @param z z position
          * @param size size
          * @param xRotation x rotation
          * @param yRotation y rotation
@@ -768,23 +768,23 @@ public class SunflowAPIAPI {
         public void drawBox(String name, float size, float x, float y, float z, float xRotation, float yRotation, float zRotation) {
                 Matrix4 translate = Matrix4.IDENTITY.multiply( Matrix4.translation(x, y, z ));
                 Matrix4 scale = Matrix4.IDENTITY.multiply( Matrix4.scale(size, size, size) );
-                Matrix4 rotate = Matrix4.IDENTITY 
-                .multiply( Matrix4.rotateZ(zRotation) ) 
-                .multiply( Matrix4.rotateX(xRotation) ) 
+                Matrix4 rotate = Matrix4.IDENTITY
+                .multiply( Matrix4.rotateZ(zRotation) )
+                .multiply( Matrix4.rotateX(xRotation) )
                 .multiply( Matrix4.rotateY(yRotation) );
 
                 Matrix4 m = Matrix4.IDENTITY;
                 m = scale.multiply(m);
-                m = rotate.multiply(m); 
+                m = rotate.multiply(m);
                 m = translate.multiply(m);
 
                 sunflow.geometry( name, "box" );
                 sunflow.parameter( "shaders", currShader);
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
-                sunflow.parameter( "transform", m ); 
+                sunflow.parameter( "transform", m );
                 sunflow.instance( name + ".instance", name );
         }
-        
+
         /**
          * Draws a box
          * @param name
@@ -794,7 +794,7 @@ public class SunflowAPIAPI {
          * @param zSize size on z axis
          * @param x x position
          * @param y y position
-         * @param z z position 
+         * @param z z position
          * @param xRotation x rotation
          * @param yRotation y rotation
          * @param zRotation z rotation
@@ -802,20 +802,20 @@ public class SunflowAPIAPI {
         public void drawBox(String name, float xSize, float ySize, float zSize, float x, float y, float z, float xRotation, float yRotation, float zRotation) {
                 Matrix4 translate = Matrix4.IDENTITY.multiply( Matrix4.translation(x, y, z ));
                 Matrix4 scale = Matrix4.IDENTITY.multiply( Matrix4.scale(xSize, ySize, zSize) );
-                Matrix4 rotate = Matrix4.IDENTITY 
-                .multiply( Matrix4.rotateZ(zRotation) ) 
-                .multiply( Matrix4.rotateX(xRotation) ) 
+                Matrix4 rotate = Matrix4.IDENTITY
+                .multiply( Matrix4.rotateZ(zRotation) )
+                .multiply( Matrix4.rotateX(xRotation) )
                 .multiply( Matrix4.rotateY(yRotation) );
 
                 Matrix4 m = Matrix4.IDENTITY;
                 m = scale.multiply(m);
-                m = rotate.multiply(m); 
+                m = rotate.multiply(m);
                 m = translate.multiply(m);
 
                 sunflow.geometry( name, "box" );
                 sunflow.parameter( "shaders", currShader);
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
-                sunflow.parameter( "transform", m ); 
+                sunflow.parameter( "transform", m );
                 sunflow.instance( name + ".instance", name );
         }
 
@@ -834,7 +834,7 @@ public class SunflowAPIAPI {
          * @param name Individual name
          * @param x x position
          * @param y y position
-         * @param z z position 
+         * @param z z position
          * @param size size
          */
         public void drawCylinder(String name, float x, float y, float z, float size) {
@@ -848,7 +848,7 @@ public class SunflowAPIAPI {
                 sunflow.geometry( name, "cylinder" );
                 sunflow.parameter( "shaders", currShader);
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
-                sunflow.parameter( "transform", m ); 
+                sunflow.parameter( "transform", m );
                 sunflow.instance( name + ".instance", name );
         }
 
@@ -857,7 +857,7 @@ public class SunflowAPIAPI {
          * @param name Individual name
          * @param x x position
          * @param y y position
-         * @param z z position 
+         * @param z z position
          * @param size size
          * @param xRotation x rotation
          * @param yRotation y rotation
@@ -866,23 +866,23 @@ public class SunflowAPIAPI {
         public void drawCylinder(String name, float x, float y, float z, float size, float xRotation, float yRotation, float zRotation) {
                 Matrix4 translate = Matrix4.IDENTITY.multiply( Matrix4.translation(x, y, z ));
                 Matrix4 scale = Matrix4.IDENTITY.multiply( Matrix4.scale(size, size, size) );
-                Matrix4 rotate = Matrix4.IDENTITY 
-                .multiply( Matrix4.rotateZ(zRotation) ) 
-                .multiply( Matrix4.rotateX(xRotation) ) 
+                Matrix4 rotate = Matrix4.IDENTITY
+                .multiply( Matrix4.rotateZ(zRotation) )
+                .multiply( Matrix4.rotateX(xRotation) )
                 .multiply( Matrix4.rotateY(yRotation) );
 
                 Matrix4 m = Matrix4.IDENTITY;
                 m = scale.multiply(m);
-                m = rotate.multiply(m); 
+                m = rotate.multiply(m);
                 m = translate.multiply(m);
 
                 sunflow.geometry( name, "cylinder" );
                 sunflow.parameter( "shaders", currShader);
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
-                sunflow.parameter( "transform", m ); 
+                sunflow.parameter( "transform", m );
                 sunflow.instance( name + ".instance", name );
         }
-        
+
         /**
          * Draws a Cylinder
          * @param name
@@ -892,7 +892,7 @@ public class SunflowAPIAPI {
          * @param zSize size on z axis
          * @param x x position
          * @param y y position
-         * @param z z position 
+         * @param z z position
          * @param xRotation x rotation
          * @param yRotation y rotation
          * @param zRotation z rotation
@@ -900,20 +900,20 @@ public class SunflowAPIAPI {
         public void drawCylinder(String name, float xSize, float ySize, float zSize, float x, float y, float z, float xRotation, float yRotation, float zRotation) {
                 Matrix4 translate = Matrix4.IDENTITY.multiply( Matrix4.translation(x, y, z ));
                 Matrix4 scale = Matrix4.IDENTITY.multiply( Matrix4.scale(xSize, ySize, zSize) );
-                Matrix4 rotate = Matrix4.IDENTITY 
-                .multiply( Matrix4.rotateZ(zRotation) ) 
-                .multiply( Matrix4.rotateX(xRotation) ) 
+                Matrix4 rotate = Matrix4.IDENTITY
+                .multiply( Matrix4.rotateZ(zRotation) )
+                .multiply( Matrix4.rotateX(xRotation) )
                 .multiply( Matrix4.rotateY(yRotation) );
 
                 Matrix4 m = Matrix4.IDENTITY;
                 m = scale.multiply(m);
-                m = rotate.multiply(m); 
+                m = rotate.multiply(m);
                 m = translate.multiply(m);
 
                 sunflow.geometry( name, "cylinder" );
                 sunflow.parameter( "shaders", currShader);
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
-                sunflow.parameter( "transform", m ); 
+                sunflow.parameter( "transform", m );
                 sunflow.instance( name + ".instance", name );
         }
 
@@ -932,7 +932,7 @@ public class SunflowAPIAPI {
          * @param name Individual name
          * @param x x position
          * @param y y position
-         * @param z z position 
+         * @param z z position
          * @param size size
          */
         public void drawBanchoffSurface(String name, float x, float y, float z, float size) {
@@ -946,7 +946,7 @@ public class SunflowAPIAPI {
                 sunflow.geometry( name, "banchoff" );
                 sunflow.parameter( "shaders", currShader);
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
-                sunflow.parameter( "transform", m ); 
+                sunflow.parameter( "transform", m );
                 sunflow.instance( name + ".instance", name );
         }
 
@@ -955,7 +955,7 @@ public class SunflowAPIAPI {
          * @param name Individual name
          * @param x x position
          * @param y y position
-         * @param z z position 
+         * @param z z position
          * @param size size
          * @param xRotation x rotation
          * @param yRotation y rotation
@@ -964,23 +964,23 @@ public class SunflowAPIAPI {
         public void drawBanchoffSurface(String name, float x, float y, float z, float size, float xRotation, float yRotation, float zRotation) {
                 Matrix4 translate = Matrix4.IDENTITY.multiply( Matrix4.translation(x, y, z ));
                 Matrix4 scale = Matrix4.IDENTITY.multiply( Matrix4.scale(size, size, size) );
-                Matrix4 rotate = Matrix4.IDENTITY 
-                .multiply( Matrix4.rotateZ(zRotation) ) 
-                .multiply( Matrix4.rotateX(xRotation) ) 
+                Matrix4 rotate = Matrix4.IDENTITY
+                .multiply( Matrix4.rotateZ(zRotation) )
+                .multiply( Matrix4.rotateX(xRotation) )
                 .multiply( Matrix4.rotateY(yRotation) );
 
                 Matrix4 m = Matrix4.IDENTITY;
                 m = scale.multiply(m);
-                m = rotate.multiply(m); 
+                m = rotate.multiply(m);
                 m = translate.multiply(m);
 
                 sunflow.geometry( name, "banchoff" );
                 sunflow.parameter( "shaders", currShader);
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
-                sunflow.parameter( "transform", m ); 
+                sunflow.parameter( "transform", m );
                 sunflow.instance( name + ".instance", name );
         }
-        
+
 
 
         /**
@@ -993,7 +993,7 @@ public class SunflowAPIAPI {
 
          * @param y y position
 
-         * @param z z position 
+         * @param z z position
 
          * @param size size
 
@@ -1019,29 +1019,29 @@ public class SunflowAPIAPI {
 
                 Matrix4 translate = Matrix4.IDENTITY.multiply( Matrix4.translation(x, y, z ));
                 Matrix4 scale = Matrix4.IDENTITY.multiply( Matrix4.scale(size, size, size) );
-                Matrix4 rotate = Matrix4.IDENTITY 
-                .multiply( Matrix4.rotateZ(zRotation) ) 
-                .multiply( Matrix4.rotateX(xRotation) ) 
+                Matrix4 rotate = Matrix4.IDENTITY
+                .multiply( Matrix4.rotateZ(zRotation) )
+                .multiply( Matrix4.rotateX(xRotation) )
                 .multiply( Matrix4.rotateY(yRotation) );
 
                 Matrix4 m = Matrix4.IDENTITY;
                 m = scale.multiply(m);
-                m = rotate.multiply(m); 
+                m = rotate.multiply(m);
                 m = translate.multiply(m);
 
                 sunflow.parameter("iterations", iterations);
                 sunflow.parameter("epsilon", epsilon);
-                
+
         sunflow.parameter("cw", q[0]);
         sunflow.parameter("cx", q[1]);
         sunflow.parameter("cy", q[2]);
         sunflow.parameter("cz", q[3]);
-                
+
                 sunflow.geometry( name, "julia" );
                 sunflow.parameter( "shaders", currShader);
 
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
-                sunflow.parameter( "transform", m ); 
+                sunflow.parameter( "transform", m );
                 sunflow.instance( name + ".instance", name );
 
         }
@@ -1059,7 +1059,7 @@ public class SunflowAPIAPI {
                 sunflow.parameter("level", level);
                 sunflow.parameter("axis", axis);
                 sunflow.parameter("radius", radius);
- 
+
                 sunflow.geometry( name, "sphereflake" );
                 sunflow.parameter( "shaders", currShader);
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
@@ -1071,7 +1071,7 @@ public class SunflowAPIAPI {
          * @param name Individual name
          * @param x x position
          * @param y y position
-         * @param z z position 
+         * @param z z position
          * @param size size
          * @param xRotation x rotation
          * @param yRotation y rotation
@@ -1086,24 +1086,24 @@ public class SunflowAPIAPI {
         int level, Vector3 axis, float radius) {
                 Matrix4 translate = Matrix4.IDENTITY.multiply( Matrix4.translation(x, y, z ));
                 Matrix4 scale = Matrix4.IDENTITY.multiply( Matrix4.scale(size, size, size) );
-                Matrix4 rotate = Matrix4.IDENTITY 
-                .multiply( Matrix4.rotateZ(zRotation) ) 
-                .multiply( Matrix4.rotateX(xRotation) ) 
+                Matrix4 rotate = Matrix4.IDENTITY
+                .multiply( Matrix4.rotateZ(zRotation) )
+                .multiply( Matrix4.rotateX(xRotation) )
                 .multiply( Matrix4.rotateY(yRotation) );
 
                 Matrix4 m = Matrix4.IDENTITY;
                 m = scale.multiply(m);
-                m = rotate.multiply(m); 
+                m = rotate.multiply(m);
                 m = translate.multiply(m);
 
                 sunflow.parameter("level", level);
                 sunflow.parameter("axis", axis);
                 sunflow.parameter("radius", radius);
- 
+
                 sunflow.geometry( name, "sphereflake" );
                 sunflow.parameter( "shaders", currShader);
                 if(isModifiers) sunflow.parameter("modifiers", currModifier);
-                sunflow.parameter( "transform", m ); 
+                sunflow.parameter( "transform", m );
                 sunflow.instance( name + ".instance", name );
         }
 
@@ -1179,11 +1179,11 @@ public class SunflowAPIAPI {
      * --------------------------------------------------------------------------------------
      * MY OWN SHAPES
      */
-    
+
     /**
      * takes points, uses first point as center and connects the rest to it using triangles
      * one can draw circles or weird other types of shapes
-     * 
+     *
      * @param name Individual name
      * @param points a float array of Point3s.
      */
@@ -1193,7 +1193,7 @@ public class SunflowAPIAPI {
         int trianglesLength = points.length-1;
         float[] vertices = new float[verticesLength];
         int[] triangles = new int[trianglesLength];
-        
+
         // create vertices array
         int verticesIndex = 0;
         for(int i=0;i<points.length;i++) {
@@ -1208,15 +1208,15 @@ public class SunflowAPIAPI {
             if(runx == 0) triangles[i] = 0; // center point is always first in vertices array
             if(runx == 1) triangles[i] = i-2;//i; // point 2
             if(runx == 2) triangles[i] = i;// i+1; // point 3
-           
+
             if(runx == 2) runx = 0;
             else runx++;
         }
         triangles[trianglesIndex++] = 0; // center point is always first in vertices array
         triangles[trianglesIndex++] = points.length-1; // point 2
         triangles[trianglesIndex++] = 1; // point 3
-        
-        sunflow.parameter("points", "point", "vertex", vertices); 
+
+        sunflow.parameter("points", "point", "vertex", vertices);
         sunflow.parameter("triangles", triangles);
 
         sunflow.geometry( name, "triangle_mesh" );
@@ -1224,7 +1224,7 @@ public class SunflowAPIAPI {
         if(isModifiers) sunflow.parameter("modifiers", currModifier);
                 sunflow.instance( name + ".instance", name );
     }
-    
+
 
     /**
      * draws a rectangle
@@ -1238,19 +1238,19 @@ public class SunflowAPIAPI {
         // define vertices
         float[] vertices = {corner0.x, corner0.y, corner0.z,
                         corner1.x, corner1.y, corner1.z,
-                        corner2.x, corner2.y, corner2.z, 
+                        corner2.x, corner2.y, corner2.z,
                         corner3.x, corner3.y, corner3.z};
         // define triangles
         int[] triangles = {0,1,2,0,2,3};
         // draw mesh
         this.drawMesh(name, vertices, triangles);
     }
-        
+
     /*
      * MY OWN SHAPES
      * --------------------------------------------------------------------------------------
      */
-    
+
         /*
          * --------------------------------------------------------------------------------------
          * CAMERAS
@@ -1301,11 +1301,11 @@ public class SunflowAPIAPI {
                 this.fov = fov;
                 this.aspect = aspect;
                 this.cameraType = this.CAMERA_PINHOLE;
-                
+
                 // set currCamera for rendering
                 currCamera = name;
 
-                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up)); 
+                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up));
                 sunflow.parameter("fov", fov);
                 sunflow.parameter("aspect", aspect);
                 sunflow.parameter("shift.x", shiftX);
@@ -1329,11 +1329,11 @@ public class SunflowAPIAPI {
                 this.shiftX = shiftX;
                 this.shiftY = shiftY;
                 this.cameraType = this.CAMERA_PINHOLE;
-                
+
                 // set currCamera for rendering
                 currCamera = name;
 
-                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up)); 
+                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up));
                 sunflow.parameter("fov", fov);
                 sunflow.parameter("aspect", aspect);
                 sunflow.parameter("shift.x", shiftX);
@@ -1354,20 +1354,20 @@ public class SunflowAPIAPI {
                 this.fov = fov;
                 this.aspect = aspect;
                 this.cameraType = this.CAMERA_THINLENS;
-                
+
                 // save parameters
                 this.fov = fov;
                 this.aspect = aspect;
 //              set currCamera for rendering
                 currCamera = name;
-                
-                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up)); 
+
+                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up));
                 sunflow.parameter("fov", fov);
                 sunflow.parameter("aspect", aspect);
 
                 sunflow.camera(name, CAMERA_THINLENS);
         }
-        
+
         /**
          * Set thinlens camera
          * @param name Individual name
@@ -1392,11 +1392,11 @@ public class SunflowAPIAPI {
                 this.sides = sides;
                 this.lensRotation = lensRotation;
                 this.cameraType = this.CAMERA_THINLENS;
-                
+
                 // set currCamera for rendering
                 currCamera = name;
 
-                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up)); 
+                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up));
                 sunflow.parameter("fov", fov);
                 sunflow.parameter("aspect", aspect);
                 sunflow.parameter("shift.x", shiftX);
@@ -1417,7 +1417,7 @@ public class SunflowAPIAPI {
 //              set currCamera for rendering
                 this.currCamera = name;
 
-                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up)); 
+                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up));
 
                 sunflow.camera(name, CAMERA_FISHEYE);
         }
@@ -1430,7 +1430,7 @@ public class SunflowAPIAPI {
 //              set currCamera for rendering
                 this.currCamera = name;
 
-                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up)); 
+                sunflow.parameter("transform", Matrix4.lookAt(eye, target, up));
 
                 sunflow.camera(name, CAMERA_SPHERICAL);
         }
@@ -1450,7 +1450,7 @@ public class SunflowAPIAPI {
                         this.setThinlensCamera(currCamera, fov, aspect, shiftX, shiftY, focusDistance, lensRadius, sides, lensRotation);
                 }
         }
-        
+
         /*
          * END OF CAMERAS
          * --------------------------------------------------------------------------------------
@@ -1469,7 +1469,7 @@ public class SunflowAPIAPI {
          * @param maxDist
          */
         public void setAmbientOcclusionEngine(Color bright, Color dark, int samples, float maxDist) {
-                sunflow.parameter("gi.engine", GI_AMBIENT_OCCLUSION); 
+                sunflow.parameter("gi.engine", GI_AMBIENT_OCCLUSION);
                 sunflow.parameter("gi.ambocc.bright", colorSpace, bright.getRed()/(float)255, bright.getGreen(), bright.getBlue());
                 sunflow.parameter("gi.ambocc.dark", colorSpace, dark.getRed()/(float)255, dark.getGreen(), dark.getBlue());
                 sunflow.parameter("gi.ambocc.samples", samples);
@@ -1507,7 +1507,7 @@ public class SunflowAPIAPI {
          * @param samples Detail, the higher the slower and smoother
          * @param tolerance ?
          * @param minSpacing ?
-         * @param maxSpacing ? 
+         * @param maxSpacing ?
          * @param globalphotonmap ?
          */
         public void setIrradianceCacheGIEngine(int samples, float tolerance, float minSpacing, float maxSpacing, String globalphotonmap){
@@ -1526,7 +1526,7 @@ public class SunflowAPIAPI {
                 sunflow.parameter("gi.engine", GI_PATH);
                 sunflow.parameter("gi.path.samples", samples);
         }
-        
+
         /*
          * END OF GLOBAL ILLUMINATION ENGINE
          * --------------------------------------------------------------------------------------
@@ -1539,7 +1539,7 @@ public class SunflowAPIAPI {
         public void setColorSpace(String theColorSpace) {
                 if(theColorSpace == COLORSPACE_SRGB_NONLINEAR) colorSpace = theColorSpace;
                 else if(theColorSpace == COLORSPACE_SRGB_LINEAR) colorSpace = theColorSpace;
-                else if(theColorSpace == COLORSPACE_XYZ) colorSpace = theColorSpace; 
+                else if(theColorSpace == COLORSPACE_XYZ) colorSpace = theColorSpace;
                 else System.out.println("Colorspace not found, keeping current one");
         }
         /**
@@ -1570,10 +1570,10 @@ public class SunflowAPIAPI {
         public void setBackground(float red, float green, float blue){
                 sunflow.parameter("color", null, red, green, blue);
                 removeBackground();
-                sunflow.shader("background.shader", "constant"); 
-                sunflow.geometry("internal_background", "background"); 
-                sunflow.parameter("shaders", "background.shader"); 
-                sunflow.instance("internal_background.instance", "internal_background"); 
+                sunflow.shader("background.shader", "constant");
+                sunflow.geometry("internal_background", "background");
+                sunflow.parameter("shaders", "background.shader");
+                sunflow.instance("internal_background.instance", "internal_background");
         }
         public void removeBackground() {
                 if(sunflow.lookupGeometry("internal_background") != null) sunflow.remove("internal_background");
@@ -1653,7 +1653,7 @@ public class SunflowAPIAPI {
         public void removeModifier(String name) {
                 if(sunflow.lookupModifier(name) != null) sunflow.remove(name);
         }
-        
+
         public SunflowAPI sunflowObject() {
                 return sunflow;
         }
@@ -1689,12 +1689,12 @@ public class SunflowAPIAPI {
         public void setAaMax(int aaMax) {
                 this.aaMax = aaMax;
         }
-        
+
         /*
          * --------------------------------------------------------------------------------------
          * UTILITIES
          */
-        
+
         /**
          * writes basic settings (camera, light, shader)
          * note: one still has to set the ambient occlusion shader
@@ -1717,7 +1717,7 @@ public class SunflowAPIAPI {
                 // draw a ground plane
                 this.drawPlane("internal_basic_ground", new Point3(0,0,0), new Vector3(0,1,0));
         }
-        
+
         /*
          * END OF UTILITIES
          * --------------------------------------------------------------------------------------

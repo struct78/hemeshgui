@@ -16,10 +16,26 @@ Sunflow & Processing :
 
 ### Changelog
 
+### v0.5
+
+changes and fixes by David Johnson (struct78)
+
+* Moved UI to grid-based layout
+* Code refactoring to make adding shapes/modifiers easier
+* Disabled unused parameter sliders for Shapes
+* Removed unused parameter sliders for Modifiers
+* Added Voronoi Cells and "UV Parametric shapes
+* Added Noise and Spherical Inversion modifiers
+* Added DooSabin subdivider
+* Added Ambient Occlusion shader
+* Added UI themes
+* Made non-blocking UI
+* Added multithreaded rendering
 
 #### v0.4.1
 
 changes and fixes by David Johnson (struct78)
+
 * Updated UI visual defects
 * Fixed property labels not appearing when changing shapes
 * Added images to README
@@ -88,8 +104,10 @@ These libraries are included in HemeshGui
 
 
 ### Images
-![Default](https://i.imgur.com/tiXfz2u.png)
+![Default](https://i.imgur.com/UTwvW5p.png)
 
-![Torus](https://i.imgur.com/xbM00gQ.png)
+![Voronoi Cells](https://i.imgur.com/uaX2Ylj.png)
 
-![Geodesic](https://i.imgur.com/IW4LHJ0.png)
+![UV Parametric](https://i.imgur.com/zRFgWqp.png)
+
+![UV Parametric](https://i.imgur.com/aaqUhRj.png)

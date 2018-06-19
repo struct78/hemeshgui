@@ -10,13 +10,13 @@ void resetTranslationMouvement() {
 }
 
 void progressiveRotation() {
-  
+
   if(mouseX<width/2) {
     rotationYchange = ((width/2) - mouseX) * maxSpeedY / (width/2);
   } else {
     rotationYchange = - ( (mouseX - (width/2)) * maxSpeedY / (width/2));
   }
-  
+
   if(mouseY<height/2) {
     rotationXchange = -( ((height/2) - mouseY) * maxSpeedX / (height/2));
   } else {
@@ -25,13 +25,13 @@ void progressiveRotation() {
 }
 
 void progressiveTranslation() {
-  
+
   if(mouseX<width/2) {
     translateXchange = ((width/2) - mouseX) * maxSpeedX / (width/2);
   } else {
     translateXchange = - ( (mouseX - (width/2)) * maxSpeedX / (width/2));
   }
-  
+
   if(mouseY<height/2) {
     translateYchange = ((height/2) - mouseY) * maxSpeedY / (height/2);
   } else {
@@ -51,7 +51,7 @@ void translation() {
 }
 
 void viewport() {
-  
+
   if(flagMouseControlRotationMouvement) {
     progressiveRotation();
   } else {
@@ -62,27 +62,27 @@ void viewport() {
        rotationYchange = -changeSpeedY/2;
      }
   }
-  
+
   if(flagMouseControlTranslationMouvement) {
     //progressiveTranslation();
   } else {
      resetTranslationMouvement();
      if (translationOn) translation();
   }
-  
+
   updateViewport();
-  
-  
+
+
 }
 
 
 void updateViewport() {
-  
+
   //translation
   translateX += translateXchange;
   translateY += translateYchange;
   translate(translateX,translateY);
-   
+
   // rotation
   rotationX += rotationXchange;
   rotationY += rotationYchange;
