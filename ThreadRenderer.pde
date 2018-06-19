@@ -6,7 +6,6 @@ class ThreadRenderer implements Runnable {
     }
 
     public void start () {
-        println("Starting thread");
         if (thread == null) {
             thread = new Thread (this);
             thread.start();
@@ -15,8 +14,8 @@ class ThreadRenderer implements Runnable {
 
     public void run() {
       SunflowAPIAPI sunflow = new SunflowAPIAPI();
-      sunflow.setWidth(int(sceneWidth*sunflowMultiply));
-      sunflow.setHeight(int(sceneHeight*sunflowMultiply));
+      sunflow.setWidth(int(sceneWidth * sunflowMultiply));
+      sunflow.setHeight(int(sceneHeight * sunflowMultiply));
 
       if (preview) {
         sunflow.setAaMin(-2);
@@ -40,7 +39,7 @@ class ThreadRenderer implements Runnable {
 
       selectedShader.create(sunflow);
 
-      sunflow.drawMesh("myHemesh", verticesHemeshOneDim, facesHemeshOneDim, actualZoom/20, 0,0,0);
+      sunflow.drawMesh("myHemesh", verticesHemeshOneDim, facesHemeshOneDim, actualZoom / 25, 0, 0, 0);
 
       String path = "/output/screenshots/";
       if (saveContinuous) path = "/output/sequence/" + timestamp + "/";
