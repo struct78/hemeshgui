@@ -1,3 +1,4 @@
+// TODO: Fix this
 void quickSave() {
   //shaderList.setValue(selectedShaderIndex);
   //shapeList.setValue(selectedShapeIndex);
@@ -10,4 +11,5 @@ void quickLoad() {
   selectedShapeIndex = (int) shapeList.getValue();
   setShapeParameters(selectedShapeIndex);
   setShaderParameters(selectedShaderIndex);
+  createHemesh();
 }
