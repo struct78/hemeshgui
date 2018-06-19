@@ -26,8 +26,8 @@ void hemeshToSunflow() {
   for (int y=0; y<verticesHemesh.length; y++) {
     for (int x=0; x<3; x++) {
       // for accurate rendering of the x & y position the translate values are processed into the sunflow coordinates
-      if      (x==0) { verticesHemeshOneDim[hemeshCounter] =  verticesHemesh[y][x] + (translateX-width/2) / actualZoom; }
-      else if (x==1) { verticesHemeshOneDim[hemeshCounter] = -verticesHemesh[y][x] - (translateY-height/2) / actualZoom; }
+      if      (x==0) { verticesHemeshOneDim[hemeshCounter] =  verticesHemesh[y][x] + (translateX-width/2); }
+      else if (x==1) { verticesHemeshOneDim[hemeshCounter] = -verticesHemesh[y][x] - (translateY-height/2); }
       else           { verticesHemeshOneDim[hemeshCounter] =  verticesHemesh[y][x]; }
       hemeshCounter++;
     }
