@@ -30,22 +30,24 @@ class Modifier extends BaseModel {
 
   // display gui elements for the modifier
   void menu() {
-    Button button = cp5.addButton("remove" + this.index, 0, mx2, getY(-1), Config.CP5.Controls.Width, Config.CP5.Controls.Height);
+    String buttonName = getButtonName(this.index);
+    Button button = cp5.addButton(buttonName, 0, mx2, getY(-1), Config.CP5.Controls.Width, Config.CP5.Controls.Height);
     button.setLabel(this.name + " [remove]");
     button.setId(this.index);
     button.onClick(new CallbackListener() {
       public void controlEvent(CallbackEvent theEvent) {
+        String buttonName = getButtonName(index);
         selectedModifiers.remove(index);
-        cp5.remove("remove" + index);
+        cp5.remove(buttonName);
         for (int i = 0; i < values.length; i++) {
-          cp5.remove(index + "v" + i);
+          cp5.remove(getSliderName(index, i));
         }
         createHemesh();
       }
     });
 
     for (int i = 0; i < this.parameters; i++) {
-      cp5.addSlider(index + "v" + i, this.minValues[i], this.maxValues[i])
+      cp5.addSlider(getSliderName(index, i), this.minValues[i], this.maxValues[i])
         .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
         .setPosition(mx2, getY(i))
         .setLabel(this.labels[i])
@@ -65,10 +67,10 @@ class Modifier extends BaseModel {
   // reposition modifier gui if an earlier modifier is removed (aka everything moves up one place)
   void update() {
     if (this.index != this.currentIndex) {
-      cp5.remove("remove" + this.currentIndex);
+      cp5.remove(getButtonName(this.currentIndex));
 
       for (int i = 0; i < this.values.length; i++) {
-          cp5.remove(this.currentIndex + "v" + i);
+          cp5.remove(getSliderName(this.currentIndex, i));
       }
 
       this.currentIndex = this.index;

@@ -42,9 +42,10 @@ void reset() {
 
   // remove the gui elements for all modifiers
   for (int i = 0; i < selectedModifiers.size(); i++) {
-    cp5.remove("remove" + i);
-    for (int j=0; j<5; j++) {
-      cp5.remove(i+"v"+j);
+    Modifier modifier = selectedModifiers.get(i);
+    cp5.remove(getButtonName(i));
+    for (int j=0; j<modifier.parameters; j++) {
+      cp5.remove(getSliderName(i, j));
     }
   }
 
