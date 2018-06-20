@@ -6,6 +6,14 @@ int getInlineX(int index, int count) {
   return ((Config.CP5.Controls.Width/count) * (index-1)) + (Config.CP5.Controls.Margin / 2);
 }
 
+String getSliderName(int idx, int i) {
+  return "parameter_" + idx + "_" + i;
+}
+
+String getButtonName(int idx) {
+  return "remove_" + idx;
+}
+
 int getLineHeight() {
     return int(Config.CP5.Controls.Height * .2);
 }
