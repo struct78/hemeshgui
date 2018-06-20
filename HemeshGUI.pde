@@ -158,9 +158,6 @@ HEM_Extrude extrude2 = new HEM_Extrude();
 WB_Render render;
 
 void setup() {
-  fullScreen(OPENGL);
-  smooth(4);
-
   sceneWidth = width;
   sceneHeight = height;
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
@@ -173,6 +170,11 @@ void setup() {
   createShaders();
   createGui();
   createHemesh();
+}
+
+void settings() {
+  fullScreen(OPENGL);
+  smooth(4);
 }
 
 void draw() {
