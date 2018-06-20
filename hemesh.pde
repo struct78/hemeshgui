@@ -439,22 +439,6 @@ void createModifiers() {
     );
 
     modifiers.add(
-       new Modifier("Stretch", 2)
-           .setDefaultValues(new float[] { 1, 1 })
-           .setLabels(new String[] { "Factor", "Compression" })
-           .setCreator(new ModifierCreator() {
-             public synchronized void create(float[] values) {
-                 meshBuffer.modify(
-                     new HEM_Stretch()
-                        .setStretchFactor(values[0])
-                        .setCompressionFactor(values[1])
-                        .setGroundPlane(new WB_Plane(new WB_Point(0, 0, 0), new WB_Vector(0, 1, 0)))
-                 );
-             }
-         })
-    );
-
-    modifiers.add(
        new Modifier("Twist (X)", 1)
            .setDefaultValues(new float[] { 0.1 })
            .setMinValues(new float[] { 0 })
