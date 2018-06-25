@@ -226,13 +226,16 @@ void createShapes() {
    );
 
    shapes.add(
-      new Shape("Super Duper", 3)
+      new Shape("Super Duper", 4)
         .setLabels(new String[] { "Radius", "UFacets", "VFacets" })
+        .setMinValues(new float[] { 1, 1, 1 })
+        .setMaxValues(new float[] { 200, 500, 100 })
+        .setDefaultValues(new float[] { 30, 35, 400, 20 })
         .setCreator(new ShapeCreator() {
             public synchronized void create(float[] values) {
                 meshBuffer = new HE_Mesh(
                     new HEC_SuperDuper()
-                        .setGeneralParameters(0, 11, 0, 0, 13, 10, 15, 10, 4, 0, 0, 0, 5, 0.3, 2.2)
+                        .setGeneralParameters(0, 11, 0, 0,13, 10, 15, 10, 4, 0, 0, 0, 5, 0.3, 2.2)
                         .setU(int(values[1]))
                         .setV(int(values[2]))
                         .setUWrap(true)
@@ -241,6 +244,62 @@ void createShapes() {
                 );
             }
         })
+   );
+
+
+   shapes.add(
+     new Shape("Super Duper - Random", 3)
+       .setLabels(new String[] { "Radius", "UFacets", "VFacets" })
+       .setMinValues(new float[] { 1, 1, 1 })
+       .setMaxValues(new float[] { 200, 500, 100 })
+       .setDefaultValues(new float[] { 35, 400, 20 })
+       .setCreator(new ShapeCreator() {
+           public synchronized void create(float[] values) {
+               double[] randoms = new double[] {
+                   random(0, 1),
+                   random(5, 15),
+                   random(0, 1),
+                   random(0, 1),
+                   random(5, 15),
+                   random(1, 15),
+                   random(5, 20),
+                   random(10, 15),
+                   random(2.5, 5),
+                   random(0, 1),
+                   random(0, 1),
+                   random(0, 1),
+                   random(2.5, 5),
+                   random(0, 1),
+                   random(0.5, 2.5)
+               };
+
+               meshBuffer = new HE_Mesh(
+                   new HEC_SuperDuper()
+                       .setGeneralParameters(
+                         randoms[0],
+                         randoms[1],
+                         randoms[2],
+                         randoms[3],
+                         randoms[4],
+                         randoms[5],
+                         randoms[6],
+                         randoms[7],
+                         randoms[8],
+                         randoms[9],
+                         randoms[10],
+                         randoms[11],
+                         randoms[12],
+                         randoms[13],
+                         randoms[14]
+                       )
+                       .setU(int(values[1]))
+                       .setV(int(values[2]))
+                       .setUWrap(false)
+                       .setVWrap(false)
+                       .setRadius(int(values[0]))
+               );
+           }
+       })
    );
 
    shapes.add(
@@ -337,6 +396,25 @@ void createShapes() {
                 );
             }
         })
+   );
+
+   shapes.add(
+     new Shape("Sea Shell", 4)
+      .setMinValues(new float[] { 0, 0, 0, 1 })
+      .setMaxValues(new float[] { 10, 10, 100, 20 })
+      .setDefaultValues(new float[] { 5, 2, 15, 10 })
+      .setLabels(new String[] { "Scale", "Spiral Size", "Angle", "Divisions" })
+      .setCreator(new ShapeCreator() {
+          public synchronized void create(float[] values) {
+              meshBuffer = new HE_Mesh(
+                  new HEC_SeaShell()
+                      .setScale(values[0])
+                      .setA(values[1])
+                      .setBeta(values[2])
+                      .setDivisions(values[3], values[3])
+              );
+          }
+      })
    );
 }
 
@@ -658,6 +736,38 @@ void createModifiers() {
     );
 
     modifiers.add(
+       new Modifier("Spherify", 1)
+           .setDefaultValues(new float[] { 1 })
+           .setLabels(new String[] { "Radius" })
+           .setCreator(new ModifierCreator() {
+             public synchronized void create(float[] values) {
+                 meshBuffer.modify(
+                     new HEM_Spherify()
+                        .setRadius(values[0])
+                        .setCenter(0, 0, 0)
+                 );
+             }
+         })
+    );
+
+    // NOTE: This feature is unstable
+    modifiers.add(
+       new Modifier("Shrink Wrap", 1)
+           .setMinValues(new float[] { 0 })
+           .setDefaultValues(new float[] { 2 })
+           .setMaxValues(new float[] { 20 })
+           .setLabels(new String[] { "Level" })
+           .setCreator(new ModifierCreator() {
+             public synchronized void create(float[] values) {
+                meshBuffer = new HEC_ShrinkWrap()
+                  .setSource(meshBuffer)
+                  .setLevel(int(values[0]))
+                  .createBase();
+             }
+         })
+    );
+
+    modifiers.add(
         new Modifier("============", 0)
     );
 
@@ -759,6 +869,26 @@ void createModifiers() {
                           .setAbsolute(false)
                           .setDistance(int(values[1])),
                       int(values[0])
+                  );
+              }
+        })
+    );
+
+    modifiers.add(
+        new Modifier("============", 0)
+    );
+
+    modifiers.add(
+        new Modifier("TriDec", 1)
+            .setDefaultValues(new float[] { 0.9 })
+            .setMaxValues(new float[] { 1.0 })
+            .setMinValues(new float[] { 0.01 })
+            .setLabels(new String[] { "Iterations", "Distance" })
+            .setCreator(new ModifierCreator() {
+              public synchronized void create(float[] values) {
+                  meshBuffer.simplify(
+                      new HES_TriDec()
+                          .setGoal(values[0])
                   );
               }
         })

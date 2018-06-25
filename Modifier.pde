@@ -128,5 +128,5 @@ class Modifier extends BaseModel {
 }
 
 interface ModifierCreator {
-public void create(float[] values);
+  public void create(float[] values);
 }
