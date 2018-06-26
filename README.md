@@ -16,11 +16,11 @@ Sunflow & Processing :
 
 ### Changelog
 
-### v0.6
-
 changes and fixes by David Johnson ([http://github.com/struct78](http://github.com/struct78))
 
 * Added Ani library for smoother animations
+* Added Sea Shell and Sweep Tube shapeSaturation
+* Added Spherify and Shrink Wrap modifiers
 
 ### v0.5
 
