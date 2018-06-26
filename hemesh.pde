@@ -246,62 +246,6 @@ void createShapes() {
         })
    );
 
-
-   shapes.add(
-     new Shape("Super Duper - Random", 3)
-       .setLabels(new String[] { "Radius", "UFacets", "VFacets" })
-       .setMinValues(new float[] { 1, 1, 1 })
-       .setMaxValues(new float[] { 200, 500, 100 })
-       .setDefaultValues(new float[] { 35, 400, 20 })
-       .setCreator(new ShapeCreator() {
-           public synchronized void create(float[] values) {
-               double[] randoms = new double[] {
-                   random(0, 1),
-                   random(5, 15),
-                   random(0, 1),
-                   random(0, 1),
-                   random(5, 15),
-                   random(1, 15),
-                   random(5, 20),
-                   random(10, 15),
-                   random(2.5, 5),
-                   random(0, 1),
-                   random(0, 1),
-                   random(0, 1),
-                   random(2.5, 5),
-                   random(0, 1),
-                   random(0.5, 2.5)
-               };
-
-               meshBuffer = new HE_Mesh(
-                   new HEC_SuperDuper()
-                       .setGeneralParameters(
-                         randoms[0],
-                         randoms[1],
-                         randoms[2],
-                         randoms[3],
-                         randoms[4],
-                         randoms[5],
-                         randoms[6],
-                         randoms[7],
-                         randoms[8],
-                         randoms[9],
-                         randoms[10],
-                         randoms[11],
-                         randoms[12],
-                         randoms[13],
-                         randoms[14]
-                       )
-                       .setU(int(values[1]))
-                       .setV(int(values[2]))
-                       .setUWrap(false)
-                       .setVWrap(false)
-                       .setRadius(int(values[0]))
-               );
-           }
-       })
-   );
-
    shapes.add(
       new Shape("Alpha", 3)
         .setLabels(new String[] { "Scale", "Points", "Triangles" })
@@ -381,18 +325,18 @@ void createShapes() {
    );
 
    shapes.add(
-      new Shape("UV Parametric", 2)
-        .setMinValues(new float[] { 10, 4 })
-        .setMaxValues(new float[] { 500, 200 })
-        .setDefaultValues(new float[] { 100, 50 })
-        .setLabels(new String[] { "Scale", "Radius" })
+      new Shape("UV Parametric", 4)
+        .setMinValues(new float[] { 10, 4, 0.5, 2 })
+        .setMaxValues(new float[] { 500, 200, 10, 30 })
+        .setDefaultValues(new float[] { 100, 50, 2, 3 })
+        .setLabels(new String[] { "Scale", "Steps", "Sq. Factor", "Divider" })
         .setCreator(new ShapeCreator() {
             public synchronized void create(float[] values) {
                 meshBuffer = new HE_Mesh(
                     new HEC_UVParametric()
                         .setUVSteps(int(values[1]), int(values[1]))
                         .setScale(values[0])
-                        .setEvaluator(new UVFunction())
+                        .setEvaluator(new UVFunction(values[2], values[3]))
                 );
             }
         })
@@ -416,6 +360,41 @@ void createShapes() {
           }
       })
    );
+
+   shapes.add(
+     new Shape("Sweep Tube", 5)
+      .setMinValues(new float[] { 0, 0, 0, 1, 10 })
+      .setMaxValues(new float[] { 100, 2000, 100, 10, 100 })
+      .setDefaultValues(new float[] { 40, 200, 80, 3, 20 })
+      .setLabels(new String[] { "Thickness", "Length", "Radius", "Pitch", "Facets" })
+      .setCreator(new ShapeCreator() {
+          public synchronized void create(float[] values) {
+              WB_Point[] splinePoints = new WB_Point[int(values[1]) * 2];
+              for (int i = -int(values[1]); i < int(values[1]); i++) {
+                splinePoints[i + int(values[1])] = new WB_Point(
+                  cos(radians(i)) * values[2],
+                  sin(radians(i)) * values[2],
+                  i / values[3]
+                );
+              }
+
+              WB_BSpline spline = new WB_BSpline(splinePoints, 6);
+
+              meshBuffer = new HE_Mesh(
+                  new HEC_SweepTube()
+                      .setCurve(spline)
+                      .setRadius(values[0])
+                      .setSteps(int(values[4]) * 8)
+                      .setFacets(int(values[4]))
+                      .setCap(true, true)
+                  );
+          }
+      })
+   );
+
+   for ( Shape shape : shapes ) {
+     maxShapeParameters = shape.parameters > maxShapeParameters ? shape.parameters : maxShapeParameters;
+   }
 }
 
 void createModifiers() {
@@ -908,6 +887,10 @@ void createHemesh() {
             isUpdatingMesh = true;
             renderingTime = millis();
             selectedShape.create();
+
+            if (validateMesh) {
+              selectedShape.validate(meshBuffer);
+            }
 
             for (int i = 0; i < selectedModifiers.size(); i++) {
                 Modifier m = selectedModifiers.get(i);

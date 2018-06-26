@@ -835,75 +835,26 @@ void createGroup3() {
 
   y2 += multiplyGrid(1);
 
-  cp5.addSlider("create0", 0, 500, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
-    .setDecimalPrecision(0)
-    .moveTo(g3)
-    .onRelease(new CallbackListener() {
-      public void controlEvent(CallbackEvent theEvent) {
-        selectedShape.values[0] = int(theEvent.getController().getValue());
-        createHemesh();
-      }
-    })
-    .onDrag(new CallbackListener() {
-      public void controlEvent(CallbackEvent theEvent) {
-        selectedShape.values[0] = int(theEvent.getController().getValue());
-        createHemesh();
-      }
-    });
+  for ( int x = 0 ; x < maxShapeParameters ; x++ ) {
+    final int y = x;
+    cp5.addSlider("create" + x, 0, 500, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
+      .setDecimalPrecision(0)
+      .moveTo(g3)
+      .onRelease(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          selectedShape.values[y] = theEvent.getController().getValue();
+          createHemesh();
+        }
+      })
+      .onDrag(new CallbackListener() {
+        public void controlEvent(CallbackEvent theEvent) {
+          selectedShape.values[y] = theEvent.getController().getValue();
+          createHemesh();
+        }
+      });
 
-  y2 += multiplyGrid(1);
-
-  cp5.addSlider("create1", 0, 500, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
-    .setDecimalPrecision(0)
-    .moveTo(g3)
-    .onRelease(new CallbackListener() {
-      public void controlEvent(CallbackEvent theEvent) {
-        selectedShape.values[1] = int(theEvent.getController().getValue());
-        createHemesh();
-      }
-    })
-    .onDrag(new CallbackListener() {
-      public void controlEvent(CallbackEvent theEvent) {
-        selectedShape.values[1] = int(theEvent.getController().getValue());
-        createHemesh();
-      }
-    });
-
-  y2 += multiplyGrid(1);
-
-  cp5.addSlider("create2", 0, 500, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
-    .setDecimalPrecision(0)
-    .moveTo(g3)
-    .onRelease(new CallbackListener() {
-      public void controlEvent(CallbackEvent theEvent) {
-        selectedShape.values[2] = int(theEvent.getController().getValue());
-        createHemesh();
-      }
-    })
-    .onDrag(new CallbackListener() {
-      public void controlEvent(CallbackEvent theEvent) {
-        selectedShape.values[2] = int(theEvent.getController().getValue());
-        createHemesh();
-      }
-    });
-
-  y2 += multiplyGrid(1);
-
-  cp5.addSlider("create3", 0, 500, x2, y2, Config.CP5.Controls.Width, Config.CP5.Controls.Height)
-    .setDecimalPrecision(0)
-    .moveTo(g3)
-    .onRelease(new CallbackListener() {
-      public void controlEvent(CallbackEvent theEvent) {
-        selectedShape.values[3] = int(theEvent.getController().getValue());
-        createHemesh();
-      }
-    })
-    .onDrag(new CallbackListener() {
-      public void controlEvent(CallbackEvent theEvent) {
-        selectedShape.values[3] = int(theEvent.getController().getValue());
-        createHemesh();
-      }
-    });
+    y2 += multiplyGrid(1);
+  }
 
   setShapeParameters(selectedShapeIndex);
 
@@ -1082,7 +1033,7 @@ void setShapeParameters(int shape) {
     }
   }
 
-  for ( int y = selectedShape.parameters ; y < 4 ; y++ ) {
+  for ( int y = selectedShape.parameters ; y < maxShapeParameters ; y++ ) {
     controller = cp5.getController("create" + y);
     if (controller != null) {
       controller.setVisible(false);
@@ -1139,7 +1090,7 @@ void setShaderParameters(int shader) {
       }
     }
 
-    for ( int y = selectedShader.parameters ; y < 4 ; y++ ) {
+    for ( int y = selectedShader.parameters ; y < maxShapeParameters ; y++ ) {
       controller = cp5.getController("param" + y);
       if (controller != null) {
         controller.setVisible(false);

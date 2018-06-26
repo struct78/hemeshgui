@@ -12,7 +12,7 @@ void reset() {
   resetView();
   resetLights();
 
-  for ( int x = 0 ; x < 4 ; x++ ) {
+  for ( int x = 0 ; x < maxShapeParameters ; x++ ) {
     cp5.getController("create" + x).setValue(defaultShapeValues[0]);
     cp5.getController("create" + x).setMax(maxShapeValues[0]);
     cp5.getController("create" + x).setMin(minShapeValues[0]);

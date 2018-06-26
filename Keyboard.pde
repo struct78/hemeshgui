@@ -2,13 +2,6 @@
 
 // some useful keyboard actions
 void keyPressed() {
-
-  if (key == ' ') {
-    if (selectedShape.name == "Super Duper - Random") {
-      createHemesh();
-    }
-  }
-
   // toggle autoRotate, translation & rotation
   if (key == 'r') {
     if (autoRotate == false) {

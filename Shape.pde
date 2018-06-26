@@ -49,6 +49,10 @@ class Shape extends BaseModel {
       println("No creator found");
     }
   }
+
+  void validate(HE_Mesh mesh) {
+    HET_Diagnosis.validate(mesh);
+  }
 }
 
 interface ShapeCreator {
@@ -56,11 +60,19 @@ interface ShapeCreator {
 }
 
 class UVFunction implements WB_VectorParameter {
+    public double sq = 2.0;
+    public double dv = 2.0;
+
+    public UVFunction(double sq, double dv) {
+      this.sq = sq;
+      this.dv = dv;
+    }
+
     WB_Point evaluate(double... u) {
-      double pi23 = 2 * Math.PI / 3;
+      double pi23 = TWO_PI / this.dv;
       double ua = Math.PI * 2 * u[0];
       double va = Math.PI * 2 * u[1];
-      double sqrt2 = Math.sqrt(2.0d);
+      double sqrt2 = Math.sqrt(this.sq);
       double px = Math.sin(ua) / Math.abs(sqrt2+ Math.cos(va));
       double py = Math.sin(ua + pi23) / Math.abs(sqrt2 + Math.cos(va + pi23));
       double pz = Math.cos(ua - pi23) / Math.abs(sqrt2 + Math.cos(va - pi23));

@@ -1,8 +1,9 @@
-import wblut.math.*;
-import wblut.processing.*;
 import wblut.core.*;
-import wblut.hemesh.*;
 import wblut.geom.*;
+import wblut.hemesh.*;
+import wblut.math.*;
+import wblut.nurbs.*;
+import wblut.processing.*;
 
 import controlP5.*;
 import de.looksgood.ani.*;
@@ -59,6 +60,7 @@ boolean sunflowBlackBackgroundOn = false;
 boolean sunflowWhiteBackgroundOn = false;
 boolean sunSkyLightOn = true;
 boolean translationOn = false; // toggle translation
+boolean validateMesh = false;
 
 color lightsColor;
 color shapeColor; // shape color
@@ -114,6 +116,7 @@ int selectedShaderIndex = 0;
 int x2;
 int y2;
 int waitTime = 250;
+int maxShapeParameters = 0;
 int[] triangles;
 
 long renderingTime = millis();
