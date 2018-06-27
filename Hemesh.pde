@@ -15,6 +15,7 @@ void createShapes() {
       .setDefaultValues(new float[] { 200, 200, 200 })
       .setLabels(new String[] { "Depth", "Width", "Height" })
       .setCreator(new ShapeCreator() {
+          public synchronized void create(float[] values, File file) {}
           public synchronized void create(float[] values) {
                meshBuffer = new HE_Mesh(
                    new HEC_Box()
@@ -32,6 +33,7 @@ void createShapes() {
        .setDefaultValues(new float[] { 75, 150, 25, 1 })
        .setLabels(new String[] { "Radius", "Height", "Facets", "Steps" })
        .setCreator(new ShapeCreator() {
+           public synchronized void create(float[] values, File file) {}
            public synchronized void create(float[] values) {
                meshBuffer = new HE_Mesh(
                  new HEC_Cone()
@@ -48,6 +50,7 @@ void createShapes() {
      new Shape("Dodecahedron", 1)
         .setLabels(new String[] { "Edge" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                meshBuffer = new HE_Mesh(
                  new HEC_Dodecahedron()
@@ -63,6 +66,7 @@ void createShapes() {
        .setDefaultValues(new float[] { Config.Hemesh.Values.Default, 1, 1 })
        .setLabels(new String[] { "Radius", "B", "C" })
        .setCreator(new ShapeCreator() {
+           public synchronized void create(float[] values, File file) {}
            public synchronized void create(float[] values) {
               meshBuffer = new HE_Mesh(
                   new HEC_Geodesic()
@@ -80,6 +84,7 @@ void createShapes() {
        .setDefaultValues(new float[] { 100, 300, 20 })
        .setLabels(new String[] { "Radius", "UFacets", "VFacets" })
        .setCreator(new ShapeCreator() {
+           public synchronized void create(float[] values, File file) {}
            public synchronized void create(float[] values) {
               meshBuffer = new HE_Mesh(
                   new HEC_Sphere()
@@ -96,6 +101,7 @@ void createShapes() {
         .setDefaultValues(new float[] { 100, 300, 20, 2 })
         .setLabels(new String[] { "Radius", "Height", "Facets", "Steps" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                meshBuffer = new HE_Mesh(
                    new HEC_Cylinder()
@@ -112,6 +118,7 @@ void createShapes() {
       new Shape("Icosahedron", 1)
         .setLabels(new String[] { "Edge" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                meshBuffer = new HE_Mesh(
                    new HEC_Icosahedron()
@@ -125,6 +132,7 @@ void createShapes() {
       new Shape("Octahedron", 1)
         .setLabels(new String[] { "Edge" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                meshBuffer = new HE_Mesh(
                    new HEC_Octahedron()
@@ -138,6 +146,7 @@ void createShapes() {
       new Shape("Tetrahedron", 1)
         .setLabels(new String[] { "Edge" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                meshBuffer = new HE_Mesh(
                    new HEC_Tetrahedron()
@@ -152,6 +161,7 @@ void createShapes() {
         .setDefaultValues(new float[] { 100, 100, 20, 20 })
         .setLabels(new String[] { "Ex. Radius", "Int. Radius", "Tube Facets", "Torus Facets" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                meshBuffer = new HE_Mesh(
                    new HEC_Torus()
@@ -169,6 +179,7 @@ void createShapes() {
         .setDefaultValues(new float[] { 400, 400, 128, 10 })
         .setLabels(new String[] { "Width", "Height", "Disturb", "Facets" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                 float[][] wvalues = new float[int(values[3])][int(values[3])];
                 for (int j = 0; j < int(values[3]); j++) {
@@ -192,6 +203,7 @@ void createShapes() {
       new Shape("Convex Hull", 4)
         .setLabels(new String[] { "Points x 1000", "Width", "Height", "Depth" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                 float[][] randomPoints = new float[int(values[0])*1000][3];
                 for (int i = 0; i < int(values[0])*1000; i++) {
@@ -215,6 +227,7 @@ void createShapes() {
         .setDefaultValues(new float[] { 5 })
         .setMaxValues(new float[] { 10 })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                 meshBuffer = new HE_Mesh(
                     new HEC_Beethoven()
@@ -232,6 +245,7 @@ void createShapes() {
         .setMaxValues(new float[] { 200, 500, 100 })
         .setDefaultValues(new float[] { 30, 35, 400, 20 })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                 meshBuffer = new HE_Mesh(
                     new HEC_SuperDuper()
@@ -250,6 +264,7 @@ void createShapes() {
       new Shape("Alpha", 3)
         .setLabels(new String[] { "Scale", "Points", "Triangles" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                 WB_RandomOnSphere source = new WB_RandomOnSphere();
                 int numPoints = int(values[1]);
@@ -277,6 +292,7 @@ void createShapes() {
       new Shape("Archimedes", 2)
         .setLabels(new String[] { "Edge", "Type" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                 meshBuffer = new HE_Mesh(
                     new HEC_Archimedes()
@@ -294,6 +310,7 @@ void createShapes() {
         .setDefaultValues(new float[] { 200, 100, 5 })
         .setLabels(new String[] { "Radius", "Points", "Offset" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                 meshBuffer = new HE_Mesh(
                     new HEC_Geodesic()
@@ -331,6 +348,7 @@ void createShapes() {
         .setDefaultValues(new float[] { 100, 50, 2, 3 })
         .setLabels(new String[] { "Scale", "Steps", "Sq. Factor", "Divider" })
         .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
                 meshBuffer = new HE_Mesh(
                     new HEC_UVParametric()
@@ -349,6 +367,7 @@ void createShapes() {
       .setDefaultValues(new float[] { 5, 2, 15, 10 })
       .setLabels(new String[] { "Scale", "Spiral Size", "Angle", "Divisions" })
       .setCreator(new ShapeCreator() {
+          public synchronized void create(float[] values, File file) {}
           public synchronized void create(float[] values) {
               meshBuffer = new HE_Mesh(
                   new HEC_SeaShell()
@@ -368,6 +387,7 @@ void createShapes() {
       .setDefaultValues(new float[] { 40, 200, 80, 3, 20 })
       .setLabels(new String[] { "Thickness", "Length", "Radius", "Pitch", "Facets" })
       .setCreator(new ShapeCreator() {
+          public synchronized void create(float[] values, File file) {}
           public synchronized void create(float[] values) {
               WB_Point[] splinePoints = new WB_Point[int(values[1]) * 2];
               for (int i = -int(values[1]); i < int(values[1]); i++) {
@@ -392,6 +412,49 @@ void createShapes() {
       })
    );
 
+   shapes.add(
+     new Shape("From file...", 1)
+        .setLabels(new String[] { "Scale" })
+        .setMinValues(new float[] { 0.1 })
+        .setMaxValues(new float[] { 100.0 })
+        .setDefaultValues(new float[] { 1.0 })
+        .setCustom(true)
+        .setCreator(new ShapeCreator() {
+          public synchronized void create(float[] values) {}
+          public synchronized void create(float[] values, File file) {
+            String extension = FileExtensions.getExtensionLowerCase(file);
+            String fullPath = file.getAbsolutePath();
+
+            // moveToSelf() needs to be called on all of these imports
+            // to center the object correctly
+            switch(extension) {
+              case "3ds":
+                meshBuffer = new HE_Mesh(
+                  new HEC_From3dsFile(fullPath)
+                    .setScale(values[0])
+                ).moveToSelf(0, 0, 0);
+                break;
+              case "stl":
+                meshBuffer = new HE_Mesh(
+                  new HEC_FromBinarySTLFile(fullPath)
+                    .setScale(values[0])
+                ).moveToSelf(0, 0, 0);
+                break;
+              case "obj":
+                meshBuffer = new HE_Mesh(
+                  new HEC_FromOBJFile(fullPath)
+                    .setScale(values[0])
+                ).moveToSelf(0, 0, 0);
+                break;
+              default:
+                println("Invalid file format");
+                break;
+            }
+          }
+        })
+   );
+
+   // Set the maximum number of parameters to display
    for ( Shape shape : shapes ) {
      maxShapeParameters = shape.parameters > maxShapeParameters ? shape.parameters : maxShapeParameters;
    }
@@ -481,7 +544,9 @@ void createModifiers() {
 
     modifiers.add(
        new Modifier("Stretch", 2)
-           .setDefaultValues(new float[] { 1, 1 })
+           .setDefaultValues(new float[] { 1.0, 1.0 })
+           .setMinValues(new float[] { 0.1, 0.1 })
+           .setMaxValues(new float[] { 2.0, 2.0 })
            .setLabels(new String[] { "Factor", "Compression" })
            .setCreator(new ModifierCreator() {
              public synchronized void create(float[] values) {
@@ -938,6 +1003,7 @@ void drawHemesh() {
   shapeColor = color(shapeHue, shapeSaturation, shapeBrightness, shapeTransparency);
   colorMode(RGB, 255, 255, 255, 255);
 
+
   if (facesOn) {
     noStroke();
     fill(shapeColor);
@@ -946,6 +1012,10 @@ void drawHemesh() {
       render.drawFaces(meshes);
     } else if (mesh != null) {
       render.drawFaces(mesh);
+      noFill();
+      /* Draw bounding box
+      stroke(255, 0, 0);
+      render.drawAABB(mesh.getAABB());*/
     }
   }
 

@@ -1,10 +1,14 @@
 class Shape extends BaseModel {
-  private boolean isMeshCollection;
-  private ShapeCreator shapeCreator;
+  boolean isMeshCollection;
+  boolean isCustom;
+  ShapeCreator shapeCreator;
+  File file;
 
   Shape (String name, int parameters) {
     super(name, parameters);
     this.isMeshCollection = false;
+    this.isCustom = false;
+    this.file = null;
   }
 
   Shape setMaxValues(float[] maxValues) {
@@ -33,8 +37,22 @@ class Shape extends BaseModel {
     return this;
   }
 
+  Shape setCustom(boolean isCustom) {
+    this.isCustom = isCustom;
+    return this;
+  }
+
+  Shape setFile(File file) {
+    this.file = file;
+    return this;
+  }
+
   boolean getMeshCollection() {
     return this.isMeshCollection;
+  }
+
+  File getFile() {
+    return this.file;
   }
 
   Shape setCreator(ShapeCreator creator) {
@@ -44,7 +62,11 @@ class Shape extends BaseModel {
 
   void create() {
     if (this.shapeCreator != null) {
-      this.shapeCreator.create(values);
+      if (this.isCustom) {
+        this.shapeCreator.create(values, file);
+      } else {
+        this.shapeCreator.create(values);
+      }
     } else {
       println("No creator found");
     }
@@ -57,6 +79,7 @@ class Shape extends BaseModel {
 
 interface ShapeCreator {
   public void create(float[] values);
+  public void create(float[] values, File file);
 }
 
 class UVFunction implements WB_VectorParameter {

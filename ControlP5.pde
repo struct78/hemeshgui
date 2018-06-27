@@ -765,7 +765,12 @@ void createGroup3() {
   shapeList.onChange(new CallbackListener() {
     public void controlEvent(CallbackEvent theEvent) {
       setShapeParameters(int(shapeList.getValue()));
-      createHemesh();
+
+      if (!selectedShape.isCustom) {
+        createHemesh();
+      } else {
+        selectInput("Select a file to process:", "onFileSelected");
+      }
     }
   }).onClick(new CallbackListener() {
     public void controlEvent(CallbackEvent theEvent) {
@@ -1095,5 +1100,14 @@ void setShaderParameters(int shader) {
       if (controller != null) {
         controller.setVisible(false);
       }
+    }
+  }
+
+  void onFileSelected(File file) {
+    if (file != null) {
+      selectedShape.setFile(file);
+      createHemesh();
+    } else {
+      setShapeParameters(0);
     }
   }

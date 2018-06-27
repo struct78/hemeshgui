@@ -1,7 +1,7 @@
 class Modifier extends BaseModel {
-  public int index;
-  public int currentIndex;
-  private ModifierCreator modifierCreator;
+  int index;
+  int currentIndex;
+  ModifierCreator modifierCreator;
 
   Modifier (String name, int parameters) {
       super(name, parameters);
