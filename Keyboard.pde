@@ -2,6 +2,10 @@
 
 // some useful keyboard actions
 void keyPressed() {
+  isHoldingShift = (keyCode == SHIFT);
+  isHoldingAlt = (keyCode == ALT);
+  isHoldingCtrl = (keyCode == CONTROL);
+
   // toggle autoRotate, translation & rotation
   if (key == 'r') {
     if (autoRotate == false) {
@@ -48,7 +52,7 @@ void keyPressed() {
   // save a single screenshot
   if (key == 'z') {
     timestamp = year() + nf(month(), 2) + nf(day(), 2) + "-"  + nf(hour(), 2) + nf(minute(), 2) + nf(second(), 2);
-    save("output/screenshots/" + timestamp + " (gui).png");
+    save("renders/screenshots/" + timestamp + " (gui).png");
     println("Screenshot of current GUI saved");
   }
 
@@ -75,7 +79,7 @@ void keyPressed() {
   // export shape to a STL file
   if (key == 'l') {
     timestamp = year() + nf(month(), 2) + nf(day(), 2) + "-"  + nf(hour(), 2) + nf(minute(), 2) + nf(second(), 2);
-    String path = sketchPath() + "/output/export_stl/";
+    String path = sketchPath() + "/renders/export_stl/";
     HET_Export exporter = new HET_Export();
     exporter.saveToSTL(mesh, path, timestamp);
     println("STL exported");
@@ -98,4 +102,10 @@ void keyPressed() {
     cp5.getController("lblSunflowSize")
       .setValueLabel("SUNFLOW RENDERING SIZE : " + int(sceneWidth*sunflowMultiply)+ " x " + int(sceneHeight*sunflowMultiply));
   }
+}
+
+void keyReleased() {
+  if (keyCode == SHIFT) isHoldingShift = false;
+  if (keyCode == ALT) isHoldingAlt = false;
+  if (keyCode == CONTROL) isHoldingCtrl = false;
 }

@@ -41,8 +41,8 @@ class ThreadRenderer implements Runnable {
 
       sunflow.drawMesh("myHemesh", verticesHemeshOneDim, facesHemeshOneDim, actualZoom / 25, 0, 0, 0);
 
-      String path = "/output/screenshots/";
-      if (saveContinuous) path = "/output/sequence/" + timestamp + "/";
+      String path = "/renders/screenshots/";
+      if (saveContinuous) path = "/renders/sequence/" + timestamp + "/";
 
       if (saveContinuous) {
         if (saveMask) {
@@ -64,6 +64,6 @@ class ThreadRenderer implements Runnable {
         }
       }
 
-      createHemesh(); // to reset the shape's rotation (which was internalised into the shape temporarily for sunflow rendering)
+      //createHemesh(); // to reset the shape's rotation (which was internalised into the shape temporarily for sunflow rendering)
     }
 }

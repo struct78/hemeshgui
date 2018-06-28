@@ -415,8 +415,8 @@ void createShapes() {
    shapes.add(
      new Shape("From file...", 1)
         .setLabels(new String[] { "Scale" })
-        .setMinValues(new float[] { 0.1 })
-        .setMaxValues(new float[] { 100.0 })
+        .setMinValues(new float[] { 0.01 })
+        .setMaxValues(new float[] { 50.0 })
         .setDefaultValues(new float[] { 1.0 })
         .setCustom(true)
         .setCreator(new ShapeCreator() {

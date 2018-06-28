@@ -23,10 +23,10 @@ void reset() {
 
   // saving variables
   cp5.getController("saveOpenGL").setValue(0);
-  cp5.getController("saveGui").setValue(1);
+  cp5.getController("saveGui").setValue(0);
   cp5.getController("saveSunflow").setValue(1);
   cp5.getController("saveMask").setValue(0);
-  cp5.getController("preview").setValue(1);
+  cp5.getController("preview").setValue(0);
 
   ((Toggle)cp5.getController("saveContinuous"))
     .setValue(0)
@@ -92,20 +92,17 @@ void resetView() {
   cp5.getController("zoom").setValue(1);
   cp5.getController("changeSpeedX").setValue(1.5);
   cp5.getController("changeSpeedY").setValue(1.5);
-  cp5.getController("autoRotate").setValue(1);
+  cp5.getController("autoRotate").setValue(0);
   cp5.getController("translationOn").setValue(0);
   cp5.getController("rotationOn").setValue(0);
 
   translateX = width/2;
   translateY = height/2;
-  rotationX = 0;
-  rotationY = 0;
+  rotationX = 30;
+  rotationY = 45;
   actualZoom = 1;
-  flagMouseControlRotationMouvement = false;
-  flagMouseControlTranslationMouvement = false;
 
-  resetRotationMouvement();
-  resetTranslationMouvement();
+  resetRotationMovement();
   updateShapeColors();
 
   // presentation

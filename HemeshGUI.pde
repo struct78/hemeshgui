@@ -28,7 +28,7 @@ String version = "HemeshGui v0.5-alpha";
 
 Ani zoomAnimation;
 
-boolean autoRotate = true; // toggle autorotation
+boolean autoRotate = false; // toggle autorotation
 boolean dirLightBehindOn = false;
 boolean dirLightBottomOn = false;
 boolean dirLightFrontOn = false;
@@ -38,8 +38,10 @@ boolean dirLightTopOn = false;
 boolean drawcp5 = true; // toggle drawing of cp5 gui
 boolean edgesOn = false; // toggle display of edges
 boolean facesOn = true; // toggle display of faces
-boolean flagMouseControlRotationMouvement = false;
-boolean flagMouseControlTranslationMouvement = false;
+boolean isDraggingOnly = false;
+boolean isHoldingAlt = false;
+boolean isHoldingShift = false;
+boolean isHoldingCtrl = false;
 boolean isMeshCollection = false;
 boolean isUpdatingMesh = false;
 boolean preview = false; // toggle sunflow render quality
@@ -96,6 +98,8 @@ float sphereLightRadius = 10.0f;
 float sunflowMultiply = 1; // multiplication factor for the width & height of the sunflow render (screen width/screen height by default)
 float translateX, translateXchange; // (change in) translation in the X-direction
 float translateY, translateYchange; // (change in) translation in the Y-direction
+float rotationZ;
+float xDelta, yDelta;
 float zoom = 1; // zoom factor
 
 float[] defaultShapeValues;
@@ -108,11 +112,9 @@ float[] minShaderValues;
 int eventValue;
 int mx2;
 int my2;
-int numForLoop = 20; // max number of shapes, modifiers and/or subdividors in the gui (for convenience, just increase when there are more)
 int sceneHeight; // sketch height
 int sceneWidth; // sketch width
-int selectedShapeIndex = 0; // selected shape index: box
-int selectedShaderIndex = 0;
+int selectedShapeIndex, selectedShaderIndex = 0; // selected shape index: box
 int x2;
 int y2;
 int waitTime = 250;
@@ -163,6 +165,8 @@ WB_Render render;
 void setup() {
   sceneWidth = width;
   sceneHeight = height;
+  rotationY = 45;
+  rotationX = -30;
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
 
   updateShapeColors();
@@ -198,8 +202,8 @@ void draw() {
 
   // save frame(s) without gui
   if (saveOn == true && saveOpenGL == true) {
-    if (saveContinuous) { save("output/sequence/" + timestamp + "/OpenGLView_" + nf(frameCount-1,4) + ".tga"); }
-    else { save("output/screenshots/" + timestamp + " (openglview).png"); }
+    if (saveContinuous) { save("renders/sequence/" + timestamp + "/OpenGLView_" + nf(frameCount-1,4) + ".tga"); }
+    else { save("renders/screenshots/" + timestamp + " (openglview).png"); }
   }
 
   if (drawcp5) {
@@ -213,8 +217,8 @@ void draw() {
 
   // save frame(s) with gui
   if (saveOn == true && saveGui == true) {
-    if (saveContinuous) { save("output/sequence/" + timestamp + "/GUI_" + nf(frameCount-1,4) + ".tga"); }
-    else { save("output/screenshots/" + timestamp + " (gui).png"); }
+    if (saveContinuous) { save("renders/sequence/" + timestamp + "/GUI_" + nf(frameCount-1,4) + ".tga"); }
+    else { save("renders/screenshots/" + timestamp + " (gui).png"); }
   }
 
   // sunflow rendering (mask and/or regular sunflow render)

@@ -11,6 +11,7 @@ void hemeshToSunflow() {
   // for accurate rendering the rotatation is processed into the shape (temporarily)
   mesh.rotateAboutAxis(radians(rotationY), 0,0,0, 0,1,0); // Rotation around Y axis
   mesh.rotateAboutAxis(radians(rotationX), 0,0,0, 1,0,0); // Rotation around X axis
+  mesh.rotateAboutAxis(radians(rotationZ), 0,0,0, 0,0,1); // Rotation around Z axis
 
   mesh.validate();
   mesh.triangulate();

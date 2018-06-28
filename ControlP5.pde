@@ -970,49 +970,6 @@ void createGroup4() {
       .setColorValue(currentTheme.ControlCaptionLabel);
 }
 
-
-// zooming with the mouseWheel
-void mouseWheel(int delta) {
-  if (delta > 0) {
-    if (zoom > 20) {
-      cp5.getController("zoom").setValue(zoom - 10);
-    } else {
-      cp5.getController("zoom").setValue(zoom - 1);
-    }
-  } else if (delta < 0) {
-    if (zoom >= 20) {
-      cp5.getController("zoom").setValue(zoom + 10);
-    } else {
-      cp5.getController("zoom").setValue(zoom + 1);
-    }
-  }
-}
-
-
-void mouseReleased() {
-  if (flagMouseControlTranslationMouvement && mouseButton == LEFT) {
-    flagMouseControlTranslationMouvement = false;
-    resetTranslationMouvement();
-  } else if (flagMouseControlRotationMouvement && mouseButton == RIGHT) {
-    flagMouseControlRotationMouvement = false;
-    resetRotationMouvement();
-  }
-}
-
-
-void mousePressed() {
-  if (!cp5.isMouseOver()) {
-    if (mouseButton == LEFT) {
-      flagMouseControlTranslationMouvement = true;
-      cp5.getController("translationOn").setValue(0);
-    } else if (mouseButton == RIGHT) {
-      flagMouseControlRotationMouvement = true;
-      cp5.getController("rotationOn").setValue(0);
-      cp5.getController("autoRotate").setValue(0);
-    }
-  }
-}
-
 void setShapeParameters(int shape) {
   Controller controller;
   selectedShape = shapes.get(shape);
