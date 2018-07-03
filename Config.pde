@@ -53,7 +53,7 @@ public static class Config {
       pastel.Edges = 0xff2b6c70;
       pastel.ControlBackground = 0xfff57a82;
       pastel.ControlForeground = 0xffed5276;
-      pastel.ControlActive = 0xfff57a82;
+      pastel.ControlActive = 0xffdb4266;
       pastel.ControlCaptionLabel = 0xff444854;
       pastel.ControlValueLabel = 0xfff4cda5;
       pastel.ControlSubLabel = 0x90444854;
