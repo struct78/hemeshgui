@@ -3,30 +3,69 @@ void quickSave() {
   //shaderList.setValue(selectedShaderIndex);
   //shapeList.setValue(selectedShapeIndex);
   // Set dynamic fields to be inactive
-  saveSettings();
+  saveSettings(quicksaveFilePath);
 }
 
 void quickLoad() {
-  loadSettings();
+  loadSettings(quicksaveFilePath);
 }
 
 void saveAs() {
-  selectOutput("Select a file to write to", "onFileOutputSelected");
+  selectOutput("Select a file to write to", "onSettingsFileOutputSelected");
 }
 
-void onFileOutputSelected(File file) {
+void onSettingsFileOutputSelected(File file) {
   if (file != null) {
-    saveSettings();
+    saveSettings(file.getAbsolutePath());
+  }
+}
+
+void onSettingsFileInputSelected(File file) {
+  if (file != null) {
+    loadSettings(file.getAbsolutePath());
   }
 }
 
 void loadFrom() {
-
+  selectInput("Selected a file to import", "onSettingsFileInputSelected");
 }
 
-void saveSettings() {
+void saveSettings(String filePath) {
   // Camera
   JSONObject jsonRoot = new JSONObject();
+  jsonRoot = saveCamera(jsonRoot);
+  jsonRoot = saveScene(jsonRoot);
+  jsonRoot = saveLights(jsonRoot);
+  jsonRoot = saveShader(jsonRoot);
+  jsonRoot = saveShape(jsonRoot);
+  jsonRoot = saveModifiers(jsonRoot);
+  jsonRoot = saveRendering(jsonRoot);
+  jsonRoot = saveTheme(jsonRoot);
+
+  saveJSONObject(jsonRoot, filePath);
+}
+
+void loadSettings(String filePath) {
+  for (Modifier modifier : selectedModifiers) {
+    modifier.remove();
+  }
+
+  selectedModifiers.clear();
+
+  JSONObject jsonRoot = loadJSONObject(filePath);
+  loadCamera(jsonRoot);
+  loadScene(jsonRoot);
+  loadTheme(jsonRoot);
+  loadLights(jsonRoot);
+  loadShader(jsonRoot);
+  loadShape(jsonRoot);
+  loadModifiers(jsonRoot);
+  loadRendering(jsonRoot);
+
+  createHemesh();
+}
+
+JSONObject saveCamera(JSONObject jsonRoot) {
   JSONObject jsonCamera = new JSONObject();
   jsonCamera.setFloat("zoom", zoom);
   jsonCamera.setFloat("changeSpeedX", changeSpeedX);
@@ -35,13 +74,22 @@ void saveSettings() {
   jsonCamera.setFloat("rotationX", rotationX);
   jsonCamera.setFloat("rotationY", rotationY);
   jsonCamera.setFloat("rotationZ", rotationZ);
+  jsonRoot.setJSONObject("camera", jsonCamera);
 
-  // Sunflow settings
+  return jsonRoot;
+}
+
+JSONObject saveScene(JSONObject jsonRoot) {
   JSONObject jsonScene = new JSONObject();
   jsonScene.setBoolean("sunflowSkyLightOn", sunflowSkyLightOn);
   jsonScene.setBoolean("sunflowWhiteBackgroundOn", sunflowWhiteBackgroundOn);
   jsonScene.setBoolean("sunflowBlackBackgroundOn", sunflowBlackBackgroundOn);
+  jsonRoot.setJSONObject("scene", jsonScene);
 
+  return jsonRoot;
+}
+
+JSONObject saveLights(JSONObject jsonRoot) {
   // Directional light
   JSONObject jsonDirectionalLights = new JSONObject();
   jsonDirectionalLights.setFloat("dirLightRadius", dirLightRadius);
@@ -69,7 +117,14 @@ void saveSettings() {
   jsonLightColour.setFloat("lightsColorB", lightsColorB);
   jsonLightColour.setFloat("lightsColorA", lightsColorA);
 
+  jsonRoot.setJSONObject("directionalLights", jsonDirectionalLights);
+  jsonRoot.setJSONObject("sphereLights", jsonSphereLights);
+  jsonRoot.setJSONObject("lightColour", jsonLightColour);
 
+  return jsonRoot;
+}
+
+JSONObject saveShader(JSONObject jsonRoot) {
   // Shader
   JSONObject jsonShader = new JSONObject();
   JSONArray jsonShaderParameters = new JSONArray();
@@ -81,7 +136,12 @@ void saveSettings() {
   }
 
   jsonShader.setJSONArray("parameters", jsonShaderParameters);
+  jsonRoot.setJSONObject("shader", jsonShader);
 
+  return jsonRoot;
+}
+
+JSONObject saveShape(JSONObject jsonRoot) {
   // Shape
   JSONObject jsonShape = new JSONObject();
   JSONArray jsonShapeParameters = new JSONArray();
@@ -100,8 +160,12 @@ void saveSettings() {
 
   jsonShape.setJSONObject("colour", jsonShapeColour);
   jsonShape.setJSONArray("parameters", jsonShapeParameters);
+  jsonRoot.setJSONObject("shape", jsonShape);
 
+  return jsonRoot;
+}
 
+JSONObject saveModifiers(JSONObject jsonRoot) {
   // Modifiers
   JSONArray jsonModifiers = new JSONArray();
   for (int i = 0; i < selectedModifiers.size(); i++) {
@@ -120,6 +184,12 @@ void saveSettings() {
     jsonModifiers.setJSONObject(i, jsonModifier);
   }
 
+  jsonRoot.setJSONArray("modifiers", jsonModifiers);
+
+  return jsonRoot;
+}
+
+JSONObject saveRendering(JSONObject jsonRoot) {
   // Rendering parameters
   JSONObject jsonRendering = new JSONObject();
   jsonRendering.setBoolean("opengl", saveOpenGL);
@@ -128,39 +198,17 @@ void saveSettings() {
   jsonRendering.setBoolean("mask", saveMask);
   jsonRendering.setBoolean("preview", savePreview);
   jsonRendering.setBoolean("continuous", saveContinuous);
-
-  jsonRoot.setString("theme", Config.getCurrentThemeName());
-  jsonRoot.setJSONObject("camera", jsonCamera);
-  jsonRoot.setJSONObject("scene", jsonScene);
-  jsonRoot.setJSONObject("directionalLights", jsonDirectionalLights);
-  jsonRoot.setJSONObject("sphereLights", jsonSphereLights);
-  jsonRoot.setJSONObject("lightColour", jsonLightColour);
-  jsonRoot.setJSONObject("shader", jsonShader);
-  jsonRoot.setJSONObject("shape", jsonShape);
-  jsonRoot.setJSONArray("modifiers", jsonModifiers);
   jsonRoot.setJSONObject("rendering", jsonRendering);
 
-  saveJSONObject(jsonRoot, sketchPath() + "/properties/quicksave.json");
+  return jsonRoot;
 }
 
-void loadProperties() {
-  //cp5.loadProperties(sketchPath() + "/properties/quicksave");
+JSONObject saveTheme(JSONObject jsonRoot) {
+  jsonRoot.setString("theme", Config.getCurrentThemeName());
+  return jsonRoot;
 }
 
-void loadSettings() {
-  while (isUpdatingMesh) {
-    // Wait for hemesh to update
-    delay(10);
-  }
-
-  for (Modifier modifier : selectedModifiers) {
-    modifier.remove();
-  }
-
-  selectedModifiers.clear();
-
-  JSONObject jsonRoot = loadJSONObject(sketchPath() + "/properties/quicksave.json");
-
+void loadCamera(JSONObject jsonRoot) {
   // Camera
   JSONObject jsonCamera = jsonRoot.getJSONObject("camera");
   cp5.getController("zoom").setValue(jsonCamera.getFloat("zoom"));
@@ -171,13 +219,17 @@ void loadSettings() {
   rotationX = jsonCamera.getFloat("rotationX");
   rotationY = jsonCamera.getFloat("rotationY");
   rotationZ = jsonCamera.getFloat("rotationZ");
+}
 
+void loadScene(JSONObject jsonRoot) {
   // Scene
   JSONObject jsonScene = jsonRoot.getJSONObject("scene");
   cp5.getController("sunflowSkyLightOn").setValue(jsonScene.getBoolean("sunflowSkyLightOn") ? 1 : 0);
   cp5.getController("sunflowWhiteBackgroundOn").setValue(jsonScene.getBoolean("sunflowWhiteBackgroundOn") ? 1 : 0);
   cp5.getController("sunflowBlackBackgroundOn").setValue(jsonScene.getBoolean("sunflowBlackBackgroundOn") ? 1 : 0);
+}
 
+void loadTheme(JSONObject jsonRoot) {
   // Theme
   int y = 0;
   for (HashMap.Entry<String, Theme> entry : themes.entrySet()) {
@@ -189,7 +241,9 @@ void loadSettings() {
 
       y++;
   }
+}
 
+void loadLights(JSONObject jsonRoot) {
   // Directional light
   JSONObject jsonDirectionalLights = jsonRoot.getJSONObject("directionalLights");
   cp5.getController("dirLightRadius").setValue(jsonDirectionalLights.getFloat("dirLightRadius"));
@@ -217,8 +271,9 @@ void loadSettings() {
   cp5.getController("lightsColorG").setValue(jsonLightColour.getFloat("lightsColorG"));
   cp5.getController("lightsColorB").setValue(jsonLightColour.getFloat("lightsColorB"));
   cp5.getController("lightsColorA").setValue(jsonLightColour.getFloat("lightsColorA"));
+}
 
-
+void loadShader(JSONObject jsonRoot) {
   JSONObject jsonShader = jsonRoot.getJSONObject("shader");
   JSONArray jsonShaderParameters = jsonShader.getJSONArray("parameters");
 
@@ -233,7 +288,9 @@ void loadSettings() {
     selectedShader.values[x] = jsonShaderParameters.getFloat(x);
     cp5.getController("param" + x).setValue(jsonShaderParameters.getFloat(x));
   }
+}
 
+void loadShape(JSONObject jsonRoot) {
   // Shape
   JSONObject jsonShape = jsonRoot.getJSONObject("shape");
   JSONArray jsonShapeParameters = jsonShape.getJSONArray("parameters");
@@ -257,7 +314,9 @@ void loadSettings() {
     selectedShape.values[x] = jsonShapeParameters.getFloat(x);
     cp5.getController("create" + x).setValue(jsonShapeParameters.getFloat(x));
   }
+}
 
+void loadModifiers(JSONObject jsonRoot) {
   // Modifiers
   JSONArray json = jsonRoot.getJSONArray("modifiers");
 
@@ -283,7 +342,9 @@ void loadSettings() {
       }
     }
   }
+}
 
+void loadRendering(JSONObject jsonRoot) {
   // Rendering
   JSONObject jsonRendering = jsonRoot.getJSONObject("rendering");
   cp5.getController("saveOpenGL").setValue(jsonRendering.getBoolean("opengl") ? 1 : 0);
@@ -292,13 +353,4 @@ void loadSettings() {
   cp5.getController("saveMask").setValue(jsonRendering.getBoolean("mask") ? 1 : 0);
   cp5.getController("savePreview").setValue(jsonRendering.getBoolean("preview") ? 1 : 0);
   cp5.getController("saveContinuous").setValue(jsonRendering.getBoolean("continuous") ? 1 : 0);
-
-  createHemesh();
-}
-
-void loadUI() {
-  JSONObject json = loadJSONObject(sketchPath() + "/properties/quicksave.ui.json");
-  rotationX = json.getFloat("rotationX");
-  rotationY = json.getFloat("rotationY");
-  rotationZ = json.getFloat("rotationZ");
 }
