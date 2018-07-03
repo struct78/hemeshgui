@@ -16,11 +16,16 @@ Sunflow & Processing :
 
 ### Changelog
 
+### v0.6
 changes and fixes by David Johnson ([http://github.com/struct78](http://github.com/struct78))
 
 * Added Ani library for smoother animations
-* Added Sea Shell and Sweep Tube shapeSaturation
+* Added Sea Shell, Sweep Tube, and Twin ISO shapes
 * Added Spherify and Shrink Wrap modifiers
+* Complete re-write of load/save settings. Never lose your work again!
+* Switched from WB_Render to WB_Render3D
+* Making progress on preserving rotation in Sunflow rendering
+* Modified SunflowAPIAPI.java to include aa.jitter parameter
 
 ### v0.5
 

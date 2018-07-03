@@ -61,7 +61,7 @@ void keyPressed() {
     cp5.getController("autoRotate").setValue(0);
     ((Toggle)cp5.getController("saveContinuous")).setValue(0).setLabel("Continuously").setColorCaptionLabel(currentTheme.ControlCaptionLabel);
     cp5.getController("saveGui").setValue(1);
-    cp5.getController("preview").setValue(1);
+    cp5.getController("savePreview").setValue(1);
     cp5.getController("saveSunflow").setValue(1);
     save();
   }
@@ -71,7 +71,7 @@ void keyPressed() {
     cp5.getController("autoRotate").setValue(0);
     ((Toggle)cp5.getController("saveContinuous")).setValue(0).setLabel("Continuously").setColorCaptionLabel(currentTheme.ControlCaptionLabel);
     cp5.getController("saveGui").setValue(1);
-    cp5.getController("preview").setValue(0);
+    cp5.getController("savePreview").setValue(0);
     cp5.getController("saveSunflow").setValue(1);
     save();
   }

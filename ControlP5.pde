@@ -50,6 +50,20 @@ void createModifiersXY() {
 // Shader list: http://sourceforge.net/p/sunflow/code/HEAD/tree/trunk/src/org/sunflow/core/shader/
 void createShaders() {
   shaders.add(
+    new Shader("Phong", 1)
+      .setMinValues(new float[] { 0.0 })
+      .setMaxValues(new float[] { 500.0 })
+      .setDefaultValues(new float[] { 10.0 })
+      .setLabels(new String[] { "Power" })
+      .setCreator(new ShaderCreator() {
+        public void create(SunflowAPIAPI sunflow, float[] values) {
+          sunflow.setPhongShader(SHADER_NAME, new Color(shapeColor), new Color(lightsColor), values[0], samples);
+        }
+      }
+    )
+  );
+
+  shaders.add(
     new Shader("Ambient Occlusion", 1)
       .setMinValues(new float[] { 0.0 })
       .setMaxValues(new float[] { 100.0 })
@@ -114,20 +128,6 @@ void createShaders() {
       .setCreator(new ShaderCreator() {
         public void create(SunflowAPIAPI sunflow, float[] values) {
           sunflow.setMirrorShader(SHADER_NAME, new Color(shapeColor));
-        }
-      }
-    )
-  );
-
-  shaders.add(
-    new Shader("Phong", 1)
-      .setMinValues(new float[] { 0.0 })
-      .setMaxValues(new float[] { 500.0 })
-      .setDefaultValues(new float[] { 50 })
-      .setLabels(new String[] { "Power" })
-      .setCreator(new ShaderCreator() {
-        public void create(SunflowAPIAPI sunflow, float[] values) {
-          sunflow.setPhongShader(SHADER_NAME, new Color(shapeColor), new Color(lightsColor), values[0], samples);
         }
       }
     )
@@ -234,7 +234,14 @@ void createGui() {
   // some non-gui stuff that needs to run @ setup
 
   // hemesh Renderer
-  render = new WB_Render(this);
+  //
+  if (mesh!=null) {
+      HE_FaceIterator fitr=mesh.fItr();
+      while (fitr.hasNext()) {
+        fitr.next().setColor(color(random(255), 50, 50));
+      }
+  }
+  render = new WB_Render3D(this);
 
   // move origin to center of the screen
   translateX = width/2;
@@ -256,6 +263,11 @@ void createGroup1() {
     .setSize(Config.CP5.Controls.Width, Config.CP5.Controls.Height)
     .setPosition(x2, y2)
     .moveTo(g1)
+    .onChange(new CallbackListener() {
+      public void controlEvent(CallbackEvent theEvent) {
+        updateZoomAnimation(theEvent.getController().getValue());
+      }
+    })
     .onRelease(new CallbackListener() {
       public void controlEvent(CallbackEvent theEvent) {
         updateZoomAnimation(theEvent.getController().getValue());
@@ -399,7 +411,7 @@ void createGroup2() {
     y2 += multiplyGrid(1);
 
     // Option 1: Sunsky
-    sunsky = cp5.addToggle("sunSkyLightOn", x2, y2, divideControlWidth(1, 4), Config.CP5.Controls.Height)
+    sunsky = cp5.addToggle("sunflowSkyLightOn", x2, y2, divideControlWidth(1, 4), Config.CP5.Controls.Height)
       .setLabel("")
       .setGroup(g2);
 
@@ -713,17 +725,28 @@ void createGroup2() {
 
     y2 = height - multiplyGrid(7);
 
-    cp5.addButton("quickSave", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
+    cp5.addButton("quickSave", 0, x2+getInlineX(1, 2), y2, divideControlWidth(1, 2), multiplyControlHeight(2))
       .setColorBackground(currentTheme.ButtonBackground)
       .setColorLabel(currentTheme.ButtonForeground)
       .setLabel("Quick Save Settings");
 
-    y2 += multiplyGrid(3);
-
-    cp5.addButton("quickLoad", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
+    cp5.addButton("quickLoad", 0, x2+getInlineX(2, 2), y2, divideControlWidth(2, 2), multiplyControlHeight(2))
       .setColorBackground(currentTheme.ButtonBackground)
       .setColorLabel(currentTheme.ButtonForeground)
       .setLabel("Quick Load Settings");
+
+    y2 += multiplyGrid(2);
+
+
+    cp5.addButton("saveAs", 0, x2+getInlineX(1, 2), y2, divideControlWidth(1, 2), multiplyControlHeight(2))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("Save Settings As...");
+
+    cp5.addButton("loadFrom", 0, x2+getInlineX(2, 2), y2, divideControlWidth(2, 2), multiplyControlHeight(2))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("Load Settings From...");
 
     cp5.end();
 
@@ -798,7 +821,7 @@ void createGroup3() {
 
         if (modifier.hasCreator()) {
           modifier.setIndex(selectedModifiers.size());
-          modifier.menu();
+          modifier.menu(true);
 
           selectedModifiers.add(modifier);
 
@@ -948,7 +971,7 @@ void createGroup4() {
 
     y2 += multiplyGrid(2);
 
-    cp5.addToggle("preview", x2, y2, divideControlWidth(1, 2), Config.CP5.Controls.Height)
+    cp5.addToggle("savePreview", x2, y2, divideControlWidth(1, 2), Config.CP5.Controls.Height)
       .setLabel("Sunflow Preview");
 
     cp5.addToggle("saveContinuous", x2 + getInlineX(2, 2), y2, divideControlWidth(2, 2), Config.CP5.Controls.Height)

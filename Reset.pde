@@ -26,7 +26,7 @@ void reset() {
   cp5.getController("saveGui").setValue(0);
   cp5.getController("saveSunflow").setValue(1);
   cp5.getController("saveMask").setValue(0);
-  cp5.getController("preview").setValue(0);
+  cp5.getController("savePreview").setValue(0);
 
   ((Toggle)cp5.getController("saveContinuous"))
     .setValue(0)
@@ -57,11 +57,11 @@ void reset() {
 }
 
 void resetLights() {
+  cp5.getController("sunflowSkyLightOn").setValue(1);
   cp5.getController("sunflowWhiteBackgroundOn").setValue(0);
   cp5.getController("sunflowBlackBackgroundOn").setValue(0);
 
   // sunflow lights
-  cp5.getController("sunSkyLightOn").setValue(1);
   cp5.getController("dirLightTopOn").setValue(0);
   cp5.getController("dirLightRightOn").setValue(0);
   cp5.getController("dirLightFrontOn").setValue(0);
@@ -98,8 +98,8 @@ void resetView() {
 
   translateX = width/2;
   translateY = height/2;
-  rotationX = 30;
   rotationY = 45;
+  rotationX = -30;
   actualZoom = 1;
 
   resetRotationMovement();

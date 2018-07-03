@@ -7,12 +7,6 @@ int samples;
 
 // convert hemeshShape into sunflow-ready arrays
 void hemeshToSunflow() {
-
-  // for accurate rendering the rotatation is processed into the shape (temporarily)
-  mesh.rotateAboutAxis(radians(rotationY), 0,0,0, 0,1,0); // Rotation around Y axis
-  mesh.rotateAboutAxis(radians(rotationX), 0,0,0, 1,0,0); // Rotation around X axis
-  mesh.rotateAboutAxis(radians(rotationZ), 0,0,0, 0,0,1); // Rotation around Z axis
-
   mesh.validate();
   mesh.triangulate();
 
@@ -60,7 +54,7 @@ void sunflowLights(SunflowAPIAPI sunflow) {
   if (sunflowWhiteBackgroundOn) sunflow.setBackground(255,255,255);
   else if (sunflowBlackBackgroundOn) sunflow.setBackground(0,0,0);
 
-  if (sunSkyLightOn) sunflow.setSunSkyLight("mySunSkyLight", new Vector3(0,1,0), new Vector3(1,0,0), new Vector3(-0.15, 0.2, -0.2), new Color(lightsColor), samples, 1.2, true);
+  if (sunflowSkyLightOn) sunflow.setSunSkyLight("mySunSkyLight", new Vector3(0,1,0), new Vector3(1,0,0), new Vector3(-0.15, 0.2, -0.2), new Color(lightsColor), samples, 1.2, true);
 
   if (dirLightTopOn) sunflow.setDirectionalLight("myDirectionalLight1", new Point3(0, 31.5, 0), new Vector3 (0, -1, 0), dirLightRadius, new Color(lightsColor)); //OK directional light targeting center
   if (dirLightRightOn) sunflow.setDirectionalLight("myDirectionalLight2", new Point3(31.5, 0, 0), new Vector3 (-1, 0, 0), dirLightRadius, new Color(lightsColor)); //OK directional light targeting center

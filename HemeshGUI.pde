@@ -24,7 +24,7 @@ import java.util.regex.*;
 import java.util.zip.*;
 import processing.opengl.*;
 
-String version = "HemeshGui v0.5-alpha";
+String version = "HemeshGui v0.6-alpha";
 
 Ani zoomAnimation;
 
@@ -44,7 +44,7 @@ boolean isHoldingShift = false;
 boolean isHoldingCtrl = false;
 boolean isMeshCollection = false;
 boolean isUpdatingMesh = false;
-boolean preview = false; // toggle sunflow render quality
+boolean savePreview = false; // toggle sunflow render quality
 boolean rotationOn = false; // toggle rotation
 boolean saveContinuous; // toggle saving: continuous (versus just once)
 boolean saveGui = false; // toggle saving: regular opengl (with gui)
@@ -60,7 +60,7 @@ boolean sphereLightRightOn = false;
 boolean sphereLightTopOn = false;
 boolean sunflowBlackBackgroundOn = false;
 boolean sunflowWhiteBackgroundOn = false;
-boolean sunSkyLightOn = true;
+boolean sunflowSkyLightOn = true;
 boolean translationOn = false; // toggle translation
 boolean validateMesh = false;
 
@@ -160,7 +160,7 @@ HE_Mesh mesh;
 HE_Mesh meshBuffer;
 HEM_Extrude extrude1 = new HEM_Extrude();
 HEM_Extrude extrude2 = new HEM_Extrude();
-WB_Render render;
+WB_Render3D render;
 
 void setup() {
   sceneWidth = width;

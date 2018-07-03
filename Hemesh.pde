@@ -239,11 +239,11 @@ void createShapes() {
    );
 
    shapes.add(
-      new Shape("Super Duper", 4)
+      new Shape("Super Duper", 3)
         .setLabels(new String[] { "Radius", "UFacets", "VFacets" })
         .setMinValues(new float[] { 1, 1, 1 })
         .setMaxValues(new float[] { 200, 500, 100 })
-        .setDefaultValues(new float[] { 30, 35, 400, 20 })
+        .setDefaultValues(new float[] { 30, 35, 400 })
         .setCreator(new ShapeCreator() {
             public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
@@ -413,6 +413,42 @@ void createShapes() {
    );
 
    shapes.add(
+      new Shape("Twin Iso", 4)
+        .setMinValues(new float[] { 20.0, 1.0, 1.0, 0.25 })
+        .setMaxValues(new float[] { 500.0, 50.0, 10.0, 1.0 })
+        .setDefaultValues(new float[] { 300.0, 10.0, 2.1, 0.35 })
+        .setLabels(new String[] { "Size", "Res", "Smooth", "Noise" })
+        .setCreator(new ShapeCreator() {
+            public synchronized void create(float[] values, File file) {}
+            public synchronized void create(float[] values) {
+              int res = int(values[1]);
+              float[][][] points = new float[res+1][res+1][res+1];
+              for (int i = 0; i < res+1; i++) {
+                for (int j = 0; j < res+1; j++) {
+                  for (int k = 0; k < res+1; k++) {
+                    points[i][j][k] = 2.1 * noise(values[3]*i, values[3]*j, values[3]*k);
+                  }
+                }
+              }
+
+              meshBuffer = new HE_Mesh(
+                new HEC_IsoSurface()
+                  .setResolution(res, res, res)
+                  .setSize(values[0]/res, values[0]/res, values[0]/res)
+                  .setValues(points)
+                  .setIsolevel(1)
+                  .setInvert(false)
+              )
+              .modify(
+                new HEM_Smooth()
+                  .setIterations(int(values[2]))
+                  .setAutoRescale(true)
+              );
+            }
+        })
+   );
+
+   shapes.add(
      new Shape("From file...", 1)
         .setLabels(new String[] { "Scale" })
         .setMinValues(new float[] { 0.01 })
@@ -493,7 +529,7 @@ void createModifiers() {
         new Modifier("Hard Edge Extrude", 3)
             .setDefaultValues(new float[] { 10, 1, 100 })
             .setMaxValues(new float[] { 100, 1, 500 })
-            .setMinValues(new float[] { 0, 0, 0 })
+            .setMinValues(new float[] { -100, 0, 0 })
             .setLabels(new String[] { "Distance", "Chamfer", "Hard Edge Chamfer" })
             .setCreator(new ModifierCreator() {
               public synchronized void create(float[] values) {
@@ -942,7 +978,7 @@ void createModifiers() {
 // create shape and run modifiers
 void createHemesh() {
   // Certain meshes and modifiers can make the UI become unresponsive, so we delegate this work to a thread
-
+  
   if (!isUpdatingMesh) {
     new Thread()
     {
@@ -1012,8 +1048,8 @@ void drawHemesh() {
       render.drawFaces(meshes);
     } else if (mesh != null) {
       render.drawFaces(mesh);
-      noFill();
       /* Draw bounding box
+      noFill();
       stroke(255, 0, 0);
       render.drawAABB(mesh.getAABB());*/
     }
