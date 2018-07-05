@@ -60,6 +60,6 @@ All notable changes to this project will be documented in this file.
 ### Removed
 - Mouse controls
 
-[Unreleased]: https://github.com/struct78/hemeshgui/compare/v0.5...HEAD
+[Unreleased]: https://github.com/struct78/hemeshgui/compare/v0.5...develop
 [0.5.0]: https://github.com/struct78/hemeshgui/compare/v0.4.1...v0.5
 [0.4.1]: https://github.com/struct78/hemeshgui/compare/v0.4...v0.4.1
