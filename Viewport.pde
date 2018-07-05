@@ -1,6 +1,21 @@
-void createZoomAnimation() {
+void createAnimations() {
   Ani.init(this);
-	zoomAnimation = new Ani(this, 0.35, "actualZoom", zoom, Ani.QUART_OUT);
+	zoomAnimation = new Ani(this, 0.35, "actualZoom", zoom, Ani.QUART_IN_OUT);
+  spinnerAnimationStart = new Ani(this, 1.25, "spinnerAngleStart", Config.Spinner.StartAngle + 360, Ani.QUART_IN_OUT, "onEnd:onSpinnerStartFinish");
+  spinnerAnimationEnd = new Ani(this, 1.0, "spinnerAngleEnd", Config.Spinner.EndAngle + 360, Ani.QUART_IN_OUT, "onEnd:onSpinnerEndFinish");
+}
+
+void onSpinnerStartFinish() {
+  spinnerAnimationStart.setBegin(Config.Spinner.StartAngle);
+  spinnerAnimationStart.setEnd(Config.Spinner.StartAngle + 360);
+  spinnerAnimationStart.start();
+}
+
+void onSpinnerEndFinish() {
+  spinnerAnimationEnd.setBegin(Config.Spinner.EndAngle);
+  spinnerAnimationEnd.setEnd(Config.Spinner.EndAngle + 360);
+  spinnerAnimationEnd.setDelay(0.25);
+  spinnerAnimationEnd.start();
 }
 
 void updateZoomAnimation(float value) {

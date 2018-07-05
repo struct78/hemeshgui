@@ -648,14 +648,16 @@ void createModifiers() {
     );
 
     modifiers.add(
-       new Modifier("Bend", 3)
-           .setDefaultValues(new float[] { 1, 1, 1 })
-           .setLabels(new String[] { "Angle", "Angle", "Angle" })
+       new Modifier("Bend", 1)
+           .setDefaultValues(new float[] { 5 })
+           .setMinValues(new float[] { 1 })
+           .setMaxValues(new float[] { 360 })
+           .setLabels(new String[] { "Angle" })
            .setCreator(new ModifierCreator() {
              public synchronized void create(float[] values) {
                  meshBuffer.modify(
                      new HEM_Bend()
-                        .setAngleFactor(values[0] * values[1] * values[2])
+                        .setAngleFactor(radians(values[0]))
                         .setGroundPlane(new WB_Plane(new WB_Point(0, 0, 0), new WB_Vector(0, 1, 0)))
                         .setBendAxis(new WB_Line(new WB_Point(0, 0, 0), new WB_Vector(0, 1, 0)))
                  );
@@ -978,31 +980,29 @@ void createModifiers() {
 // create shape and run modifiers
 void createHemesh() {
   // Certain meshes and modifiers can make the UI become unresponsive, so we delegate this work to a thread
-  
+
   if (!isUpdatingMesh) {
     new Thread()
     {
       public void run() {
         try {
-          synchronized(this) {
-            isUpdatingMesh = true;
-            renderingTime = millis();
-            selectedShape.create();
+          isUpdatingMesh = true;
+          renderingTime = millis();
+          selectedShape.create();
 
-            if (validateMesh) {
-              selectedShape.validate(meshBuffer);
-            }
-
-            for (int i = 0; i < selectedModifiers.size(); i++) {
-                Modifier m = selectedModifiers.get(i);
-                m.index = i;
-                m.create();
-                m.update();
-            }
-
-            mesh = meshBuffer;
-            meshes = meshesBuffer;
+          if (validateMesh) {
+            selectedShape.validate(meshBuffer);
           }
+
+          for (int i = 0; i < selectedModifiers.size(); i++) {
+              Modifier m = selectedModifiers.get(i);
+              m.index = i;
+              m.create();
+              m.update();
+          }
+
+          mesh = meshBuffer;
+          meshes = meshesBuffer;
         } catch(Exception ex) {
           println("Exception: " + ex);
         } finally {
@@ -1016,17 +1016,22 @@ void createHemesh() {
 
 void drawWaitState() {
   if (isUpdatingMesh && millis() - renderingTime > waitTime) {
+    spinnerAnimationStart.resume();
+    spinnerAnimationEnd.resume();
     hint(DISABLE_DEPTH_TEST);
     translate(0, 0);
     fill(currentTheme.Background, 100);
     rect(0, 0, width, height);
     translate(width/2, height/2);
-    rotate(rotationX / 10);
+    rotate(radians(frameCount));
+    //
     noFill();
     strokeWeight(8);
+
     stroke(currentTheme.Spinner);
     ellipseMode(CENTER);
-    arc(0, 0, 32, 32, radians(0), radians(215));
+
+    arc(0, 0, 32, 32, radians(spinnerAngleStart > spinnerAngleEnd ? spinnerAngleStart-360 : spinnerAngleStart), radians(spinnerAngleEnd));
     stroke(currentTheme.Spinner, 100);
     arc(0, 0, 32, 32, radians(0), radians(360));
     hint(ENABLE_DEPTH_TEST);

@@ -63,7 +63,5 @@ class ThreadRenderer implements Runnable {
           sunflow.render(sketchPath() + path + timestamp + " (sunflow).png");
         }
       }
-
-      //createHemesh(); // to reset the shape's rotation (which was internalised into the shape temporarily for sunflow rendering)
     }
 }

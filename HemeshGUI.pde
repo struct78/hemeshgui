@@ -27,6 +27,8 @@ import processing.opengl.*;
 String version = "HemeshGui v0.6-alpha";
 
 Ani zoomAnimation;
+Ani spinnerAnimationStart;
+Ani spinnerAnimationEnd;
 
 boolean autoRotate = false; // toggle autorotation
 boolean dirLightBehindOn = false;
@@ -95,6 +97,8 @@ float shapeHue; // default hue
 float shapeSaturation; // default saturation
 float shapeTransparency; // default transparency
 float sphereLightRadius = 10.0f;
+float spinnerAngleStart = Config.Spinner.StartAngle;
+float spinnerAngleEnd = Config.Spinner.EndAngle;
 float sunflowMultiply = 1; // multiplication factor for the width & height of the sunflow render (screen width/screen height by default)
 float translateX, translateXchange; // (change in) translation in the X-direction
 float translateY, translateYchange; // (change in) translation in the Y-direction
@@ -124,6 +128,7 @@ int[] triangles;
 long renderingTime = millis();
 String timestamp; // timestamp to distinguish saves
 String currentThemeName = Config.getCurrentThemeName();
+String quicksaveFilePath = sketchPath() + "/settings/quicksave.json";
 String[] shapeLabels;
 String[] shaderLabels;
 WB_Point[] points;
@@ -170,7 +175,7 @@ void setup() {
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
 
   updateShapeColors();
-  createZoomAnimation();
+  createAnimations();
   createModifiersXY();
   createShapes();
   createModifiers();
