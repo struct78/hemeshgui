@@ -204,16 +204,18 @@ void createGui() {
   createGroup3();
 
   x2 = width - (Config.CP5.Grid * 3) - Config.CP5.Controls.Width;
-  y2 = height - multiplyGrid(12);
+  y2 = height - multiplyGrid(14);
 
   createGroup4();
 
   // title
-  cp5.addTextlabel("lblTitle")
+  Textlabel title = cp5.addTextlabel("lblTitle");
+  title
     .setText(version.toUpperCase())
-    .setPosition(width/2, y2)
+    .setPosition(width/2 - title.getWidth()/2, y2)
     .setColorValue(currentTheme.ControlCaptionLabel);
 
+  // TODO Remove/update this
   cp5.getTooltip().setDelay(150).setColorLabel(currentTheme.ControlValueLabel);
   String helpTxt  = "c : high quality sunflow render\n";
   helpTxt += "x : preview quality sunflow render\n";
@@ -723,30 +725,21 @@ void createGroup2() {
         }
       });
 
-    y2 = height - multiplyGrid(7);
-
-    cp5.addButton("quickSave", 0, x2+getInlineX(1, 2), y2, divideControlWidth(1, 2), multiplyControlHeight(2))
-      .setColorBackground(currentTheme.ButtonBackground)
-      .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("Quick Save Settings");
-
-    cp5.addButton("quickLoad", 0, x2+getInlineX(2, 2), y2, divideControlWidth(2, 2), multiplyControlHeight(2))
-      .setColorBackground(currentTheme.ButtonBackground)
-      .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("Quick Load Settings");
+    y2 = height - multiplyGrid(9);
 
     y2 += multiplyGrid(2);
 
-
-    cp5.addButton("saveAs", 0, x2+getInlineX(1, 2), y2, divideControlWidth(1, 2), multiplyControlHeight(2))
+    cp5.addButton("saveAs", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
       .setColorBackground(currentTheme.ButtonBackground)
       .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("Save Settings As...");
+      .setLabel("Save As...");
 
-    cp5.addButton("loadFrom", 0, x2+getInlineX(2, 2), y2, divideControlWidth(2, 2), multiplyControlHeight(2))
+    y2 += multiplyGrid(3);
+
+    cp5.addButton("loadFrom", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
       .setColorBackground(currentTheme.ButtonBackground)
       .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("Load Settings From...");
+      .setLabel("Open...");
 
     cp5.end();
 
@@ -948,6 +941,7 @@ void createGroup3() {
 
 void createGroup4() {
     // render type & saving variables
+
     cp5.addTextlabel("lblSave")
       .setText("WHAT TO SAVE")
       .setPosition(x2, y2)
@@ -979,6 +973,18 @@ void createGroup4() {
       .setColorCaptionLabel(currentTheme.ControlCaptionLabel);
 
     y2 += multiplyGrid(3);
+
+    cp5.addButton("quickSave", 0, x2, y2, divideControlWidth(1, 2), multiplyControlHeight(2))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("Quick Save");
+
+    cp5.addButton("quickLoad", 0, x2+getInlineX(2, 2), y2, divideControlWidth(2, 2), multiplyControlHeight(2))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("Quick Load");
+
+    y2 += multiplyGrid(2);
 
     cp5.addButton("save", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
       .setColorBackground(currentTheme.ButtonBackground)
