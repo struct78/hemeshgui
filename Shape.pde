@@ -73,7 +73,6 @@ class Shape extends BaseModel {
     try {
         FileInputStream stream = new FileInputStream(this.file);
         byte[] bytes = new byte[(int)this.file.length()];
-        println(this.file.length());
         stream.read(bytes);
         encodedFile = new String(Base64.getEncoder().encode(bytes));
     } catch (FileNotFoundException e) {
