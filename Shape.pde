@@ -42,9 +42,47 @@ class Shape extends BaseModel {
     return this;
   }
 
+  boolean getCustom() {
+    return this.isCustom;
+  }
+
   Shape setFile(File file) {
     this.file = file;
     return this;
+  }
+
+  Shape setFileFromBase64String(String fileContents, String fileExtension) {
+    UUID uuid = UUID.randomUUID();
+    String path = System.getProperty("java.io.tmpdir") + "/" + uuid.toString() + "." + fileExtension;
+    try {
+      FileOutputStream stream = new FileOutputStream(path);
+      stream.write(Base64.getDecoder().decode(fileContents));
+      stream.close();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    this.file = new File(path);
+    return this;
+  }
+
+  String getBase64EncodedFile() {
+    String encodedFile = null;
+    try {
+        FileInputStream stream = new FileInputStream(this.file);
+        byte[] bytes = new byte[(int)this.file.length()];
+        println(this.file.length());
+        stream.read(bytes);
+        encodedFile = new String(Base64.getEncoder().encode(bytes));
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    return encodedFile;
   }
 
   boolean getMeshCollection() {
