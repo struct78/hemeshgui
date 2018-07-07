@@ -782,10 +782,13 @@ void createGroup3() {
     public void controlEvent(CallbackEvent theEvent) {
       setShapeParameters(int(shapeList.getValue()));
 
-      if (!selectedShape.isCustom) {
+      if (!selectedShape.getCustom()) {
         createHemesh();
       } else {
-        selectInput("Select a file to process:", "onFileSelected");
+        // Only pop up the file dialog if the user has changed the value
+        if (theEvent.getController().isMouseOver()) {
+          selectInput("Select a file to process:", "onFileSelected");
+        }
       }
     }
   }).onClick(new CallbackListener() {
