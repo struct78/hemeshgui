@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.regex.*;
 import java.util.zip.*;
 import processing.opengl.*;
+import java.util.Base64;
 
 String version = "HemeshGui v0.6-alpha";
 
