@@ -544,7 +544,8 @@ void createModifiers() {
 
     modifiers.add(
        new Modifier("Lattice", 3)
-           .setDefaultValues(new float[] { 15, 15, 1 })
+           .setDefaultValues(new float[] { 15, 15, 0 })
+           .setMinValues(new float[] { 0.1, 0.1, 0 })
            .setMaxValues(new float[] { 100, 100, 360 })
            .setLabels(new String[] { "Depth", "Width", "Threshold Angle" })
            .setCreator(new ModifierCreator() {
@@ -553,7 +554,7 @@ void createModifiers() {
                     new HEM_Lattice()
                         .setDepth(values[0])
                         .setWidth(values[1])
-                        .setThresholdAngle(radians(values[2]*45))
+                        .setThresholdAngle(radians(values[2]))
                         .setFuse(true)
                  );
              }
@@ -667,14 +668,14 @@ void createModifiers() {
 
 
     modifiers.add(
-       new Modifier("Vertex Expand", 3)
-           .setDefaultValues(new float[] { 1, 1, 1 })
-           .setLabels(new String[] { "Distance", "Distance", "Distance" })
+       new Modifier("Vertex Expand", 1)
+           .setDefaultValues(new float[] { 1 })
+           .setLabels(new String[] { "Distance" })
            .setCreator(new ModifierCreator() {
              public synchronized void create(float[] values) {
                  meshBuffer.modify(
                      new HEM_VertexExpand()
-                        .setDistance(values[0] * values[1] * values[2])
+                        .setDistance(values[0])
                  );
              }
          })
@@ -801,16 +802,16 @@ void createModifiers() {
     );
 
     modifiers.add(
-       new Modifier("Spherical Inversion", 2)
-           .setDefaultValues(new float[] { 1, 1, 0 })
-           .setLabels(new String[] { "Radius", "Cutoff" })
+       new Modifier("Spherical Inversion", 1)
+           .setDefaultValues(new float[] { 1 })
+           .setLabels(new String[] { "Radius" })
            .setCreator(new ModifierCreator() {
              public synchronized void create(float[] values) {
                  meshBuffer.modify(
                      new HEM_SphericalInversion()
                         .setRadius(values[0])
                         .setCenter(0, 0, 0)
-                        .setCutoff(values[1])
+                        .setCutoff(1000)
                         .setLinear(true)
                  );
              }
