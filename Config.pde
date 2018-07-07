@@ -36,7 +36,7 @@ public static class Config {
       Theme monochrome = new Theme();
       monochrome.Background = 0xfff2f2f2;
       monochrome.Faces = 0xffa4a4a4;
-      monochrome.Edges = 0xffefefef;
+      monochrome.Edges = 0xff171717;
       monochrome.ControlBackground = 0xff797979;
       monochrome.ControlForeground = 0xff8f8f8f;
       monochrome.ControlActive = 0xff919191;
@@ -166,6 +166,6 @@ public static class Config {
 
   public static class Spinner {
     public static float StartAngle = 0;
-    public static float EndAngle = 45;
+    public static float EndAngle = 65;
   }
 }
