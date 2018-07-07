@@ -1,0 +1,95 @@
+{
+  "directionalLights": {
+    "dirLightFrontOn": true,
+    "dirLightBehindOn": true,
+    "dirLightRadius": 20,
+    "dirLightTopOn": true,
+    "dirLightBottomOn": true,
+    "dirLightRightOn": true,
+    "dirLightLeftOn": true
+  },
+  "shader": {
+    "name": "Phong",
+    "parameters": [10]
+  },
+  "shape": {
+    "edgesOn": false,
+    "facesOn": true,
+    "colour": {
+      "saturation": 62.02531433105469,
+      "brightness": 61.960784912109375,
+      "alpha": 100,
+      "hue": 156.60000610351562
+    },
+    "name": "Geodesic",
+    "parameters": [
+      138.22500610351562,
+      5.364999771118164,
+      5.275000095367432
+    ]
+  },
+  "lightColour": {
+    "lightsColorG": 230,
+    "lightsColorA": 255,
+    "lightsColorR": 230,
+    "lightsColorB": 230
+  },
+  "rendering": {
+    "preview": false,
+    "continuous": false,
+    "gui": false,
+    "sunflow": true,
+    "opengl": false,
+    "mask": false
+  },
+  "theme": "Pastel",
+  "camera": {
+    "changeSpeedX": 1.5,
+    "rotationX": -40.026756286621094,
+    "changeSpeedY": 1.5,
+    "rotationY": 76.67169952392578,
+    "rotationZ": 0,
+    "zoom": 1.0787500143051147,
+    "autoRotate": false
+  },
+  "modifiers": [
+    {
+      "name": "Basic Extrude",
+      "index": 0,
+      "parameters": [63.375]
+    },
+    {
+      "name": "Bend",
+      "index": 1,
+      "parameters": [
+        22.53999900817871,
+        1,
+        0.41589999198913574
+      ]
+    },
+    {
+      "name": "Catmull\u2013Clark",
+      "index": 2,
+      "parameters": [2.6599998474121094]
+    },
+    {
+      "name": "Noise",
+      "index": 3,
+      "parameters": [0.6390000581741333]
+    }
+  ],
+  "sphereLights": {
+    "sphereLightLeftOn": true,
+    "sphereLightRightOn": true,
+    "sphereLightFrontOn": true,
+    "sphereLightBehindOn": true,
+    "sphereLightTopOn": true,
+    "sphereLightBottomOn": true,
+    "sphereLightRadius": 20
+  },
+  "scene": {
+    "sunflowWhiteBackgroundOn": true,
+    "sunflowBlackBackgroundOn": false,
+    "sunflowSkyLightOn": false
+  }
+}
