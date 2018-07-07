@@ -1,8 +1,12 @@
 void createAnimations() {
   Ani.init(this);
-	zoomAnimation = new Ani(this, 0.35, "actualZoom", zoom, Ani.QUART_IN_OUT);
+	zoomAnimation = new Ani(this, 0.35, "actualZoom", zoom, Ani.SINE_OUT);
   spinnerAnimationStart = new Ani(this, 1.25, "spinnerAngleStart", Config.Spinner.StartAngle + 360, Ani.QUART_IN_OUT, "onEnd:onSpinnerStartFinish");
   spinnerAnimationEnd = new Ani(this, 1.0, "spinnerAngleEnd", Config.Spinner.EndAngle + 360, Ani.QUART_IN_OUT, "onEnd:onSpinnerEndFinish");
+
+  zoomAnimation.setDefaultTimeMode(Ani.FRAMES);
+  spinnerAnimationStart.setDefaultTimeMode(Ani.FRAMES);
+  spinnerAnimationEnd.setDefaultTimeMode(Ani.FRAMES);
 }
 
 void onSpinnerStartFinish() {
