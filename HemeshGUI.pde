@@ -167,6 +167,7 @@ HE_Mesh meshBuffer;
 HEM_Extrude extrude1 = new HEM_Extrude();
 HEM_Extrude extrude2 = new HEM_Extrude();
 WB_Render3D render;
+WB_RandomOnSphere randomSphere = new WB_RandomOnSphere();
 
 void setup() {
   sceneWidth = width;

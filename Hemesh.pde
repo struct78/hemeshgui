@@ -158,7 +158,7 @@ void createShapes() {
 
    shapes.add(
       new Shape("Torus", 4)
-        .setDefaultValues(new float[] { 100, 100, 20, 20 })
+        .setDefaultValues(new float[] { 50, 100, 20, 20 })
         .setLabels(new String[] { "Ex. Radius", "Int. Radius", "Tube Facets", "Torus Facets" })
         .setCreator(new ShapeCreator() {
             public synchronized void create(float[] values, File file) {}
@@ -243,7 +243,7 @@ void createShapes() {
         .setLabels(new String[] { "Radius", "UFacets", "VFacets" })
         .setMinValues(new float[] { 1, 1, 1 })
         .setMaxValues(new float[] { 200, 500, 100 })
-        .setDefaultValues(new float[] { 30, 35, 400 })
+        .setDefaultValues(new float[] { 50, 100, 100 })
         .setCreator(new ShapeCreator() {
             public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
@@ -261,28 +261,31 @@ void createShapes() {
    );
 
    shapes.add(
-      new Shape("Alpha", 3)
-        .setLabels(new String[] { "Scale", "Points", "Triangles" })
+      new Shape("Alpha", 2)
+        .setLabels(new String[] { "Points", "Roughness" })
+        .setMinValues(new float[] { 20, 1 })
+        .setDefaultValues(new float[] { 135, 50 })
+        .setMaxValues( new float[] { 1000, 100 })
         .setCreator(new ShapeCreator() {
             public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
-                WB_RandomOnSphere source = new WB_RandomOnSphere();
-                int numPoints = int(values[1]);
+                int numPoints = int(values[0]);
+                float threshold = values[0] / 2;
                 points = new WB_Point[numPoints];
 
                 for (int i=0; i < numPoints; i++) {
-                  points[i] = source.nextPoint().mulSelf(values[0]);
+                  points[i] = randomSphere.nextPoint().mulSelf(random(threshold - values[1], threshold + values[1]));
                 }
 
                 WB_AlphaTriangulation3D triangulation = WB_Triangulate.alphaTriangulate3D(points);
-                int[] tetrahedra = triangulation.getAlphaTetrahedra(values[2]);// 1D array of indices of tetrahedra, 4 indices per tetrahedron
+                int[] tetrahedra = triangulation.getAlphaTetrahedra(values[0]);
 
-                triangles = triangulation.getAlphaTriangles(values[2]);
+                triangles = triangulation.getAlphaTriangles(values[0]);
 
                 meshBuffer = new HE_Mesh(
                     new HEC_AlphaShape()
                         .setTriangulation(triangulation)
-                        .setAlpha(values[2])
+                        .setAlpha(values[0])
                 );
             }
         })
@@ -290,7 +293,8 @@ void createShapes() {
 
    shapes.add(
       new Shape("Archimedes", 2)
-        .setLabels(new String[] { "Edge", "Type" })
+        .setLabels(new String[] { "Size", "Type" })
+        .setMaxValues(new float[] { 200, 13 })
         .setCreator(new ShapeCreator() {
             public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
@@ -1024,7 +1028,6 @@ void drawWaitState() {
     translate(width/2, height/2);
     rotate(radians(frameCount));
 
-    //
     noFill();
     strokeWeight(8);
 
@@ -1053,10 +1056,6 @@ void drawHemesh() {
       render.drawFaces(meshes);
     } else if (mesh != null) {
       render.drawFaces(mesh);
-      /* Draw bounding box
-      noFill();
-      stroke(255, 0, 0);
-      render.drawAABB(mesh.getAABB());*/
     }
   }
 
