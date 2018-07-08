@@ -1,24 +1,14 @@
 void createAnimations() {
   Ani.init(this);
 	zoomAnimation = new Ani(this, 0.35, "actualZoom", zoom, Ani.SINE_OUT);
-  spinnerAnimationStart = new Ani(this, 1.25, "spinnerAngleStart", Config.Spinner.StartAngle + 360, Ani.QUART_IN_OUT, "onEnd:onSpinnerStartFinish");
-  spinnerAnimationEnd = new Ani(this, 1.0, "spinnerAngleEnd", Config.Spinner.EndAngle + 360, Ani.QUART_IN_OUT, "onEnd:onSpinnerEndFinish");
-
-  zoomAnimation.setDefaultTimeMode(Ani.FRAMES);
-  spinnerAnimationStart.setDefaultTimeMode(Ani.FRAMES);
-  spinnerAnimationEnd.setDefaultTimeMode(Ani.FRAMES);
+  spinnerAnimationStart = new Ani(this, 1.0, 0.25, "spinnerAngleStart", Config.Spinner.StartAngle + 360, Ani.SINE_OUT);
+  spinnerAnimationEnd = new Ani(this, 1.25, "spinnerAngleEnd", Config.Spinner.EndAngle + 360, Ani.SINE_OUT, "onEnd:onSequenceEnd");
 }
 
-void onSpinnerStartFinish() {
-  spinnerAnimationStart.setBegin(Config.Spinner.StartAngle);
-  spinnerAnimationStart.setEnd(Config.Spinner.StartAngle + 360);
+void onSequenceEnd() {
+  spinnerAngleStart = Config.Spinner.StartAngle;
+  spinnerAngleEnd = Config.Spinner.EndAngle;
   spinnerAnimationStart.start();
-}
-
-void onSpinnerEndFinish() {
-  spinnerAnimationEnd.setBegin(Config.Spinner.EndAngle);
-  spinnerAnimationEnd.setEnd(Config.Spinner.EndAngle + 360);
-  spinnerAnimationEnd.setDelay(0.25);
   spinnerAnimationEnd.start();
 }
 

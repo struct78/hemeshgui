@@ -1017,14 +1017,13 @@ void createHemesh() {
 
 void drawWaitState() {
   if (isUpdatingMesh && millis() - renderingTime > waitTime) {
-    spinnerAnimationStart.resume();
-    spinnerAnimationEnd.resume();
     hint(DISABLE_DEPTH_TEST);
     translate(0, 0);
     fill(currentTheme.Background, 100);
     rect(0, 0, width, height);
     translate(width/2, height/2);
     rotate(radians(frameCount));
+
     //
     noFill();
     strokeWeight(8);
@@ -1032,7 +1031,7 @@ void drawWaitState() {
     stroke(currentTheme.Spinner);
     ellipseMode(CENTER);
 
-    arc(0, 0, 32, 32, radians(spinnerAngleStart > spinnerAngleEnd ? spinnerAngleStart-360 : spinnerAngleStart), radians(spinnerAngleEnd));
+    arc(0, 0, 32, 32, radians(spinnerAngleStart > spinnerAngleEnd ? spinnerAngleEnd : spinnerAngleStart), radians(spinnerAngleEnd < spinnerAngleStart ? spinnerAngleStart : spinnerAngleEnd));
     stroke(currentTheme.Spinner, 100);
     arc(0, 0, 32, 32, radians(0), radians(360));
     hint(ENABLE_DEPTH_TEST);
