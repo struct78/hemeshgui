@@ -548,7 +548,7 @@ void createModifiers() {
 
     modifiers.add(
        new Modifier("Lattice", 3)
-           .setDefaultValues(new float[] { 15, 15, 0 })
+           .setDefaultValues(new float[] { 7.5, 7.5, 0 })
            .setMinValues(new float[] { 0.1, 0.1, 0 })
            .setMaxValues(new float[] { 100, 100, 360 })
            .setLabels(new String[] { "Depth", "Width", "Threshold Angle" })
