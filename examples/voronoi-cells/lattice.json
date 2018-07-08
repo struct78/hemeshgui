@@ -1,0 +1,79 @@
+{
+  "directionalLights": {
+    "dirLightFrontOn": false,
+    "dirLightBehindOn": false,
+    "dirLightRadius": 10,
+    "dirLightTopOn": false,
+    "dirLightBottomOn": false,
+    "dirLightRightOn": false,
+    "dirLightLeftOn": false
+  },
+  "shader": {
+    "name": "Phong",
+    "parameters": [10]
+  },
+  "shape": {
+    "edgesOn": false,
+    "facesOn": true,
+    "colour": {
+      "saturation": 100,
+      "brightness": 80,
+      "alpha": 100,
+      "hue": 60
+    },
+    "name": "Voronoi Cells",
+    "isCustom": false,
+    "parameters": [
+      200,
+      100,
+      5
+    ]
+  },
+  "lightColour": {
+    "lightsColorG": 230,
+    "lightsColorA": 255,
+    "lightsColorR": 230,
+    "lightsColorB": 230
+  },
+  "rendering": {
+    "preview": false,
+    "continuous": false,
+    "gui": false,
+    "sunflow": true,
+    "opengl": false,
+    "mask": false
+  },
+  "theme": "Classic",
+  "camera": {
+    "changeSpeedX": 1.5,
+    "rotationX": -43.209964752197266,
+    "changeSpeedY": 1.5,
+    "rotationY": 30.516666412353516,
+    "rotationZ": -14.483098983764648,
+    "zoom": 1.0787500143051147,
+    "autoRotate": false
+  },
+  "modifiers": [{
+    "name": "Lattice",
+    "index": 0,
+    "parameters": [
+      7.5,
+      7.5,
+      0
+    ]
+  }],
+  "sphereLights": {
+    "sphereLightLeftOn": false,
+    "sphereLightRightOn": false,
+    "sphereLightFrontOn": false,
+    "sphereLightBehindOn": false,
+    "sphereLightTopOn": false,
+    "sphereLightBottomOn": false,
+    "sphereLightRadius": 10
+  },
+  "scene": {
+    "sunflowWhiteBackgroundOn": false,
+    "sunflowBlackBackgroundOn": false,
+    "sunflowSkyLightOn": true
+  }
+}
