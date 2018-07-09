@@ -81,7 +81,7 @@ void createShapes() {
    shapes.add(
      new Shape("Sphere", 3)
        .setMaxValues(new float[] { Config.Hemesh.Values.Max, 150, 150 })
-       .setDefaultValues(new float[] { 100, 300, 20 })
+       .setDefaultValues(new float[] { 100, 30, 30 })
        .setLabels(new String[] { "Radius", "UFacets", "VFacets" })
        .setCreator(new ShapeCreator() {
            public synchronized void create(float[] values, File file) {}
@@ -329,7 +329,7 @@ void createShapes() {
    shapes.add(
      new Shape("Sea Shell", 4)
       .setMinValues(new float[] { 0, 0, 0, 1 })
-      .setMaxValues(new float[] { 10, 10, 100, 20 })
+      .setMaxValues(new float[] { 50, 10, 100, 20 })
       .setDefaultValues(new float[] { 5, 2, 15, 10 })
       .setLabels(new String[] { "Scale", "Spiral Size", "Angle", "Divisions" })
       .setCreator(new ShapeCreator() {
@@ -986,6 +986,8 @@ void createHemesh() {
           if (validateMesh) {
             selectedShape.validate(meshBuffer);
           }
+
+          selectedShape.setMeshCollection(false);
 
           for (int i = 0; i < selectedModifiers.size(); i++) {
               Modifier m = selectedModifiers.get(i);
