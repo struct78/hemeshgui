@@ -308,44 +308,6 @@ void createShapes() {
    );
 
    shapes.add(
-      new Shape("Voronoi Cells", 3)
-        .setMeshCollection(true)
-        .setMaxValues(new float[] { 400, 500, 20 })
-        .setDefaultValues(new float[] { 200, 100, 5 })
-        .setLabels(new String[] { "Radius", "Points", "Offset" })
-        .setCreator(new ShapeCreator() {
-            public synchronized void create(float[] values, File file) {}
-            public synchronized void create(float[] values) {
-                meshBuffer = new HE_Mesh(
-                    new HEC_Geodesic()
-                        .setRadius(values[0])
-                );
-
-                float[][] points = new float[int(values[1])][3];
-                for (int i = 0; i < int(values[1]); i++) {
-                    points[i][0] = random(-int(values[0]), int(values[0]));
-                    points[i][1] = random(-int(values[0]), int(values[0]));
-                    points[i][2] = random(-int(values[0]), int(values[0]));
-                }
-
-                for (int i = 0; i < selectedModifiers.size(); i++) {
-                    Modifier m = selectedModifiers.get(i);
-                    m.index = i;
-                    m.create();
-                    m.update();
-                }
-
-                HEMC_VoronoiCells multiCreator = new HEMC_VoronoiCells();
-                multiCreator.setPoints(points);
-                multiCreator.setContainer(meshBuffer);
-                multiCreator.setOffset(int(values[2]));
-                multiCreator.setSurface(false);
-                meshesBuffer = multiCreator.create();
-            }
-        })
-   );
-
-   shapes.add(
       new Shape("UV Parametric", 4)
         .setMinValues(new float[] { 10, 4, 0.5, 2 })
         .setMaxValues(new float[] { 500, 200, 10, 30 })
@@ -855,6 +817,32 @@ void createModifiers() {
     );
 
     modifiers.add(
+       new Modifier("Voronoi Cells", 3)
+           .setMeshCollection(true)
+           .setMaxValues(new float[] { 400, 2000, 20 })
+           .setDefaultValues(new float[] { 100, 10, 2.5 })
+           .setLabels(new String[] { "Radius", "Points", "Offset" })
+           .setCreator(new ModifierCreator() {
+             public synchronized void create(float[] values) {
+               float[][] points = new float[int(values[1])][3];
+               for (int i = 0; i < int(values[1]); i++) {
+                   points[i][0] = random(-int(values[0]), int(values[0]));
+                   points[i][1] = random(-int(values[0]), int(values[0]));
+                   points[i][2] = random(-int(values[0]), int(values[0]));
+               }
+
+               meshesBuffer = new HEMC_VoronoiCells()
+                 .setPoints(points)
+                 .setN(points.length)
+                 .setContainer(meshBuffer)
+                 .setOffset(int(values[2]))
+                 .setSurface(false)
+                 .create();
+             }
+         })
+    );
+
+    modifiers.add(
         new Modifier("============", 0)
     );
 
@@ -1001,6 +989,12 @@ void createHemesh() {
 
           for (int i = 0; i < selectedModifiers.size(); i++) {
               Modifier m = selectedModifiers.get(i);
+
+              // Mesh collection must be set to true if any modifier has a multi creator
+              if (m.isMeshCollection) {
+                selectedShape.setMeshCollection(true);
+              }
+
               m.index = i;
               m.create();
               m.update();

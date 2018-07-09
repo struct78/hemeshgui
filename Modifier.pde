@@ -1,4 +1,5 @@
 class Modifier extends BaseModel {
+  boolean isMeshCollection;
   int index;
   int currentIndex;
   ModifierCreator modifierCreator;
@@ -93,6 +94,15 @@ class Modifier extends BaseModel {
     for (int i = 0; i < this.values.length; i++) {
         cp5.remove(getSliderName(this.currentIndex, i));
     }
+  }
+
+  Modifier setMeshCollection(boolean isMeshCollection) {
+    this.isMeshCollection = isMeshCollection;
+    return this;
+  }
+
+  boolean getMeshCollection() {
+    return this.isMeshCollection;
   }
 
   Modifier setMaxValues(float[] maxValues) {
