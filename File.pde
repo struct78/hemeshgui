@@ -1,8 +1,4 @@
-// TODO: Fix this
 void quickSave() {
-  //shaderList.setValue(selectedShaderIndex);
-  //shapeList.setValue(selectedShapeIndex);
-  // Set dynamic fields to be inactive
   saveSettings(quicksaveFilePath);
 }
 
@@ -10,8 +6,40 @@ void quickLoad() {
   loadSettings(quicksaveFilePath);
 }
 
+void export() {
+  selectOutput("Select a file to export", "onExportFileOutputSelected");
+}
+
 void saveAs() {
   selectOutput("Select a file to write to", "onSettingsFileOutputSelected");
+}
+
+void onExportFileOutputSelected(File file) {
+  String extension = FileExtensions.getExtensionLowerCase(file);
+  String folder = FileExtensions.getFolder(file);
+  String fileName = FileExtensions.getFileName(file);
+  String fileNameWithoutExtension = FileExtensions.getFileNameWithoutExtension(file);
+
+  switch(extension) {
+    case "stl":
+      HET_Export.saveToSTL(mesh, folder, fileNameWithoutExtension);
+      break;
+    case "obj":
+      HET_Export.saveToOBJ(mesh, folder, fileNameWithoutExtension);
+      break;
+    case "mesh":
+      HET_Export.saveToSimpleMesh(mesh, folder, fileNameWithoutExtension);
+      break;
+    case "hemesh":
+      HET_Export.saveToHemesh(mesh, folder, fileNameWithoutExtension);
+      break;
+    case "binmesh":
+      HET_Export.saveToBinaryHemesh(mesh, folder, fileNameWithoutExtension);
+      break;
+    default:
+      HET_Export.saveToSTL(mesh, folder, fileNameWithoutExtension);
+      break;
+  }
 }
 
 void onSettingsFileOutputSelected(File file) {
