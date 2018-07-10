@@ -46,21 +46,21 @@ class ThreadRenderer implements Runnable {
 
       if (saveContinuous) {
         if (saveMask) {
-          sunflow.render(sketchPath() + path + "Mask_" + nf(frameCount,4) + ".png");
+          sunflow.render(sketchPath() + path + "mask-" + nf(frameCount,4) + ".png");
         }
         if (saveSunflow) {
           sunflowLights(sunflow);
           sunflow.setAmbientOcclusionEngine(new Color(255), new Color(0), samples, 7.5);
-          sunflow.render(sketchPath() + path + "Sunflow_" + nf(frameCount,4) + ".png");
+          sunflow.render(sketchPath() + path + "sunflow-" + nf(frameCount,4) + ".png");
         }
       } else {
         if (saveMask) {
-          sunflow.render(sketchPath() + path + timestamp + " (sunflowMask).png");
+          sunflow.render(sketchPath() + path + timestamp + "-sunflow-mask.png");
         }
         if (saveSunflow) {
           sunflowLights(sunflow);
           sunflow.setAmbientOcclusionEngine(new Color(255), new Color(0), samples, 7.5);
-          sunflow.render(sketchPath() + path + timestamp + " (sunflow).png");
+          sunflow.render(sketchPath() + path + timestamp + "-sunflow.png");
         }
       }
     }
