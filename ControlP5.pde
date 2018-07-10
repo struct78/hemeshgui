@@ -208,9 +208,7 @@ void createGui() {
   helpTxt += "t : toggle translation\n";
   helpTxt += "y : toggle rotation\n";
   helpTxt += "5 : toggle GUI\n";
-  helpTxt += "0 : set X & Y speed of translation & rotation to zero\n";
   helpTxt += "s : toggle sunflow mode\n";
-  helpTxt += "l : export to STL file\n";
   helpTxt += "./, : increase/decrease sunflow rendering size (x0.5)";
   cp5.getTooltip().register("lblShortcuts", helpTxt);
 
@@ -288,14 +286,6 @@ void createGroup1() {
 
   cp5.addToggle("autoRotate", x2 + getInlineX(1, 3), y2, divideControlWidth(1, 3), Config.CP5.Controls.Height)
     .setLabel("autoRotate (r)")
-    .moveTo(g1);
-
-  cp5.addToggle("translationOn", x2 + getInlineX(2, 3), y2, divideControlWidth(2, 3), Config.CP5.Controls.Height)
-    .setLabel("translation\n(t or L-mouse)")
-    .moveTo(g1);
-
-  cp5.addToggle("rotationOn", x2 + getInlineX(3, 3), y2, divideControlWidth(3, 3), Config.CP5.Controls.Height)
-    .setLabel("rotation\n(y or R-mouse)")
     .moveTo(g1);
 
   cp5.end();
@@ -604,7 +594,8 @@ void createGroup2() {
       .setLabel("Like Shape Color")
       .setGroup(g2);
 
-    y2 += multiplyGrid(4);
+    y2 += multiplyGrid(3);
+
 
     // sunflow shaders
     cp5.addTextlabel("subLblShader")

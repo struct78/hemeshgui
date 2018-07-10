@@ -41,14 +41,12 @@ boolean dirLightTopOn = false;
 boolean drawcp5 = true; // toggle drawing of cp5 gui
 boolean edgesOn = false; // toggle display of edges
 boolean facesOn = true; // toggle display of faces
-boolean isDraggingOnly = false;
 boolean isHoldingAlt = false;
 boolean isHoldingShift = false;
 boolean isHoldingCtrl = false;
 boolean isMeshCollection = false;
 boolean isUpdatingMesh = false;
 boolean savePreview = false; // toggle sunflow render quality
-boolean rotationOn = false; // toggle rotation
 boolean saveContinuous; // toggle saving: continuous (versus just once)
 boolean saveGui = false; // toggle saving: regular opengl (with gui)
 boolean saveMask; // toggle saving: sunflow (mask)
@@ -64,7 +62,6 @@ boolean sphereLightTopOn = false;
 boolean sunflowBlackBackgroundOn = false;
 boolean sunflowWhiteBackgroundOn = false;
 boolean sunflowSkyLightOn = true;
-boolean translationOn = false; // toggle translation
 boolean validateMesh = false;
 
 color lightsColor;
@@ -192,8 +189,8 @@ void settings() {
 }
 
 void draw() {
-
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
+
   background(currentTheme.Background);
   perspective(perspective, (float)width/height, 1, 100000);
   lights();
@@ -209,27 +206,47 @@ void draw() {
 
   // save frame(s) without gui
   if (saveOn == true && saveOpenGL == true) {
-    if (saveContinuous) { save("renders/sequence/" + timestamp + "/OpenGLView_" + nf(frameCount-1,4) + ".tga"); }
-    else { save("renders/screenshots/" + timestamp + " (openglview).png"); }
+    if (saveContinuous) {
+      save("renders/sequence/" + timestamp + "/opengl-" + nf(frameCount-1,4) + ".tga");
+    }
+    else {
+      save("renders/screenshots/" + timestamp + "-opengl.png");
+    }
   }
 
   if (drawcp5) {
     noLights();
     perspective();
     hint(DISABLE_DEPTH_TEST);
-    cp5.draw();
+    try {
+      cp5.draw();
+    } catch(ConcurrentModificationException ex) {
+      ex.printStackTrace();
+      println("Received ConcurrentModificationException. This happens a fair bit, trying to continue...");
+    } catch(Exception ex) {
+      ex.printStackTrace();
+    }
     hint(ENABLE_DEPTH_TEST);
     lights();
   }
 
   // save frame(s) with gui
   if (saveOn == true && saveGui == true) {
-    if (saveContinuous) { save("renders/sequence/" + timestamp + "/GUI_" + nf(frameCount-1,4) + ".tga"); }
-    else { save("renders/screenshots/" + timestamp + " (gui).png"); }
+    if (saveContinuous) {
+      save("renders/sequence/" + timestamp + "/gui-" + nf(frameCount-1,4) + ".tga");
+    }
+    else {
+      save("renders/screenshots/" + timestamp + "-gui.png");
+    }
   }
 
   // sunflow rendering (mask and/or regular sunflow render)
-  if (saveOn) { if (saveSunflow == true || saveMask == true) { hemeshToSunflow(); sunflow(); } }
+  if (saveOn) {
+    if (saveSunflow == true || saveMask == true) {
+      hemeshToSunflow();
+      sunflow();
+    }
+  }
 
   // turn off saving after one frame if continuous is set to false
   if (saveOn == true && saveContinuous == false) {

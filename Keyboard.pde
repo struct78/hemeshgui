@@ -1,5 +1,3 @@
-
-
 // some useful keyboard actions
 void keyPressed() {
   isHoldingShift = (keyCode == SHIFT);
@@ -12,20 +10,6 @@ void keyPressed() {
       cp5.getController("autoRotate").setValue(1);
     } else {
       cp5.getController("autoRotate").setValue(0);
-    }
-  }
-  if (key == 't') {
-    if (translationOn == false) {
-      cp5.getController("translationOn").setValue(1);
-    } else {
-      cp5.getController("translationOn").setValue(0);
-    }
-  }
-  if (key == 'y') {
-    if (rotationOn == false) {
-      cp5.getController("rotationOn").setValue(1);
-    } else {
-      cp5.getController("rotationOn").setValue(0);
     }
   }
 
@@ -74,15 +58,6 @@ void keyPressed() {
     cp5.getController("savePreview").setValue(0);
     cp5.getController("saveSunflow").setValue(1);
     save();
-  }
-
-  // export shape to a STL file
-  if (key == 'l') {
-    timestamp = year() + nf(month(), 2) + nf(day(), 2) + "-"  + nf(hour(), 2) + nf(minute(), 2) + nf(second(), 2);
-    String path = sketchPath() + "/renders/export_stl/";
-    HET_Export exporter = new HET_Export();
-    exporter.saveToSTL(mesh, path, timestamp);
-    println("STL exported");
   }
 
   // decrease sunflow multiplication factor by 0.5 (key: <)

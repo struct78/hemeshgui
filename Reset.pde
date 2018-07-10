@@ -93,8 +93,6 @@ void resetView() {
   cp5.getController("changeSpeedX").setValue(1.5);
   cp5.getController("changeSpeedY").setValue(1.5);
   cp5.getController("autoRotate").setValue(0);
-  cp5.getController("translationOn").setValue(0);
-  cp5.getController("rotationOn").setValue(0);
 
   translateX = width/2;
   translateY = height/2;
