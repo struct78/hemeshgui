@@ -187,25 +187,9 @@ void createGui() {
   g3 = cp5.addGroup("g3");
   g4 = cp5.addGroup("g4");
 
-  // camera control
-
-  x2 = multiplyGrid(1);
-  y2 = multiplyGrid(1);
-
   createGroup1();
-
-  y2 += multiplyGrid(2);
-
   createGroup2();
-
-  x2 = width - (Config.CP5.Grid * 3) - Config.CP5.Controls.Width;
-  y2 = Config.CP5.Grid;
-
   createGroup3();
-
-  x2 = width - (Config.CP5.Grid * 3) - Config.CP5.Controls.Width;
-  y2 = height - multiplyGrid(14);
-
   createGroup4();
 
   // title
@@ -251,6 +235,9 @@ void createGui() {
 }
 
 void createGroup1() {
+  x2 = multiplyGrid(1);
+  y2 = multiplyGrid(1);
+
   cp5.addTextlabel("lblCamera")
     .setText("CAMERA CONTROL")
     .setPosition(x2, y2)
@@ -391,6 +378,7 @@ void createGroup1() {
 }
 
 void createGroup2() {
+    y2 += multiplyGrid(2);
 
     cp5.begin(x2, y2);
 
@@ -725,22 +713,6 @@ void createGroup2() {
         }
       });
 
-    y2 = height - multiplyGrid(9);
-
-    y2 += multiplyGrid(2);
-
-    cp5.addButton("saveAs", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
-      .setColorBackground(currentTheme.ButtonBackground)
-      .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("Save As...");
-
-    y2 += multiplyGrid(3);
-
-    cp5.addButton("loadFrom", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
-      .setColorBackground(currentTheme.ButtonBackground)
-      .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("Open...");
-
     cp5.end();
 
     shaderList.setValue(selectedShaderIndex);
@@ -748,7 +720,8 @@ void createGroup2() {
 }
 
 void createGroup3() {
-
+  x2 = width - (Config.CP5.Grid * 3) - Config.CP5.Controls.Width;
+  y2 = Config.CP5.Grid;
 
   cp5.addTextlabel("lblShapesModifiers")
     .setText("SHAPE & MODIFIERS")
@@ -943,6 +916,9 @@ void createGroup3() {
 }
 
 void createGroup4() {
+    x2 = width - (Config.CP5.Grid * 3) - Config.CP5.Controls.Width;
+    y2 = height - multiplyGrid(20);
+
     // render type & saving variables
 
     cp5.addTextlabel("lblSave")
@@ -977,6 +953,20 @@ void createGroup4() {
 
     y2 += multiplyGrid(3);
 
+    cp5.addButton("save", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("SAVE / RENDER");
+
+    y2 += multiplyGrid(3);
+
+    cp5.addTextlabel("lblSunflowSize")
+      .setText("SUNFLOW RENDERING SIZE : " + int(sceneWidth*sunflowMultiply)+ " x " + int(sceneHeight*sunflowMultiply))
+      .setPosition(x2, y2)
+      .setColorValue(currentTheme.ControlCaptionLabel);
+
+    y2 += multiplyGrid(2);
+
     cp5.addButton("quickSave", 0, x2, y2, divideControlWidth(1, 2), multiplyControlHeight(2))
       .setColorBackground(currentTheme.ButtonBackground)
       .setColorLabel(currentTheme.ButtonForeground)
@@ -989,17 +979,24 @@ void createGroup4() {
 
     y2 += multiplyGrid(2);
 
-    cp5.addButton("save", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
+    cp5.addButton("saveAs", 0, x2, y2, divideControlWidth(1, 2), multiplyControlHeight(2))
       .setColorBackground(currentTheme.ButtonBackground)
       .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("SAVE / RENDER");
+      .setLabel("Save As...");
 
-    y2 += multiplyGrid(3);
+    cp5.addButton("loadFrom", 0, x2+getInlineX(2, 2), y2, divideControlWidth(2, 2), multiplyControlHeight(2))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("Open...");
 
-    cp5.addTextlabel("lblSunflowSize")
-      .setText("SUNFLOW RENDERING SIZE : " + int(sceneWidth*sunflowMultiply)+ " x " + int(sceneHeight*sunflowMultiply))
-      .setPosition(x2, y2)
-      .setColorValue(currentTheme.ControlCaptionLabel);
+    y2 += multiplyGrid(2);
+
+    cp5.addButton("export", 0, x2, y2, divideControlWidth(1, 2), multiplyControlHeight(2))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("Export...");
+
+    y2 += multiplyGrid(2);
 }
 
 void setShapeParameters(int shape) {
