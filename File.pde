@@ -85,8 +85,8 @@ void loadSettings(String filePath) {
   loadScene(jsonRoot);
   loadTheme(jsonRoot);
   loadLights(jsonRoot);
-  loadShader(jsonRoot);
   loadShape(jsonRoot);
+  loadShader(jsonRoot);
   loadModifiers(jsonRoot);
   loadRendering(jsonRoot);
 
@@ -130,13 +130,13 @@ JSONObject saveLights(JSONObject jsonRoot) {
 
   // Sphere light
   JSONObject jsonSphereLights = new JSONObject();
-  jsonSphereLights.setFloat("sphereLightRadius", dirLightRadius);
-  jsonSphereLights.setBoolean("sphereLightTopOn", dirLightTopOn);
-  jsonSphereLights.setBoolean("sphereLightRightOn", dirLightRightOn);
-  jsonSphereLights.setBoolean("sphereLightFrontOn", dirLightFrontOn);
-  jsonSphereLights.setBoolean("sphereLightBottomOn", dirLightBottomOn);
-  jsonSphereLights.setBoolean("sphereLightLeftOn", dirLightLeftOn);
-  jsonSphereLights.setBoolean("sphereLightBehindOn", dirLightBehindOn);
+  jsonSphereLights.setFloat("sphereLightRadius", sphereLightRadius);
+  jsonSphereLights.setBoolean("sphereLightTopOn", sphereLightTopOn);
+  jsonSphereLights.setBoolean("sphereLightRightOn", sphereLightRightOn);
+  jsonSphereLights.setBoolean("sphereLightFrontOn", sphereLightFrontOn);
+  jsonSphereLights.setBoolean("sphereLightBottomOn", sphereLightBottomOn);
+  jsonSphereLights.setBoolean("sphereLightLeftOn", sphereLightLeftOn);
+  jsonSphereLights.setBoolean("sphereLightBehindOn", sphereLightBehindOn);
 
   // Light colour
   JSONObject jsonLightColour = new JSONObject();
