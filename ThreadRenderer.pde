@@ -33,13 +33,13 @@ class ThreadRenderer implements Runnable {
         }
       }
 
-      sunflow.setThinlensCamera("thinLensCamera", 50f, (float)sceneWidth/sceneHeight);
-      sunflow.setCameraPosition(0, 0, 15);
-      sunflow.setCameraTarget(0, 0, 0);
+      sunflow.setThinlensCamera("thinLensCamera", 40f, (float)sceneWidth/sceneHeight);
+      sunflow.setCameraPosition(0, 0, (sceneHeight/2.0) / tan(PI*30.0 / 180.0));
 
       selectedShader.create(sunflow);
 
-      sunflow.drawMesh("hemesh", verticesHemeshOneDim, facesHemeshOneDim, actualZoom * .01, radians(rotationX), radians(rotationY), radians(rotationZ));
+      sunflow.drawPlane("plane", new Point3(0, -sceneHeight/3, 0), new Vector3(0,1,0));
+      sunflow.drawMesh("hemesh", verticesHemeshOneDim, facesHemeshOneDim, actualZoom, radians(-rotationX), radians(rotationY), radians(rotationZ));
 
       String path = "/renders/screenshots/";
       if (saveContinuous) path = "/renders/sequence/" + timestamp + "/";
