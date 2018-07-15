@@ -16,12 +16,13 @@
     "edgesOn": false,
     "facesOn": true,
     "colour": {
-      "saturation": 62.02531433105469,
-      "brightness": 61.960784912109375,
+      "saturation": 100,
+      "brightness": 90,
       "alpha": 100,
-      "hue": 156.60000610351562
+      "hue": 329.3999938964844
     },
     "name": "Geodesic",
+    "isCustom": false,
     "parameters": [
       138.22500610351562,
       5.364999771118164,
@@ -35,7 +36,7 @@
     "lightsColorB": 230
   },
   "rendering": {
-    "preview": false,
+    "preview": true,
     "continuous": false,
     "gui": false,
     "sunflow": true,
@@ -79,16 +80,16 @@
     }
   ],
   "sphereLights": {
-    "sphereLightLeftOn": true,
-    "sphereLightRightOn": true,
+    "sphereLightLeftOn": false,
+    "sphereLightRightOn": false,
     "sphereLightFrontOn": true,
-    "sphereLightBehindOn": true,
-    "sphereLightTopOn": true,
-    "sphereLightBottomOn": true,
+    "sphereLightBehindOn": false,
+    "sphereLightTopOn": false,
+    "sphereLightBottomOn": false,
     "sphereLightRadius": 20
   },
   "scene": {
-    "sunflowWhiteBackgroundOn": true,
+    "sunflowWhiteBackgroundOn": false,
     "sunflowBlackBackgroundOn": false,
     "sunflowSkyLightOn": false
   }
