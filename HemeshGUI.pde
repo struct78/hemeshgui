@@ -76,11 +76,11 @@ float create0;
 float create1;
 float create2;
 float create3;
-float dirLightRadius = 10.0f;
-float lightsColorA = 255;
-float lightsColorB = 230;
-float lightsColorG = 230;
-float lightsColorR = 230;
+float dirLightRadius = Config.Lights.Radius.Default;
+float lightsColorA = Config.Lights.Color.Alpha;
+float lightsColorB = Config.Lights.Color.Blue;
+float lightsColorG = Config.Lights.Color.Green;
+float lightsColorR = Config.Lights.Color.Red;
 float maxSpeedX = changeSpeedX*8;
 float maxSpeedY = changeSpeedY*8;
 float param0 = 0.0f;
@@ -94,7 +94,7 @@ float shapeBrightness; // default brightness
 float shapeHue; // default hue
 float shapeSaturation; // default saturation
 float shapeTransparency; // default transparency
-float sphereLightRadius = 10.0f;
+float sphereLightRadius = Config.Lights.Radius.Default;
 float spinnerAngleStart = Config.Spinner.StartAngle;
 float spinnerAngleEnd = Config.Spinner.EndAngle;
 float sunflowMultiply = 1; // multiplication factor for the width & height of the sunflow render (screen width/screen height by default)
@@ -194,6 +194,7 @@ void draw() {
   background(currentTheme.Background);
   perspective(perspective, (float)width/height, 1, 100000);
   lights();
+  camera();
 
   pushMatrix();
   viewport();
