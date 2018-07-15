@@ -101,6 +101,7 @@ public class SunflowAPIAPI {
         private int modifiercount = 0;
 
         private boolean isModifiers = false;
+        private boolean useJitter = true;
         private int aaMin = 1;
         private int aaMax = 2;
         private int previewAaMin = 0;
@@ -1585,6 +1586,7 @@ public class SunflowAPIAPI {
                 sunflow.parameter("resolutionY", height);
                 sunflow.parameter("aa.min", aaMin);
                 sunflow.parameter("aa.max", aaMax);
+                sunflow.parameter("aa.jitter", useJitter);
                 sunflow.parameter("bucket.order", currBucketOrder);
                 sunflow.parameter("filter", currFilter);
                 sunflow.options(SunflowAPI.DEFAULT_OPTIONS);
@@ -1611,6 +1613,7 @@ public class SunflowAPIAPI {
                 sunflow.parameter("resolutionY", height);
                 sunflow.parameter("aa.min", aaMin);
                 sunflow.parameter("aa.max", aaMax);
+                sunflow.parameter("aa.jitter", useJitter);
                 sunflow.parameter("bucket.order", currBucketOrder);
                 sunflow.parameter("filter", currFilter);
                 sunflow.options(SunflowAPI.DEFAULT_OPTIONS);
@@ -1624,6 +1627,7 @@ public class SunflowAPIAPI {
                         sunflow.parameter("resolutionY", height);
                         sunflow.parameter("aa.min", previewAaMin);
                         sunflow.parameter("aa.max", previewAaMax);
+                        sunflow.parameter("aa.jitter", useJitter);
                         sunflow.parameter("bucket.order", this.BUCKET_ORDER_SPIRAL);
                         sunflow.options(SunflowAPI.DEFAULT_OPTIONS);
                         fileDisplay = new FileDisplay(fileName);

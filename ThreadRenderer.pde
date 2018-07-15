@@ -17,7 +17,7 @@ class ThreadRenderer implements Runnable {
       sunflow.setWidth(int(sceneWidth * sunflowMultiply));
       sunflow.setHeight(int(sceneHeight * sunflowMultiply));
 
-      if (preview) {
+      if (savePreview) {
         sunflow.setAaMin(-2);
         sunflow.setAaMax(0);
         samples = 16;
@@ -33,37 +33,35 @@ class ThreadRenderer implements Runnable {
         }
       }
 
-      sunflow.setThinlensCamera("thinLensCamera", 50f, (float)sceneWidth/sceneHeight);
-      sunflow.setCameraPosition(0, 0, 30);
-      sunflow.setCameraTarget(0, 0, 0);
+      sunflow.setThinlensCamera("thinLensCamera", 40f, (float)sceneWidth/sceneHeight);
+      sunflow.setCameraPosition(0, 0, (sceneHeight/2.0) / tan(PI*30.0 / 180.0));
 
       selectedShader.create(sunflow);
 
-      sunflow.drawMesh("myHemesh", verticesHemeshOneDim, facesHemeshOneDim, actualZoom / 25, 0, 0, 0);
+      sunflow.drawPlane("plane", new Point3(0, -sceneHeight/3, 0), new Vector3(0,1,0));
+      sunflow.drawMesh("hemesh", verticesHemeshOneDim, facesHemeshOneDim, actualZoom, radians(-rotationX), radians(rotationY), radians(rotationZ));
 
-      String path = "/output/screenshots/";
-      if (saveContinuous) path = "/output/sequence/" + timestamp + "/";
+      String path = "/renders/screenshots/";
+      if (saveContinuous) path = "/renders/sequence/" + timestamp + "/";
 
       if (saveContinuous) {
         if (saveMask) {
-          sunflow.render(sketchPath() + path + "Mask_" + nf(frameCount,4) + ".png");
+          sunflow.render(sketchPath() + path + "mask-" + nf(frameCount,4) + ".png");
         }
         if (saveSunflow) {
           sunflowLights(sunflow);
           sunflow.setAmbientOcclusionEngine(new Color(255), new Color(0), samples, 7.5);
-          sunflow.render(sketchPath() + path + "Sunflow_" + nf(frameCount,4) + ".png");
+          sunflow.render(sketchPath() + path + "sunflow-" + nf(frameCount,4) + ".png");
         }
       } else {
         if (saveMask) {
-          sunflow.render(sketchPath() + path + timestamp + " (sunflowMask).png");
+          sunflow.render(sketchPath() + path + timestamp + "-sunflow-mask.png");
         }
         if (saveSunflow) {
           sunflowLights(sunflow);
           sunflow.setAmbientOcclusionEngine(new Color(255), new Color(0), samples, 7.5);
-          sunflow.render(sketchPath() + path + timestamp + " (sunflow).png");
+          sunflow.render(sketchPath() + path + timestamp + "-sunflow.png");
         }
       }
-
-      createHemesh(); // to reset the shape's rotation (which was internalised into the shape temporarily for sunflow rendering)
     }
 }

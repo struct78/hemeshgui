@@ -34,18 +34,32 @@ public static class Config {
       flat.Spinner = 0xffFFD156;
 
       Theme monochrome = new Theme();
-      monochrome.Background = 0xff141e26;
-      monochrome.Faces = 0xff1fa698;
-      monochrome.Edges = 0xfff2f2f2;
-      monochrome.ControlBackground = 0xff1d736a;
-      monochrome.ControlForeground = 0xff1fa698;
-      monochrome.ControlActive = 0xff35d4c3;
-      monochrome.ControlCaptionLabel = 0xfff2f2f2;
-      monochrome.ControlValueLabel = 0xfff2f2f2;
-      monochrome.ControlSubLabel = 0xAAf2f2f2;
-      monochrome.ButtonBackground = 0xff35d4c3;
-      monochrome.ButtonForeground = 0xff141e26;
-      monochrome.Spinner = 0xfff2f2f2;
+      monochrome.Background = 0xfff2f2f2;
+      monochrome.Faces = 0xffa4a4a4;
+      monochrome.Edges = 0xff171717;
+      monochrome.ControlBackground = 0xff797979;
+      monochrome.ControlForeground = 0xff8f8f8f;
+      monochrome.ControlActive = 0xff919191;
+      monochrome.ControlCaptionLabel = 0xff171717;
+      monochrome.ControlValueLabel = 0xffefefef;
+      monochrome.ControlSubLabel = 0x90171717;
+      monochrome.ButtonBackground = 0xffa4a4a4;
+      monochrome.ButtonForeground = 0xff171717;
+      monochrome.Spinner = 0xff010101;
+
+      Theme duotone = new Theme();
+      duotone.Background = 0xff141e26;
+      duotone.Faces = 0xff1fa698;
+      duotone.Edges = 0xfff2f2f2;
+      duotone.ControlBackground = 0xff1d736a;
+      duotone.ControlForeground = 0xff1fa698;
+      duotone.ControlActive = 0xff35d4c3;
+      duotone.ControlCaptionLabel = 0xfff2f2f2;
+      duotone.ControlValueLabel = 0xfff2f2f2;
+      duotone.ControlSubLabel = 0xAAf2f2f2;
+      duotone.ButtonBackground = 0xff35d4c3;
+      duotone.ButtonForeground = 0xff141e26;
+      duotone.Spinner = 0xfff2f2f2;
 
       Theme pastel = new Theme();
       pastel.Background = 0xfff4cda5;
@@ -53,7 +67,7 @@ public static class Config {
       pastel.Edges = 0xff2b6c70;
       pastel.ControlBackground = 0xfff57a82;
       pastel.ControlForeground = 0xffed5276;
-      pastel.ControlActive = 0xfff57a82;
+      pastel.ControlActive = 0xffdb4266;
       pastel.ControlCaptionLabel = 0xff444854;
       pastel.ControlValueLabel = 0xfff4cda5;
       pastel.ControlSubLabel = 0x90444854;
@@ -107,6 +121,7 @@ public static class Config {
       _themes.put("Classic", classic);
       _themes.put("Flat", flat);
       _themes.put("Monochrome", monochrome);
+      _themes.put("Duotone", duotone);
       _themes.put("Pastel", pastel);
       _themes.put("Neon", neon);
       _themes.put("Summer Fruit", summerFruit);
@@ -146,6 +161,26 @@ public static class Config {
       public static int Margin = 4;
       public static int Width = 200;
       public static int Height = 16;
+    }
+  }
+
+  public static class Spinner {
+    public static float StartAngle = 0;
+    public static float EndAngle = 65;
+  }
+
+  public static class Lights {
+    public static class Radius {
+      public static int Default = 5000;
+      public static int Min = 100;
+      public static int Max = 10000;
+    }
+
+    public static class Color {
+      public static int Red = 230;
+      public static int Green = 230;
+      public static int Blue = 230;
+      public static int Alpha = 255;
     }
   }
 }

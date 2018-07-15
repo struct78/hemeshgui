@@ -1,0 +1,7 @@
+*.stl
+*.obj
+*.txt
+*.mtl
+*.hemesh
+*.mesh
+*.binmesh

@@ -1,0 +1,72 @@
+{
+  "directionalLights": {
+    "dirLightFrontOn": false,
+    "dirLightBehindOn": false,
+    "dirLightRadius": 10,
+    "dirLightTopOn": false,
+    "dirLightBottomOn": false,
+    "dirLightRightOn": false,
+    "dirLightLeftOn": false
+  },
+  "shader": {
+    "name": "Phong",
+    "parameters": [10]
+  },
+  "shape": {
+    "edgesOn": false,
+    "facesOn": true,
+    "colour": {
+      "saturation": 81.32530212402344,
+      "brightness": 65.09803771972656,
+      "alpha": 100,
+      "hue": 173.7777862548828
+    },
+    "name": "Grid",
+    "isCustom": false,
+    "parameters": [
+      500,
+      500,
+      40.91999816894531,
+      68.36499786376953
+    ]
+  },
+  "lightColour": {
+    "lightsColorG": 230,
+    "lightsColorA": 255,
+    "lightsColorR": 230,
+    "lightsColorB": 230
+  },
+  "rendering": {
+    "preview": false,
+    "continuous": false,
+    "gui": false,
+    "sunflow": true,
+    "opengl": false,
+    "mask": false
+  },
+  "theme": "Duotone",
+  "camera": {
+    "changeSpeedX": 1.5,
+    "rotationX": 81.0904541015625,
+    "changeSpeedY": 1.5,
+    "rotationY": 0.2774422764778137,
+    "rotationZ": -9.390179634094238,
+    "zoom": 4.686249732971191,
+    "autoRotate": false
+  },
+  "modifiers": [],
+  "sphereLights": {
+    "sphereLightLeftOn": false,
+    "sphereLightRightOn": false,
+    "sphereLightFrontOn": false,
+    "sphereLightBehindOn": false,
+    "sphereLightTopOn": false,
+    "sphereLightBottomOn": false,
+    "sphereLightRadius": 10
+  },
+  "scene": {
+    "sunflowWhiteBackgroundOn": false,
+    "sunflowBlackBackgroundOn": false,
+    "sunflowSkyLightOn": true
+  }
+}

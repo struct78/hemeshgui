@@ -12,7 +12,7 @@ void reset() {
   resetView();
   resetLights();
 
-  for ( int x = 0 ; x < 4 ; x++ ) {
+  for ( int x = 0 ; x < maxShapeParameters ; x++ ) {
     cp5.getController("create" + x).setValue(defaultShapeValues[0]);
     cp5.getController("create" + x).setMax(maxShapeValues[0]);
     cp5.getController("create" + x).setMin(minShapeValues[0]);
@@ -23,10 +23,10 @@ void reset() {
 
   // saving variables
   cp5.getController("saveOpenGL").setValue(0);
-  cp5.getController("saveGui").setValue(1);
+  cp5.getController("saveGui").setValue(0);
   cp5.getController("saveSunflow").setValue(1);
   cp5.getController("saveMask").setValue(0);
-  cp5.getController("preview").setValue(1);
+  cp5.getController("savePreview").setValue(0);
 
   ((Toggle)cp5.getController("saveContinuous"))
     .setValue(0)
@@ -42,9 +42,10 @@ void reset() {
 
   // remove the gui elements for all modifiers
   for (int i = 0; i < selectedModifiers.size(); i++) {
-    cp5.remove("remove" + i);
-    for (int j=0; j<5; j++) {
-      cp5.remove(i+"v"+j);
+    Modifier modifier = selectedModifiers.get(i);
+    cp5.remove(getButtonName(i));
+    for (int j=0; j<modifier.parameters; j++) {
+      cp5.remove(getSliderName(i, j));
     }
   }
 
@@ -56,31 +57,31 @@ void reset() {
 }
 
 void resetLights() {
+  cp5.getController("sunflowSkyLightOn").setValue(1);
   cp5.getController("sunflowWhiteBackgroundOn").setValue(0);
   cp5.getController("sunflowBlackBackgroundOn").setValue(0);
 
   // sunflow lights
-  cp5.getController("sunSkyLightOn").setValue(1);
   cp5.getController("dirLightTopOn").setValue(0);
   cp5.getController("dirLightRightOn").setValue(0);
   cp5.getController("dirLightFrontOn").setValue(0);
   cp5.getController("dirLightBottomOn").setValue(0);
   cp5.getController("dirLightLeftOn").setValue(0);
   cp5.getController("dirLightBehindOn").setValue(0);
-  cp5.getController("dirLightRadius").setValue(10);
+  cp5.getController("dirLightRadius").setValue(Config.Lights.Radius.Default);
   cp5.getController("sphereLightTopOn").setValue(0);
   cp5.getController("sphereLightRightOn").setValue(0);
   cp5.getController("sphereLightFrontOn").setValue(0);
   cp5.getController("sphereLightBottomOn").setValue(0);
   cp5.getController("sphereLightLeftOn").setValue(0);
   cp5.getController("sphereLightBehindOn").setValue(0);
-  cp5.getController("sphereLightRadius").setValue(10);
+  cp5.getController("sphereLightRadius").setValue(Config.Lights.Radius.Default);
 
   // sunflow color lights
-  cp5.getController("lightsColorR").setValue(230);
-  cp5.getController("lightsColorG").setValue(230);
-  cp5.getController("lightsColorB").setValue(230);
-  cp5.getController("lightsColorA").setValue(255);
+  cp5.getController("lightsColorR").setValue(Config.Lights.Color.Red);
+  cp5.getController("lightsColorG").setValue(Config.Lights.Color.Green);
+  cp5.getController("lightsColorB").setValue(Config.Lights.Color.Blue);
+  cp5.getController("lightsColorA").setValue(Config.Lights.Color.Alpha);
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
 }
 
@@ -91,20 +92,15 @@ void resetView() {
   cp5.getController("zoom").setValue(1);
   cp5.getController("changeSpeedX").setValue(1.5);
   cp5.getController("changeSpeedY").setValue(1.5);
-  cp5.getController("autoRotate").setValue(1);
-  cp5.getController("translationOn").setValue(0);
-  cp5.getController("rotationOn").setValue(0);
+  cp5.getController("autoRotate").setValue(0);
 
   translateX = width/2;
   translateY = height/2;
-  rotationX = 0;
-  rotationY = 0;
+  rotationY = 45;
+  rotationX = -30;
   actualZoom = 1;
-  flagMouseControlRotationMouvement = false;
-  flagMouseControlTranslationMouvement = false;
 
-  resetRotationMouvement();
-  resetTranslationMouvement();
+  resetRotationMovement();
   updateShapeColors();
 
   // presentation

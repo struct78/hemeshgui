@@ -1,0 +1,95 @@
+{
+  "directionalLights": {
+    "dirLightFrontOn": false,
+    "dirLightBehindOn": false,
+    "dirLightRadius": 10,
+    "dirLightTopOn": false,
+    "dirLightBottomOn": false,
+    "dirLightRightOn": false,
+    "dirLightLeftOn": false
+  },
+  "shader": {
+    "name": "Phong",
+    "parameters": [10]
+  },
+  "shape": {
+    "edgesOn": false,
+    "facesOn": true,
+    "colour": {
+      "saturation": 65,
+      "brightness": 100,
+      "alpha": 100,
+      "hue": 75.5999984741211
+    },
+    "name": "Torus",
+    "parameters": [
+      60.87999725341797,
+      215.5699920654297,
+      108.28499603271484,
+      98.30499267578125
+    ]
+  },
+  "lightColour": {
+    "lightsColorG": 230,
+    "lightsColorA": 255,
+    "lightsColorR": 230,
+    "lightsColorB": 230
+  },
+  "rendering": {
+    "preview": false,
+    "continuous": false,
+    "gui": false,
+    "sunflow": true,
+    "opengl": false,
+    "mask": false
+  },
+  "theme": "Neon",
+  "camera": {
+    "changeSpeedX": 1.5,
+    "rotationX": -0.07873572409152985,
+    "changeSpeedY": 1.5,
+    "rotationY": 433.4960021972656,
+    "rotationZ": 0,
+    "zoom": 2.5899999141693115,
+    "autoRotate": false
+  },
+  "modifiers": [
+    {
+      "name": "Hard Edge Extrude",
+      "index": 0,
+      "parameters": [
+        3,
+        1,
+        367.4999694824219
+      ]
+    },
+    {
+      "name": "Twist (X)",
+      "index": 1,
+      "parameters": [0.32999998331069946]
+    },
+    {
+      "name": "Spherical Inversion",
+      "index": 2,
+      "parameters": [
+        13.47499942779541,
+        1,
+        0
+      ]
+    }
+  ],
+  "sphereLights": {
+    "sphereLightLeftOn": false,
+    "sphereLightRightOn": false,
+    "sphereLightFrontOn": false,
+    "sphereLightBehindOn": false,
+    "sphereLightTopOn": false,
+    "sphereLightBottomOn": false,
+    "sphereLightRadius": 10
+  },
+  "scene": {
+    "sunflowWhiteBackgroundOn": false,
+    "sunflowBlackBackgroundOn": false,
+    "sunflowSkyLightOn": true
+  }
+}

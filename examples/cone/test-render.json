@@ -1,0 +1,72 @@
+{
+  "directionalLights": {
+    "dirLightFrontOn": true,
+    "dirLightBehindOn": true,
+    "dirLightRadius": 30,
+    "dirLightTopOn": true,
+    "dirLightBottomOn": true,
+    "dirLightRightOn": true,
+    "dirLightLeftOn": true
+  },
+  "shader": {
+    "name": "Phong",
+    "parameters": [10]
+  },
+  "shape": {
+    "edgesOn": false,
+    "facesOn": true,
+    "colour": {
+      "saturation": 100,
+      "brightness": 80,
+      "alpha": 100,
+      "hue": 60
+    },
+    "name": "Cone",
+    "isCustom": false,
+    "parameters": [
+      75,
+      150,
+      25,
+      1
+    ]
+  },
+  "lightColour": {
+    "lightsColorG": 230,
+    "lightsColorA": 255,
+    "lightsColorR": 230,
+    "lightsColorB": 230
+  },
+  "rendering": {
+    "preview": true,
+    "continuous": false,
+    "gui": false,
+    "sunflow": true,
+    "opengl": false,
+    "mask": false
+  },
+  "theme": "Classic",
+  "camera": {
+    "changeSpeedX": 1.5,
+    "rotationX": 90,
+    "changeSpeedY": 1.5,
+    "rotationY": 0,
+    "rotationZ": 0,
+    "zoom": 1,
+    "autoRotate": false
+  },
+  "modifiers": [],
+  "sphereLights": {
+    "sphereLightLeftOn": false,
+    "sphereLightRightOn": false,
+    "sphereLightFrontOn": false,
+    "sphereLightBehindOn": false,
+    "sphereLightTopOn": false,
+    "sphereLightBottomOn": false,
+    "sphereLightRadius": 10
+  },
+  "scene": {
+    "sunflowWhiteBackgroundOn": false,
+    "sunflowBlackBackgroundOn": false,
+    "sunflowSkyLightOn": true
+  }
+}

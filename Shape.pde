@@ -1,10 +1,14 @@
 class Shape extends BaseModel {
-  private boolean isMeshCollection;
-  private ShapeCreator shapeCreator;
+  boolean isMeshCollection;
+  boolean isCustom;
+  ShapeCreator shapeCreator;
+  File file;
 
   Shape (String name, int parameters) {
     super(name, parameters);
     this.isMeshCollection = false;
+    this.isCustom = false;
+    this.file = null;
   }
 
   Shape setMaxValues(float[] maxValues) {
@@ -33,8 +37,59 @@ class Shape extends BaseModel {
     return this;
   }
 
+  Shape setCustom(boolean isCustom) {
+    this.isCustom = isCustom;
+    return this;
+  }
+
+  boolean getCustom() {
+    return this.isCustom;
+  }
+
+  Shape setFile(File file) {
+    this.file = file;
+    return this;
+  }
+
+  Shape setFileFromBase64String(String fileContents, String fileExtension) {
+    UUID uuid = UUID.randomUUID();
+    String path = System.getProperty("java.io.tmpdir") + "/" + uuid.toString() + "." + fileExtension;
+    try {
+      FileOutputStream stream = new FileOutputStream(path);
+      stream.write(Base64.getDecoder().decode(fileContents));
+      stream.close();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    this.file = new File(path);
+    return this;
+  }
+
+  String getBase64EncodedFile() {
+    String encodedFile = null;
+    try {
+        FileInputStream stream = new FileInputStream(this.file);
+        byte[] bytes = new byte[(int)this.file.length()];
+        stream.read(bytes);
+        encodedFile = new String(Base64.getEncoder().encode(bytes));
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    return encodedFile;
+  }
+
   boolean getMeshCollection() {
     return this.isMeshCollection;
+  }
+
+  File getFile() {
+    return this.file;
   }
 
   Shape setCreator(ShapeCreator creator) {
@@ -44,23 +99,40 @@ class Shape extends BaseModel {
 
   void create() {
     if (this.shapeCreator != null) {
-      this.shapeCreator.create(values);
+      if (this.isCustom) {
+        this.shapeCreator.create(values, file);
+      } else {
+        this.shapeCreator.create(values);
+      }
     } else {
       println("No creator found");
     }
+  }
+
+  void validate(HE_Mesh mesh) {
+    HET_Diagnosis.validate(mesh);
   }
 }
 
 interface ShapeCreator {
   public void create(float[] values);
+  public void create(float[] values, File file);
 }
 
 class UVFunction implements WB_VectorParameter {
+    public double sq = 2.0;
+    public double dv = 2.0;
+
+    public UVFunction(double sq, double dv) {
+      this.sq = sq;
+      this.dv = dv;
+    }
+
     WB_Point evaluate(double... u) {
-      double pi23 = 2 * Math.PI / 3;
+      double pi23 = TWO_PI / this.dv;
       double ua = Math.PI * 2 * u[0];
       double va = Math.PI * 2 * u[1];
-      double sqrt2 = Math.sqrt(2.0d);
+      double sqrt2 = Math.sqrt(this.sq);
       double px = Math.sin(ua) / Math.abs(sqrt2+ Math.cos(va));
       double py = Math.sin(ua + pi23) / Math.abs(sqrt2 + Math.cos(va + pi23));
       double pz = Math.cos(ua - pi23) / Math.abs(sqrt2 + Math.cos(va - pi23));
