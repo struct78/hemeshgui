@@ -1,21 +1,31 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.6.0] - 2018-07-16
 ### Added
 - __New Shapes:__ Sea Shell, Sweep Tube, and Twin ISO shapes
-- __New Modifiers:__ Spherify and Shrink Wrap modifiers
+- __New Modifiers:__ Spherify, Shrink Wrap and Voronoi Cells modifiers
 - Ani library for smoother animations
 - Save As! Save your workspace settings
+- Examples:
+  - Beethoven
+  - Cone
+  - Custom shapes
+  - Geodesic
+  - Grid
+  - Torus
+  - UV Parametric
 
 ### Changed
 - Complete re-write of Quick Save/Quick Loadload
 - Switched from WB_Render to WB_Render3D
 - Rotation in Sunflow rendering improved
+- Improved light rendering in Sunflow
 - Modified SunflowAPIAPI.java to include aa.jitter parameter
 
 ### Removed
 - Translate to mouse movement
+- Voronoi cells shape
 
 ## [0.5.0] - 2018-06-20
 ### Added
