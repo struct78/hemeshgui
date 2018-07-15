@@ -168,4 +168,19 @@ public static class Config {
     public static float StartAngle = 0;
     public static float EndAngle = 65;
   }
+
+  public static class Lights {
+    public static class Radius {
+      public static int Default = 5000;
+      public static int Min = 100;
+      public static int Max = 10000;
+    }
+
+    public static class Color {
+      public static int Red = 230;
+      public static int Green = 230;
+      public static int Blue = 230;
+      public static int Alpha = 255;
+    }
+  }
 }

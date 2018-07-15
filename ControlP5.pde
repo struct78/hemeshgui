@@ -468,7 +468,8 @@ void createGroup2() {
     y2 += multiplyGrid(1);
 
     cp5.addKnob("dirLightRadius")
-      .setRange(0, 30)
+      .setRange(Config.Lights.Radius.Min, Config.Lights.Radius.Max)
+      .setValue(Config.Lights.Radius.Default)
       .setPosition(x2, y2)
       .setRadius((divideControlWidth(1, 4) - Config.CP5.Controls.Margin) / 2)
       .setLabel("Radius")
@@ -515,7 +516,8 @@ void createGroup2() {
     y2 += multiplyGrid(1);
 
     cp5.addKnob("sphereLightRadius")
-      .setRange(0, 30)
+      .setRange(Config.Lights.Radius.Min, Config.Lights.Radius.Max)
+      .setValue(Config.Lights.Radius.Default)
       .setPosition(x2, y2)
       .setRadius((divideControlWidth(1, 4) - Config.CP5.Controls.Margin) / 2)
       .setLabel("Radius")
@@ -908,12 +910,49 @@ void createGroup3() {
 
 void createGroup4() {
     x2 = width - (Config.CP5.Grid * 3) - Config.CP5.Controls.Width;
-    y2 = height - multiplyGrid(20);
+    y2 = height - multiplyGrid(21);
 
-    // render type & saving variables
+    cp5.addTextlabel("lblSaveExport")
+      .setText("SAVE / EXPORT")
+      .setPosition(x2, y2)
+      .setColorValue(currentTheme.ControlCaptionLabel);
+
+    y2 += multiplyGrid(1);
+
+    cp5.addButton("quickSave", 0, x2, y2, divideControlWidth(1, 2), multiplyControlHeight(2))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("Quick Save");
+
+    cp5.addButton("quickLoad", 0, x2+getInlineX(2, 2), y2, divideControlWidth(2, 2), multiplyControlHeight(2))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("Quick Load");
+
+    y2 += multiplyGrid(2);
+
+    cp5.addButton("saveAs", 0, x2, y2, divideControlWidth(1, 2), multiplyControlHeight(2))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("Save As...");
+
+    cp5.addButton("loadFrom", 0, x2+getInlineX(2, 2), y2, divideControlWidth(2, 2), multiplyControlHeight(2))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("Open...");
+
+    y2 += multiplyGrid(2);
+
+    cp5.addButton("export", 0, x2, y2, divideControlWidth(1, 2), multiplyControlHeight(2))
+      .setColorBackground(currentTheme.ButtonBackground)
+      .setColorLabel(currentTheme.ButtonForeground)
+      .setLabel("Export...");
+
+    y2 += multiplyGrid(3);
+
 
     cp5.addTextlabel("lblSave")
-      .setText("WHAT TO SAVE")
+      .setText("RENDERING OPTIONS")
       .setPosition(x2, y2)
       .setColorValue(currentTheme.ControlCaptionLabel);
 
@@ -947,7 +986,7 @@ void createGroup4() {
     cp5.addButton("save", 0, x2, y2, Config.CP5.Controls.Width, multiplyControlHeight(3))
       .setColorBackground(currentTheme.ButtonBackground)
       .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("SAVE / RENDER");
+      .setLabel("RENDER");
 
     y2 += multiplyGrid(3);
 
@@ -955,39 +994,6 @@ void createGroup4() {
       .setText("SUNFLOW RENDERING SIZE : " + int(sceneWidth*sunflowMultiply)+ " x " + int(sceneHeight*sunflowMultiply))
       .setPosition(x2, y2)
       .setColorValue(currentTheme.ControlCaptionLabel);
-
-    y2 += multiplyGrid(2);
-
-    cp5.addButton("quickSave", 0, x2, y2, divideControlWidth(1, 2), multiplyControlHeight(2))
-      .setColorBackground(currentTheme.ButtonBackground)
-      .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("Quick Save");
-
-    cp5.addButton("quickLoad", 0, x2+getInlineX(2, 2), y2, divideControlWidth(2, 2), multiplyControlHeight(2))
-      .setColorBackground(currentTheme.ButtonBackground)
-      .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("Quick Load");
-
-    y2 += multiplyGrid(2);
-
-    cp5.addButton("saveAs", 0, x2, y2, divideControlWidth(1, 2), multiplyControlHeight(2))
-      .setColorBackground(currentTheme.ButtonBackground)
-      .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("Save As...");
-
-    cp5.addButton("loadFrom", 0, x2+getInlineX(2, 2), y2, divideControlWidth(2, 2), multiplyControlHeight(2))
-      .setColorBackground(currentTheme.ButtonBackground)
-      .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("Open...");
-
-    y2 += multiplyGrid(2);
-
-    cp5.addButton("export", 0, x2, y2, divideControlWidth(1, 2), multiplyControlHeight(2))
-      .setColorBackground(currentTheme.ButtonBackground)
-      .setColorLabel(currentTheme.ButtonForeground)
-      .setLabel("Export...");
-
-    y2 += multiplyGrid(2);
 }
 
 void setShapeParameters(int shape) {
