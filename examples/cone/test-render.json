@@ -1,12 +1,12 @@
 {
   "directionalLights": {
-    "dirLightFrontOn": false,
-    "dirLightBehindOn": false,
-    "dirLightRadius": 10,
-    "dirLightTopOn": false,
-    "dirLightBottomOn": false,
-    "dirLightRightOn": false,
-    "dirLightLeftOn": false
+    "dirLightFrontOn": true,
+    "dirLightBehindOn": true,
+    "dirLightRadius": 30,
+    "dirLightTopOn": true,
+    "dirLightBottomOn": true,
+    "dirLightRightOn": true,
+    "dirLightLeftOn": true
   },
   "shader": {
     "name": "Phong",
@@ -21,12 +21,13 @@
       "alpha": 100,
       "hue": 60
     },
-    "name": "Voronoi Cells",
+    "name": "Cone",
     "isCustom": false,
     "parameters": [
-      200,
-      100,
-      5
+      75,
+      150,
+      25,
+      1
     ]
   },
   "lightColour": {
@@ -36,7 +37,7 @@
     "lightsColorB": 230
   },
   "rendering": {
-    "preview": false,
+    "preview": true,
     "continuous": false,
     "gui": false,
     "sunflow": true,
@@ -46,22 +47,14 @@
   "theme": "Classic",
   "camera": {
     "changeSpeedX": 1.5,
-    "rotationX": -43.209964752197266,
+    "rotationX": 90,
     "changeSpeedY": 1.5,
-    "rotationY": 30.516666412353516,
-    "rotationZ": -14.483098983764648,
-    "zoom": 1.0787500143051147,
+    "rotationY": 0,
+    "rotationZ": 0,
+    "zoom": 1,
     "autoRotate": false
   },
-  "modifiers": [{
-    "name": "Lattice",
-    "index": 0,
-    "parameters": [
-      7.5,
-      7.5,
-      0
-    ]
-  }],
+  "modifiers": [],
   "sphereLights": {
     "sphereLightLeftOn": false,
     "sphereLightRightOn": false,
