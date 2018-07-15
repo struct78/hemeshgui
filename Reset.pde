@@ -68,20 +68,20 @@ void resetLights() {
   cp5.getController("dirLightBottomOn").setValue(0);
   cp5.getController("dirLightLeftOn").setValue(0);
   cp5.getController("dirLightBehindOn").setValue(0);
-  cp5.getController("dirLightRadius").setValue(10);
+  cp5.getController("dirLightRadius").setValue(Config.Lights.Radius.Default);
   cp5.getController("sphereLightTopOn").setValue(0);
   cp5.getController("sphereLightRightOn").setValue(0);
   cp5.getController("sphereLightFrontOn").setValue(0);
   cp5.getController("sphereLightBottomOn").setValue(0);
   cp5.getController("sphereLightLeftOn").setValue(0);
   cp5.getController("sphereLightBehindOn").setValue(0);
-  cp5.getController("sphereLightRadius").setValue(10);
+  cp5.getController("sphereLightRadius").setValue(Config.Lights.Radius.Default);
 
   // sunflow color lights
-  cp5.getController("lightsColorR").setValue(230);
-  cp5.getController("lightsColorG").setValue(230);
-  cp5.getController("lightsColorB").setValue(230);
-  cp5.getController("lightsColorA").setValue(255);
+  cp5.getController("lightsColorR").setValue(Config.Lights.Color.Red);
+  cp5.getController("lightsColorG").setValue(Config.Lights.Color.Green);
+  cp5.getController("lightsColorB").setValue(Config.Lights.Color.Blue);
+  cp5.getController("lightsColorA").setValue(Config.Lights.Color.Alpha);
   lightsColor = color(lightsColorR, lightsColorG, lightsColorB, lightsColorA);
 }
 
