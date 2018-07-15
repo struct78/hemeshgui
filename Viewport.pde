@@ -34,7 +34,7 @@ void viewport() {
 }
 
 void updateViewport() {
-  translate(translateX,translateY);
+  translate(translateX, translateY);
 
   // rotation
   rotationX += rotationXchange;
