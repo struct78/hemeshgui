@@ -42,12 +42,12 @@ These libraries are included in HemeshGui
 
 #### Install latest stable version
 
-* [https://github.com/struct78/hemeshgui/archive/master.zip](download latest version)
+* [download version 0.6](https://github.com/struct78/hemeshgui/archive/master.zip)
 * Unzip file into PROCESSING_SKETCHBOOK_FOLDER
 
 #### Install nightly build
 
-* [https://github.com/struct78/hemeshgui/archive/develop.zip](download nightly)
+* [download nightly build](https://github.com/struct78/hemeshgui/archive/develop.zip)
 * Unzip file into PROCESSING_SKETCHBOOK_FOLDER
 
 ### Images
