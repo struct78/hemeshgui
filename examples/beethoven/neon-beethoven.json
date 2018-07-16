@@ -2,7 +2,7 @@
   "directionalLights": {
     "dirLightFrontOn": false,
     "dirLightBehindOn": false,
-    "dirLightRadius": 100,
+    "dirLightRadius": 5000,
     "dirLightTopOn": false,
     "dirLightBottomOn": false,
     "dirLightRightOn": false,
@@ -16,19 +16,14 @@
     "edgesOn": false,
     "facesOn": true,
     "colour": {
-      "saturation": 86.5,
-      "brightness": 80,
+      "saturation": 94.90196228027344,
+      "brightness": 100,
       "alpha": 100,
-      "hue": 334.79998779296875
+      "hue": 322.31402587890625
     },
-    "name": "Grid",
+    "name": "Beethoven",
     "isCustom": false,
-    "parameters": [
-      500,
-      500,
-      40.91999816894531,
-      68.36499786376953
-    ]
+    "parameters": [5]
   },
   "lightColour": {
     "lightsColorG": 230,
@@ -44,14 +39,14 @@
     "opengl": false,
     "mask": false
   },
-  "theme": "Classic",
+  "theme": "Neon",
   "camera": {
     "changeSpeedX": 1.5,
-    "rotationX": 83.00018310546875,
+    "rotationX": 0,
     "changeSpeedY": 1.5,
-    "rotationY": 2.1872735023498535,
-    "rotationZ": -6.843723297119141,
-    "zoom": 9.219999313354492,
+    "rotationY": 0,
+    "rotationZ": 0,
+    "zoom": 1,
     "autoRotate": false
   },
   "modifiers": [],
@@ -62,7 +57,7 @@
     "sphereLightBehindOn": false,
     "sphereLightTopOn": false,
     "sphereLightBottomOn": false,
-    "sphereLightRadius": 100
+    "sphereLightRadius": 5000
   },
   "scene": {
     "sunflowWhiteBackgroundOn": false,

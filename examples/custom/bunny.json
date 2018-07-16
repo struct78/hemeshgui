@@ -44,10 +44,10 @@
   "theme": "Cote d'Azur",
   "camera": {
     "changeSpeedX": 1.5,
-    "rotationX": 92.70842742919922,
+    "rotationX": 90,
     "changeSpeedY": 1.5,
-    "rotationY": -3.2239797115325928,
-    "rotationZ": -154.69863891601562,
+    "rotationY": 0,
+    "rotationZ": 0,
     "zoom": 1,
     "autoRotate": false
   },

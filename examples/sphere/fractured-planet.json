@@ -2,7 +2,7 @@
   "directionalLights": {
     "dirLightFrontOn": false,
     "dirLightBehindOn": false,
-    "dirLightRadius": 100,
+    "dirLightRadius": 5000,
     "dirLightTopOn": false,
     "dirLightBottomOn": false,
     "dirLightRightOn": false,
@@ -16,18 +16,17 @@
     "edgesOn": false,
     "facesOn": true,
     "colour": {
-      "saturation": 86.5,
-      "brightness": 80,
+      "saturation": 100,
+      "brightness": 100,
       "alpha": 100,
-      "hue": 334.79998779296875
+      "hue": 13.176469802856445
     },
-    "name": "Grid",
+    "name": "Sphere",
     "isCustom": false,
     "parameters": [
-      500,
-      500,
-      40.91999816894531,
-      68.36499786376953
+      165.6699981689453,
+      30,
+      30
     ]
   },
   "lightColour": {
@@ -44,17 +43,25 @@
     "opengl": false,
     "mask": false
   },
-  "theme": "Classic",
+  "theme": "Cote d'Azur",
   "camera": {
     "changeSpeedX": 1.5,
-    "rotationX": 83.00018310546875,
+    "rotationX": -49.57612228393555,
     "changeSpeedY": 1.5,
-    "rotationY": 2.1872735023498535,
-    "rotationZ": -6.843723297119141,
-    "zoom": 9.219999313354492,
+    "rotationY": 95.29312133789062,
+    "rotationZ": 50.292991638183594,
+    "zoom": 1,
     "autoRotate": false
   },
-  "modifiers": [],
+  "modifiers": [{
+    "name": "Voronoi Cells",
+    "index": 0,
+    "parameters": [
+      100,
+      640.6799926757812,
+      4.894999980926514
+    ]
+  }],
   "sphereLights": {
     "sphereLightLeftOn": false,
     "sphereLightRightOn": false,
@@ -62,7 +69,7 @@
     "sphereLightBehindOn": false,
     "sphereLightTopOn": false,
     "sphereLightBottomOn": false,
-    "sphereLightRadius": 100
+    "sphereLightRadius": 5000
   },
   "scene": {
     "sunflowWhiteBackgroundOn": false,
