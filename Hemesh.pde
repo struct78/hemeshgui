@@ -1056,7 +1056,8 @@ void drawHemesh() {
   }
 
   if (edgesOn) {
-    strokeWeight(1);
+    // Consistent stroke regardless of zoom level
+    strokeWeight(0.75/actualZoom);
     stroke(currentTheme.Edges);
 
     if (selectedShape.getMeshCollection() && meshes != null) {

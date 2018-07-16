@@ -2,7 +2,7 @@
   "directionalLights": {
     "dirLightFrontOn": false,
     "dirLightBehindOn": false,
-    "dirLightRadius": 100,
+    "dirLightRadius": 5000,
     "dirLightTopOn": false,
     "dirLightBottomOn": false,
     "dirLightRightOn": false,
@@ -16,18 +16,18 @@
     "edgesOn": false,
     "facesOn": true,
     "colour": {
-      "saturation": 86.5,
-      "brightness": 80,
+      "saturation": 81.32530212402344,
+      "brightness": 65.09803771972656,
       "alpha": 100,
-      "hue": 334.79998779296875
+      "hue": 173.7777862548828
     },
-    "name": "Grid",
+    "name": "UV Parametric",
     "isCustom": false,
     "parameters": [
-      500,
-      500,
-      40.91999816894531,
-      68.36499786376953
+      100,
+      50,
+      2,
+      3
     ]
   },
   "lightColour": {
@@ -44,17 +44,37 @@
     "opengl": false,
     "mask": false
   },
-  "theme": "Classic",
+  "theme": "Duotone",
   "camera": {
     "changeSpeedX": 1.5,
-    "rotationX": 83.00018310546875,
+    "rotationX": -17.90423011779785,
     "changeSpeedY": 1.5,
-    "rotationY": 2.1872735023498535,
-    "rotationZ": -6.843723297119141,
-    "zoom": 9.219999313354492,
+    "rotationY": 12.69154167175293,
+    "rotationZ": -32.30846405029297,
+    "zoom": 1,
     "autoRotate": false
   },
-  "modifiers": [],
+  "modifiers": [
+    {
+      "name": "Twist (X)",
+      "index": 0,
+      "parameters": [0.2549999952316284]
+    },
+    {
+      "name": "Kaleidoscope",
+      "index": 1,
+      "parameters": [
+        2.0349998474121094,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Mirror",
+      "index": 2,
+      "parameters": [14.5]
+    }
+  ],
   "sphereLights": {
     "sphereLightLeftOn": false,
     "sphereLightRightOn": false,
@@ -62,7 +82,7 @@
     "sphereLightBehindOn": false,
     "sphereLightTopOn": false,
     "sphereLightBottomOn": false,
-    "sphereLightRadius": 100
+    "sphereLightRadius": 5000
   },
   "scene": {
     "sunflowWhiteBackgroundOn": false,

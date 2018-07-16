@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
   - Grid
   - Torus
   - UV Parametric
+- Added plane to sunflow rendering
 
 ### Changed
 - Complete re-write of Quick Save/Quick Loadload
@@ -22,6 +23,7 @@ All notable changes to this project will be documented in this file.
 - Rotation in Sunflow rendering improved
 - Improved light rendering in Sunflow
 - Modified SunflowAPIAPI.java to include aa.jitter parameter
+- Adjusted edge weight so it's consistent at any zoom level
 
 ### Removed
 - Translate to mouse movement

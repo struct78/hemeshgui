@@ -2,7 +2,7 @@
   "directionalLights": {
     "dirLightFrontOn": false,
     "dirLightBehindOn": false,
-    "dirLightRadius": 100,
+    "dirLightRadius": 5000,
     "dirLightTopOn": false,
     "dirLightBottomOn": false,
     "dirLightRightOn": false,
@@ -16,18 +16,18 @@
     "edgesOn": false,
     "facesOn": true,
     "colour": {
-      "saturation": 86.5,
-      "brightness": 80,
+      "saturation": 60.126583099365234,
+      "brightness": 61.960784912109375,
       "alpha": 100,
-      "hue": 334.79998779296875
+      "hue": 109.89473724365234
     },
-    "name": "Grid",
+    "name": "Torus",
     "isCustom": false,
     "parameters": [
-      500,
-      500,
-      40.91999816894531,
-      68.36499786376953
+      138.22500610351562,
+      145.70999145507812,
+      20,
+      20
     ]
   },
   "lightColour": {
@@ -44,17 +44,32 @@
     "opengl": false,
     "mask": false
   },
-  "theme": "Classic",
+  "theme": "Summer Fruit",
   "camera": {
     "changeSpeedX": 1.5,
-    "rotationX": 83.00018310546875,
+    "rotationX": 19.974637985229492,
     "changeSpeedY": 1.5,
-    "rotationY": 2.1872735023498535,
-    "rotationZ": -6.843723297119141,
-    "zoom": 9.219999313354492,
+    "rotationY": -39.19302749633789,
+    "rotationZ": -84.19290161132812,
+    "zoom": 1,
     "autoRotate": false
   },
-  "modifiers": [],
+  "modifiers": [
+    {
+      "name": "Hard Edge Extrude",
+      "index": 0,
+      "parameters": [
+        42,
+        1,
+        100
+      ]
+    },
+    {
+      "name": "Spherical Inversion",
+      "index": 1,
+      "parameters": [53.394996643066406]
+    }
+  ],
   "sphereLights": {
     "sphereLightLeftOn": false,
     "sphereLightRightOn": false,
@@ -62,7 +77,7 @@
     "sphereLightBehindOn": false,
     "sphereLightTopOn": false,
     "sphereLightBottomOn": false,
-    "sphereLightRadius": 100
+    "sphereLightRadius": 5000
   },
   "scene": {
     "sunflowWhiteBackgroundOn": false,

@@ -40,22 +40,23 @@ These libraries are included in HemeshGui
 * Step 1 : Install Processing 3.3.7
 * Step 2 : Inside Processing IDE, install HE_Mesh and controlP5
 
-#### Install dev version from git
+#### Install latest stable version
 
-* cd PROCESSING_SKETCHBOOK_FOLDER
-* git clone https://github.com/struct78/hemesh-gui.git
+* [https://github.com/struct78/hemeshgui/archive/master.zip](download latest version)
+* Unzip file into PROCESSING_SKETCHBOOK_FOLDER
 
-#### Install last stable version
+#### Install nightly build
 
-* download last version from XXX
-* unzip file into PROCESSING_SKETCHBOOK_FOLDER
-
+* [https://github.com/struct78/hemeshgui/archive/develop.zip](download nightly)
+* Unzip file into PROCESSING_SKETCHBOOK_FOLDER
 
 ### Images
-![Default](https://i.imgur.com/UTwvW5p.png)
+![](https://i.imgur.com/gLFcoV2.png)
 
-![Voronoi Cells](https://i.imgur.com/uaX2Ylj.png)
+![](https://i.imgur.com/hUvMOy3.png)
 
-![UV Parametric](https://i.imgur.com/zRFgWqp.png)
+![](https://i.imgur.com/dbTsZC1.png)
 
-![UV Parametric](https://i.imgur.com/aaqUhRj.png)
+![](https://i.imgur.com/5BKvv5d.png)
+
+![](https://i.imgur.com/o603e76.png)
