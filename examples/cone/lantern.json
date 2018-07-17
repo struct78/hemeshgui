@@ -1,0 +1,92 @@
+{
+  "directionalLights": {
+    "dirLightFrontOn": true,
+    "dirLightBehindOn": true,
+    "dirLightRadius": 6039.4990234375,
+    "dirLightTopOn": true,
+    "dirLightBottomOn": true,
+    "dirLightRightOn": true,
+    "dirLightLeftOn": true
+  },
+  "shader": {
+    "name": "Phong",
+    "parameters": [134]
+  },
+  "shape": {
+    "edgesOn": false,
+    "facesOn": true,
+    "colour": {
+      "saturation": 100,
+      "brightness": 100,
+      "alpha": 100,
+      "hue": 13.176469802856445
+    },
+    "name": "Cone",
+    "isCustom": false,
+    "parameters": [
+      105.78999328613281,
+      150,
+      465.07000732421875,
+      4.105000019073486
+    ]
+  },
+  "lightColour": {
+    "lightsColorG": 230,
+    "lightsColorA": 255,
+    "lightsColorR": 230,
+    "lightsColorB": 230
+  },
+  "rendering": {
+    "preview": false,
+    "continuous": false,
+    "gui": false,
+    "sunflow": false,
+    "opengl": true,
+    "mask": false
+  },
+  "theme": "Cote d'Azur",
+  "camera": {
+    "changeSpeedX": 1.5,
+    "rotationX": 469.9064636230469,
+    "changeSpeedY": 1.5,
+    "rotationY": -13.728243827819824,
+    "rotationZ": -1.0958313941955566E-4,
+    "zoom": 0.9812499284744263,
+    "autoRotate": false
+  },
+  "modifiers": [
+    {
+      "name": "Sliced (Open)",
+      "index": 0,
+      "parameters": [
+        40.599998474121094,
+        50,
+        0
+      ]
+    },
+    {
+      "name": "Basic Extrude",
+      "index": 1,
+      "parameters": [148.20498657226562]
+    },
+    {
+      "name": "Bend",
+      "index": 2,
+      "parameters": [45.875]
+    }
+  ],
+  "sphereLights": {
+    "sphereLightLeftOn": false,
+    "sphereLightRightOn": false,
+    "sphereLightFrontOn": false,
+    "sphereLightBehindOn": false,
+    "sphereLightTopOn": false,
+    "sphereLightBottomOn": false,
+    "sphereLightRadius": 5000
+  },
+  "scene": {
+    "sunflowWhiteBackgroundOn": false,
+    "sunflowBlackBackgroundOn": true,
+    "sunflowSkyLightOn": false
+  }
+}

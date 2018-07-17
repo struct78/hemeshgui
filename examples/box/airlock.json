@@ -1,12 +1,12 @@
 {
   "directionalLights": {
-    "dirLightFrontOn": true,
-    "dirLightBehindOn": true,
-    "dirLightRadius": 30,
-    "dirLightTopOn": true,
-    "dirLightBottomOn": true,
-    "dirLightRightOn": true,
-    "dirLightLeftOn": true
+    "dirLightFrontOn": false,
+    "dirLightBehindOn": false,
+    "dirLightRadius": 5000,
+    "dirLightTopOn": false,
+    "dirLightBottomOn": false,
+    "dirLightRightOn": false,
+    "dirLightLeftOn": false
   },
   "shader": {
     "name": "Phong",
@@ -21,13 +21,12 @@
       "alpha": 100,
       "hue": 60
     },
-    "name": "Cone",
+    "name": "Box",
     "isCustom": false,
     "parameters": [
-      75,
-      150,
-      25,
-      1
+      200,
+      200,
+      200
     ]
   },
   "lightColour": {
@@ -37,7 +36,7 @@
     "lightsColorB": 230
   },
   "rendering": {
-    "preview": true,
+    "preview": false,
     "continuous": false,
     "gui": false,
     "sunflow": true,
@@ -47,14 +46,34 @@
   "theme": "Classic",
   "camera": {
     "changeSpeedX": 1.5,
-    "rotationX": 90,
+    "rotationX": -45.43796920776367,
     "changeSpeedY": 1.5,
-    "rotationY": 0,
-    "rotationZ": 0,
+    "rotationY": 90.0409164428711,
+    "rotationZ": 45.04085159301758,
     "zoom": 1,
     "autoRotate": false
   },
-  "modifiers": [],
+  "modifiers": [
+    {
+      "name": "Chamfer Corners",
+      "index": 0,
+      "parameters": [36.63999938964844]
+    },
+    {
+      "name": "Basic Extrude",
+      "index": 1,
+      "parameters": [83.33499908447266]
+    },
+    {
+      "name": "Lattice",
+      "index": 2,
+      "parameters": [
+        23.07699966430664,
+        26.57349967956543,
+        0
+      ]
+    }
+  ],
   "sphereLights": {
     "sphereLightLeftOn": false,
     "sphereLightRightOn": false,
@@ -62,7 +81,7 @@
     "sphereLightBehindOn": false,
     "sphereLightTopOn": false,
     "sphereLightBottomOn": false,
-    "sphereLightRadius": 10
+    "sphereLightRadius": 5000
   },
   "scene": {
     "sunflowWhiteBackgroundOn": false,
