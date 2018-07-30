@@ -1,0 +1,96 @@
+{
+  "directionalLights": {
+    "dirLightFrontOn": false,
+    "dirLightBehindOn": false,
+    "dirLightRadius": 5000,
+    "dirLightTopOn": false,
+    "dirLightBottomOn": false,
+    "dirLightRightOn": false,
+    "dirLightLeftOn": false
+  },
+  "shader": {
+    "name": "Phong",
+    "parameters": [10]
+  },
+  "shape": {
+    "edgesOn": false,
+    "facesOn": true,
+    "colour": {
+      "saturation": 60.126583099365234,
+      "brightness": 61.960784912109375,
+      "alpha": 100,
+      "hue": 109.89473724365234
+    },
+    "name": "Dodecahedron",
+    "isCustom": false,
+    "parameters": [
+      100,
+      5,
+      5,
+      5
+    ]
+  },
+  "lightColour": {
+    "lightsColorG": 230,
+    "lightsColorA": 255,
+    "lightsColorR": 230,
+    "lightsColorB": 230
+  },
+  "rendering": {
+    "preview": false,
+    "continuous": false,
+    "gui": false,
+    "sunflow": true,
+    "opengl": false,
+    "mask": false
+  },
+  "theme": "Summer Fruit",
+  "camera": {
+    "changeSpeedX": 1.5,
+    "rotationX": -0.8745409846305847,
+    "changeSpeedY": 1.5,
+    "rotationY": 181.71392822265625,
+    "rotationZ": 30.639541625976562,
+    "zoom": 1,
+    "autoRotate": false
+  },
+  "modifiers": [
+    {
+      "name": "Basic Extrude",
+      "index": 0,
+      "parameters": [98.30499267578125]
+    },
+    {
+      "name": "Sliced (Capped)",
+      "index": 1,
+      "parameters": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "name": "Lattice",
+      "index": 2,
+      "parameters": [
+        45.55449676513672,
+        7.5,
+        0
+      ]
+    }
+  ],
+  "sphereLights": {
+    "sphereLightLeftOn": false,
+    "sphereLightRightOn": false,
+    "sphereLightFrontOn": false,
+    "sphereLightBehindOn": false,
+    "sphereLightTopOn": false,
+    "sphereLightBottomOn": false,
+    "sphereLightRadius": 5000
+  },
+  "scene": {
+    "sunflowWhiteBackgroundOn": false,
+    "sunflowBlackBackgroundOn": false,
+    "sunflowSkyLightOn": true
+  }
+}

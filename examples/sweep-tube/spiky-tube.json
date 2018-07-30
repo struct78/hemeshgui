@@ -1,0 +1,93 @@
+{
+  "directionalLights": {
+    "dirLightFrontOn": false,
+    "dirLightBehindOn": false,
+    "dirLightRadius": 5000,
+    "dirLightTopOn": false,
+    "dirLightBottomOn": false,
+    "dirLightRightOn": false,
+    "dirLightLeftOn": false
+  },
+  "shader": {
+    "name": "Phong",
+    "parameters": [10]
+  },
+  "shape": {
+    "edgesOn": false,
+    "facesOn": true,
+    "colour": {
+      "saturation": 80,
+      "brightness": 80,
+      "alpha": 100,
+      "hue": 165
+    },
+    "name": "Sweep Tube",
+    "isCustom": false,
+    "parameters": [
+      60,
+      2000,
+      80,
+      3,
+      45
+    ]
+  },
+  "lightColour": {
+    "lightsColorG": 230,
+    "lightsColorA": 255,
+    "lightsColorR": 230,
+    "lightsColorB": 230
+  },
+  "rendering": {
+    "preview": false,
+    "continuous": false,
+    "gui": false,
+    "sunflow": false,
+    "opengl": true,
+    "mask": false
+  },
+  "theme": "Duotone",
+  "camera": {
+    "changeSpeedX": 1.5,
+    "rotationX": 1.7,
+    "changeSpeedY": 1.5,
+    "rotationY": -0.05,
+    "rotationZ": -90,
+    "zoom": 1.75,
+    "autoRotate": false
+  },
+  "modifiers": [
+    {
+      "name": "Planar",
+      "index": 0,
+      "parameters": [2]
+    },
+    {
+      "name": "Hard Edge Extrude",
+      "index": 1,
+      "parameters": [
+        1.005,
+        1,
+        100
+      ]
+    },
+    {
+      "name": "Twist (Z)",
+      "index": 2,
+      "parameters": [0.25]
+    }
+  ],
+  "sphereLights": {
+    "sphereLightLeftOn": false,
+    "sphereLightRightOn": false,
+    "sphereLightFrontOn": false,
+    "sphereLightBehindOn": false,
+    "sphereLightTopOn": false,
+    "sphereLightBottomOn": false,
+    "sphereLightRadius": 5000
+  },
+  "scene": {
+    "sunflowWhiteBackgroundOn": false,
+    "sunflowBlackBackgroundOn": false,
+    "sunflowSkyLightOn": true
+  }
+}
