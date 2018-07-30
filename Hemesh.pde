@@ -157,9 +157,10 @@ void createShapes() {
    );
 
    shapes.add(
-      new Shape("Torus", 4)
-        .setDefaultValues(new float[] { 50, 100, 20, 20 })
-        .setLabels(new String[] { "Ex. Radius", "Int. Radius", "Tube Facets", "Torus Facets" })
+      new Shape("Torus", 5)
+        .setDefaultValues(new float[] { 50, 100, 20, 20, 0 })
+        .setMaxValues(new float[] { 500, 300, 200, 200, 200 })
+        .setLabels(new String[] { "Ex. Radius", "Int. Radius", "Tube Facets", "Torus Facets", "Twist" })
         .setCreator(new ShapeCreator() {
             public synchronized void create(float[] values, File file) {}
             public synchronized void create(float[] values) {
@@ -168,6 +169,7 @@ void createShapes() {
                       .setRadius(values[0], values[1])
                       .setTubeFacets(int(values[2]))
                       .setTorusFacets(int(values[3]))
+                      .setTwist(int(values[4]))
                );
            }
         })
@@ -648,31 +650,42 @@ void createModifiers() {
     );
 
     modifiers.add(
-        new Modifier("Sliced (Capped)", 3)
-            .setDefaultValues(new float[] { 50, 50, 0 })
-            .setMaxValues(new float[] { 100, 100, 10 })
-            .setMinValues(new float[] { 1, 1, -10 })
-            .setLabels(new String[] { "-ve Z", "+ve Z", "Vec X" })
+        new Modifier("Sliced (Capped)", 6)
+            .setDefaultValues(new float[] { 10, 10, 0, 0, 0, 0 })
+            .setMaxValues(new float[] { 100, 100, 100, 100, 100, 100 })
+            .setMinValues(new float[] { 0, 0, 0, 0, 0, 0 })
+            .setLabels(new String[] { "-ve X", "+ve X", "-ve Y", "+ve Y", "-ve Z", "+ve Z" })
             .setCreator(new ModifierCreator() {
               public synchronized void create(float[] values) {
-                  meshBuffer.modify(
-                      new HEM_Slice()
-                          .setCap(true)
-                          .setPlane(
-                              new WB_Plane(
-                                  new WB_Point(0, 0, -values[0]),
-                                  new WB_Vector(values[2], 0, 1)
-                              )
-                          )
-                  );
+                  PVector point = new PVector(-values[0], -values[2], -values[4]);
+                  PVector vector = new PVector(-values[0], -values[2], -values[4]);
+                  PVector centre = new PVector(0, 0, 0);
+                  vector.sub(centre);
+                  vector.normalize();
 
                   meshBuffer.modify(
                       new HEM_Slice()
                           .setCap(true)
                           .setPlane(
                               new WB_Plane(
-                                  new WB_Point(0, 0, values[1]),
-                                  new WB_Vector(values[2], 0, -1)
+                                  new WB_Point(point.x+100, point.y+100, point.z+100),
+                                  new WB_Vector(vector.x, vector.y, vector.z)
+                              )
+                          )
+                  );
+
+                  point = new PVector(values[1], values[3], values[5]);
+                  vector = new PVector(values[1], values[3], values[5]);
+                  vector.sub(centre);
+                  vector.normalize();
+
+                  meshBuffer.modify(
+                      new HEM_Slice()
+                          .setCap(true)
+                          .setPlane(
+                              new WB_Plane(
+                                  new WB_Point(point.x-100, point.y-100, point.z-100),
+                                  new WB_Vector(vector.x, vector.y, vector.z)
                               )
                           )
                   );
@@ -681,31 +694,42 @@ void createModifiers() {
     );
 
     modifiers.add(
-        new Modifier("Sliced (Open)", 3)
-            .setDefaultValues(new float[] { 50, 50, 0 })
-            .setMaxValues(new float[] { 100, 100, 10 })
-            .setMinValues(new float[] { 1, 1, -10 })
-            .setLabels(new String[] { "-ve Z", "+ve Z", "Vec X" })
+        new Modifier("Sliced (Open)", 6)
+            .setDefaultValues(new float[] { 10, 10, 0, 0, 0, 0 })
+            .setMaxValues(new float[] { 100, 100, 100, 100, 100, 100 })
+            .setMinValues(new float[] { 0, 0, 0, 0, 0, 0 })
+            .setLabels(new String[] { "-ve X", "+ve X", "-ve Y", "+ve Y", "-ve Z", "+ve Z" })
             .setCreator(new ModifierCreator() {
               public synchronized void create(float[] values) {
-                  meshBuffer.modify(
-                      new HEM_Slice()
-                          .setCap(false)
-                          .setPlane(
-                              new WB_Plane(
-                                  new WB_Point(0, 0, -values[0]),
-                                  new WB_Vector(values[2], 0, 1)
-                              )
-                          )
-                  );
+                  PVector point = new PVector(-values[0], -values[2], -values[4]);
+                  PVector vector = new PVector(-values[0], -values[2], -values[4]);
+                  PVector centre = new PVector(0, 0, 0);
+                  vector.sub(centre);
+                  vector.normalize();
 
                   meshBuffer.modify(
                       new HEM_Slice()
                           .setCap(false)
                           .setPlane(
                               new WB_Plane(
-                                  new WB_Point(0, 0, values[1]),
-                                  new WB_Vector(values[2], 0, -1)
+                                  new WB_Point(point.x+100, point.y+100, point.z+100),
+                                  new WB_Vector(vector.x, vector.y, vector.z)
+                              )
+                          )
+                  );
+
+                  point = new PVector(values[1], values[3], values[5]);
+                  vector = new PVector(values[1], values[3], values[5]);
+                  vector.sub(centre);
+                  vector.normalize();
+
+                  meshBuffer.modify(
+                      new HEM_Slice()
+                          .setCap(false)
+                          .setPlane(
+                              new WB_Plane(
+                                  new WB_Point(point.x-100, point.y-100, point.z-100),
+                                  new WB_Vector(vector.x, vector.y, vector.z)
                               )
                           )
                   );
@@ -734,7 +758,7 @@ void createModifiers() {
     modifiers.add(
         new Modifier("Kaleidoscope", 1)
             .setDefaultValues(new float[] { 5, 0, 0 })
-            .setMaxValues(new float[] { 10, 1, 1 })
+            .setMaxValues(new float[] { 50, 1, 1 })
             .setMinValues(new float[] { 1, 0, 0 })
             .setLabels(new String[] { "Symmetry", "Angle", "Angle" })
             .setCreator(new ModifierCreator() {
