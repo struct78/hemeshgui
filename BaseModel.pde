@@ -9,12 +9,19 @@ class BaseModel {
 
   BaseModel (String name, int parameters) {
     this.name = name;
-    this.minValues = new float[] { Config.Hemesh.Values.Min, Config.Hemesh.Values.Min, Config.Hemesh.Values.Min, Config.Hemesh.Values.Min };
-    this.maxValues = new float[] { Config.Hemesh.Values.Max, Config.Hemesh.Values.Max, Config.Hemesh.Values.Max, Config.Hemesh.Values.Max };
-    this.defaultValues = new float[] { Config.Hemesh.Values.Default, 5, 5, 5 };
-    this.values = this.defaultValues;
-    this.labels = new String[] { null, null, null, null };
     this.parameters = parameters;
+    this.minValues = new float[parameters];
+    this.maxValues = new float[parameters];
+    this.defaultValues = new float[parameters];
+    this.labels = new String[parameters];
+
+    for ( int x = 0 ; x < parameters; x++ ) {
+      this.minValues[x] = Config.Hemesh.Values.Min;
+      this.maxValues[x] = Config.Hemesh.Values.Max;
+      this.defaultValues[x] = Config.Hemesh.Values.Default;
+    }
+
+    this.values = this.defaultValues;
   }
 
   float[] getMaxValues() {
